@@ -1,0 +1,132 @@
+.
+├── public
+│   ├── file.svg
+│   ├── globe.svg
+│   ├── next.svg
+│   ├── vercel.svg
+│   └── window.svg
+├── src
+│   ├── app
+│   │   ├── about
+│   │   │   └── page.tsx
+│   │   ├── brunch
+│   │   │   └── page.tsx
+│   │   ├── contact
+│   │   │   └── page.tsx
+│   │   ├── contribute
+│   │   │   └── page.tsx
+│   │   ├── events
+│   │   │   ├── saltaire-festival
+│   │   │   │   └── page.tsx
+│   │   │   └── page.tsx
+│   │   ├── faq
+│   │   │   └── page.tsx
+│   │   ├── food-drink
+│   │   │   ├── bakeries
+│   │   │   │   └── page.tsx
+│   │   │   ├── brunch
+│   │   │   │   └── page.tsx
+│   │   │   ├── coffee
+│   │   │   │   └── page.tsx
+│   │   │   ├── desserts
+│   │   │   │   └── page.tsx
+│   │   │   ├── dog-friendly
+│   │   │   │   └── page.tsx
+│   │   │   ├── ice-cream
+│   │   │   │   └── page.tsx
+│   │   │   ├── pubs
+│   │   │   │   └── page.tsx
+│   │   │   └── page.tsx
+│   │   ├── history
+│   │   │   ├── almshouses
+│   │   │   │   └── page.tsx
+│   │   │   ├── architecture
+│   │   │   │   └── page.tsx
+│   │   │   ├── church
+│   │   │   │   └── page.tsx
+│   │   │   ├── myths
+│   │   │   │   └── page.tsx
+│   │   │   ├── reading-list
+│   │   │   │   └── page.tsx
+│   │   │   ├── school
+│   │   │   │   └── page.tsx
+│   │   │   ├── timeline
+│   │   │   │   └── page.tsx
+│   │   │   ├── titus-salt
+│   │   │   │   └── page.tsx
+│   │   │   ├── unesco
+│   │   │   │   └── page.tsx
+│   │   │   └── page.tsx
+│   │   ├── housing
+│   │   │   └── page.tsx
+│   │   ├── legal
+│   │   │   ├── corrections
+│   │   │   │   └── page.tsx
+│   │   │   ├── editorial-policy
+│   │   │   │   └── page.tsx
+│   │   │   ├── masthead
+│   │   │   │   └── page.tsx
+│   │   │   └── privacy
+│   │   │       └── page.tsx
+│   │   ├── parking
+│   │   │   └── page.tsx
+│   │   ├── plan
+│   │   │   ├── accessibility
+│   │   │   │   └── page.tsx
+│   │   │   ├── family
+│   │   │   │   └── page.tsx
+│   │   │   ├── getting-here
+│   │   │   │   ├── rail
+│   │   │   │   │   └── page.tsx
+│   │   │   │   └── page.tsx
+│   │   │   ├── schools
+│   │   │   │   └── page.tsx
+│   │   │   └── page.tsx
+│   │   ├── roberts-park
+│   │   │   └── page.tsx
+│   │   ├── salts-mill
+│   │   │   ├── hockney
+│   │   │   │   └── page.tsx
+│   │   │   └── page.tsx
+│   │   ├── schools-and-housing
+│   │   │   └── page.tsx
+│   │   ├── shops
+│   │   │   └── page.tsx
+│   │   ├── things-to-do
+│   │   │   └── page.tsx
+│   │   ├── walks
+│   │   │   ├── dog-friendly
+│   │   │   │   └── page.tsx
+│   │   │   ├── five-rise
+│   │   │   │   └── page.tsx
+│   │   │   ├── hirst-wood
+│   │   │   │   └── page.tsx
+│   │   │   ├── shipley-glen
+│   │   │   │   └── page.tsx
+│   │   │   └── page.tsx
+│   │   ├── favicon.ico
+│   │   ├── globals.css
+│   │   ├── layout.tsx
+│   │   ├── page.tsx
+│   │   ├── robots.ts
+│   │   └── sitemap.ts
+│   ├── config
+│   │   └── site.ts
+│   ├── content
+│   │   └── shops.ts
+│   └── lib
+│       └── structuredData.ts
+├── eslint.config.mjs
+├── .gitignore
+├── middleware.ts
+├── next.config.ts
+├── next-env.d.ts
+├── package.json
+├── package-lock.json
+├── postcss.config.js
+├── project-file-tree.txt
+├── README.md
+├── tailwind.config.js
+└── tsconfig.json
+
+55 directories, 74 files

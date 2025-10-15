@@ -1,0 +1,290 @@
+
+> saltaire-guide@0.1.0 build
+> next build
+
+   ▲ Next.js 15.5.4
+
+   Creating an optimized production build ...
+ ⨯ Next.js can't recognize the exported `config` field in route "/contact/page":
+Unsupported node type "BinaryExpression" at "revalidate".
+Read More - https://nextjs.org/docs/messages/invalid-page-config
+ ⨯ Next.js can't recognize the exported `config` field in route "/blog/page":
+Unsupported node type "BinaryExpression" at "revalidate".
+Read More - https://nextjs.org/docs/messages/invalid-page-config
+ ⨯ Next.js can't recognize the exported `config` field in route "/about/page":
+Unsupported node type "BinaryExpression" at "revalidate".
+Read More - https://nextjs.org/docs/messages/invalid-page-config
+ ⨯ Next.js can't recognize the exported `config` field in route "/contribute/page":
+Unsupported node type "BinaryExpression" at "revalidate".
+Read More - https://nextjs.org/docs/messages/invalid-page-config
+ ⨯ Next.js can't recognize the exported `config` field in route "/faq/page":
+Unsupported node type "BinaryExpression" at "revalidate".
+Read More - https://nextjs.org/docs/messages/invalid-page-config
+ ⨯ Next.js can't recognize the exported `config` field in route "/food-drink/coffee/page":
+Unsupported node type "BinaryExpression" at "revalidate".
+Read More - https://nextjs.org/docs/messages/invalid-page-config
+ ⨯ Next.js can't recognize the exported `config` field in route "/food-drink/brunch/page":
+Unsupported node type "BinaryExpression" at "revalidate".
+Read More - https://nextjs.org/docs/messages/invalid-page-config
+ ⨯ Next.js can't recognize the exported `config` field in route "/events/saltaire-festival/page":
+Unsupported node type "BinaryExpression" at "revalidate".
+Read More - https://nextjs.org/docs/messages/invalid-page-config
+ ⨯ Next.js can't recognize the exported `config` field in route "/food-drink/bakeries/page":
+Unsupported node type "BinaryExpression" at "revalidate".
+Read More - https://nextjs.org/docs/messages/invalid-page-config
+ ⨯ Next.js can't recognize the exported `config` field in route "/food-drink/dog-friendly/page":
+Unsupported node type "BinaryExpression" at "revalidate".
+Read More - https://nextjs.org/docs/messages/invalid-page-config
+ ⨯ Next.js can't recognize the exported `config` field in route "/food-drink/desserts/page":
+Unsupported node type "BinaryExpression" at "revalidate".
+Read More - https://nextjs.org/docs/messages/invalid-page-config
+ ⨯ Next.js can't recognize the exported `config` field in route "/history/almshouses/page":
+Unsupported node type "BinaryExpression" at "revalidate".
+Read More - https://nextjs.org/docs/messages/invalid-page-config
+ ⨯ Next.js can't recognize the exported `config` field in route "/food-drink/pubs/page":
+Unsupported node type "BinaryExpression" at "revalidate".
+Read More - https://nextjs.org/docs/messages/invalid-page-config
+ ⨯ Next.js can't recognize the exported `config` field in route "/food-drink/ice-cream/page":
+Unsupported node type "BinaryExpression" at "revalidate".
+Read More - https://nextjs.org/docs/messages/invalid-page-config
+ ⨯ Next.js can't recognize the exported `config` field in route "/food-drink/page":
+Unsupported node type "BinaryExpression" at "revalidate".
+Read More - https://nextjs.org/docs/messages/invalid-page-config
+ ⨯ Next.js can't recognize the exported `config` field in route "/history/architecture/page":
+Unsupported node type "BinaryExpression" at "revalidate".
+Read More - https://nextjs.org/docs/messages/invalid-page-config
+ ⨯ Next.js can't recognize the exported `config` field in route "/history/church/page":
+Unsupported node type "BinaryExpression" at "revalidate".
+Read More - https://nextjs.org/docs/messages/invalid-page-config
+ ⨯ Next.js can't recognize the exported `config` field in route "/history/myths/page":
+Unsupported node type "BinaryExpression" at "revalidate".
+Read More - https://nextjs.org/docs/messages/invalid-page-config
+ ⨯ Next.js can't recognize the exported `config` field in route "/history/reading-list/page":
+Unsupported node type "BinaryExpression" at "revalidate".
+Read More - https://nextjs.org/docs/messages/invalid-page-config
+ ⨯ Next.js can't recognize the exported `config` field in route "/history/page":
+Unsupported node type "BinaryExpression" at "revalidate".
+Read More - https://nextjs.org/docs/messages/invalid-page-config
+ ⨯ Next.js can't recognize the exported `config` field in route "/history/school/page":
+Unsupported node type "BinaryExpression" at "revalidate".
+Read More - https://nextjs.org/docs/messages/invalid-page-config
+ ⨯ Next.js can't recognize the exported `config` field in route "/history/titus-salt/page":
+Unsupported node type "BinaryExpression" at "revalidate".
+Read More - https://nextjs.org/docs/messages/invalid-page-config
+ ⨯ Next.js can't recognize the exported `config` field in route "/history/timeline/page":
+Unsupported node type "BinaryExpression" at "revalidate".
+Read More - https://nextjs.org/docs/messages/invalid-page-config
+ ⨯ Next.js can't recognize the exported `config` field in route "/legal/corrections/page":
+Unsupported node type "BinaryExpression" at "revalidate".
+Read More - https://nextjs.org/docs/messages/invalid-page-config
+ ⨯ Next.js can't recognize the exported `config` field in route "/housing/page":
+Unsupported node type "BinaryExpression" at "revalidate".
+Read More - https://nextjs.org/docs/messages/invalid-page-config
+ ⨯ Next.js can't recognize the exported `config` field in route "/history/unesco/page":
+Unsupported node type "BinaryExpression" at "revalidate".
+Read More - https://nextjs.org/docs/messages/invalid-page-config
+ ⨯ Next.js can't recognize the exported `config` field in route "/legal/editorial-policy/page":
+Unsupported node type "BinaryExpression" at "revalidate".
+Read More - https://nextjs.org/docs/messages/invalid-page-config
+ ⨯ Next.js can't recognize the exported `config` field in route "/legal/privacy/page":
+Unsupported node type "BinaryExpression" at "revalidate".
+Read More - https://nextjs.org/docs/messages/invalid-page-config
+ ⨯ Next.js can't recognize the exported `config` field in route "/legal/masthead/page":
+Unsupported node type "BinaryExpression" at "revalidate".
+Read More - https://nextjs.org/docs/messages/invalid-page-config
+ ⨯ Next.js can't recognize the exported `config` field in route "/local-services/gardeners/page":
+Unsupported node type "BinaryExpression" at "revalidate".
+Read More - https://nextjs.org/docs/messages/invalid-page-config
+ ⨯ Next.js can't recognize the exported `config` field in route "/local-services/decorators/page":
+Unsupported node type "BinaryExpression" at "revalidate".
+Read More - https://nextjs.org/docs/messages/invalid-page-config
+ ⨯ Next.js can't recognize the exported `config` field in route "/local-services/electricians/page":
+Unsupported node type "BinaryExpression" at "revalidate".
+Read More - https://nextjs.org/docs/messages/invalid-page-config
+ ⨯ Next.js can't recognize the exported `config` field in route "/local-services/page":
+Unsupported node type "BinaryExpression" at "revalidate".
+Read More - https://nextjs.org/docs/messages/invalid-page-config
+ ⨯ Next.js can't recognize the exported `config` field in route "/local-services/handymen/page":
+Unsupported node type "BinaryExpression" at "revalidate".
+Read More - https://nextjs.org/docs/messages/invalid-page-config
+ ⨯ Next.js can't recognize the exported `config` field in route "/local-services/locksmiths/page":
+Unsupported node type "BinaryExpression" at "revalidate".
+Read More - https://nextjs.org/docs/messages/invalid-page-config
+ ⨯ Next.js can't recognize the exported `config` field in route "/local-services/pet-sitters/page":
+Unsupported node type "BinaryExpression" at "revalidate".
+Read More - https://nextjs.org/docs/messages/invalid-page-config
+ ⨯ Next.js can't recognize the exported `config` field in route "/local-services/photographers/page":
+Unsupported node type "BinaryExpression" at "revalidate".
+Read More - https://nextjs.org/docs/messages/invalid-page-config
+ ⨯ Next.js can't recognize the exported `config` field in route "/local-services/taxis/page":
+Unsupported node type "BinaryExpression" at "revalidate".
+Read More - https://nextjs.org/docs/messages/invalid-page-config
+ ⨯ Next.js can't recognize the exported `config` field in route "/local-services/plumbers/page":
+Unsupported node type "BinaryExpression" at "revalidate".
+Read More - https://nextjs.org/docs/messages/invalid-page-config
+ ⨯ Next.js can't recognize the exported `config` field in route "/local-services/tutors/page":
+Unsupported node type "BinaryExpression" at "revalidate".
+Read More - https://nextjs.org/docs/messages/invalid-page-config
+ ⨯ Next.js can't recognize the exported `config` field in route "/page":
+Unsupported node type "BinaryExpression" at "revalidate".
+Read More - https://nextjs.org/docs/messages/invalid-page-config
+ ⨯ Next.js can't recognize the exported `config` field in route "/parking/caroline-street/page":
+Unsupported node type "BinaryExpression" at "revalidate".
+Read More - https://nextjs.org/docs/messages/invalid-page-config
+ ⨯ Next.js can't recognize the exported `config` field in route "/parking/exhibition-road/page":
+Unsupported node type "BinaryExpression" at "revalidate".
+Read More - https://nextjs.org/docs/messages/invalid-page-config
+ ⨯ Next.js can't recognize the exported `config` field in route "/parking/free/page":
+Unsupported node type "BinaryExpression" at "revalidate".
+Read More - https://nextjs.org/docs/messages/invalid-page-config
+ ⨯ Next.js can't recognize the exported `config` field in route "/local-services/vets/page":
+Unsupported node type "BinaryExpression" at "revalidate".
+Read More - https://nextjs.org/docs/messages/invalid-page-config
+ ⨯ Next.js can't recognize the exported `config` field in route "/plan/accessibility/page":
+Unsupported node type "BinaryExpression" at "revalidate".
+Read More - https://nextjs.org/docs/messages/invalid-page-config
+ ⨯ Next.js can't recognize the exported `config` field in route "/plan/getting-here/rail/page":
+Unsupported node type "BinaryExpression" at "revalidate".
+Read More - https://nextjs.org/docs/messages/invalid-page-config
+ ⨯ Next.js can't recognize the exported `config` field in route "/parking/page":
+Unsupported node type "BinaryExpression" at "revalidate".
+Read More - https://nextjs.org/docs/messages/invalid-page-config
+ ⨯ Next.js can't recognize the exported `config` field in route "/plan/family/page":
+Unsupported node type "BinaryExpression" at "revalidate".
+Read More - https://nextjs.org/docs/messages/invalid-page-config
+ ⨯ Next.js can't recognize the exported `config` field in route "/plan/getting-here/page":
+Unsupported node type "BinaryExpression" at "revalidate".
+Read More - https://nextjs.org/docs/messages/invalid-page-config
+ ⨯ Next.js can't recognize the exported `config` field in route "/plan/page":
+Unsupported node type "BinaryExpression" at "revalidate".
+Read More - https://nextjs.org/docs/messages/invalid-page-config
+ ⨯ Next.js can't recognize the exported `config` field in route "/salts-mill/hockney/page":
+Unsupported node type "BinaryExpression" at "revalidate".
+Read More - https://nextjs.org/docs/messages/invalid-page-config
+ ⨯ Next.js can't recognize the exported `config` field in route "/plan/schools/page":
+Unsupported node type "BinaryExpression" at "revalidate".
+Read More - https://nextjs.org/docs/messages/invalid-page-config
+ ⨯ Next.js can't recognize the exported `config` field in route "/shops/page":
+Unsupported node type "BinaryExpression" at "revalidate".
+Read More - https://nextjs.org/docs/messages/invalid-page-config
+ ⨯ Next.js can't recognize the exported `config` field in route "/roberts-park/page":
+Unsupported node type "BinaryExpression" at "revalidate".
+Read More - https://nextjs.org/docs/messages/invalid-page-config
+ ⨯ Next.js can't recognize the exported `config` field in route "/walks/dog-friendly/page":
+Unsupported node type "BinaryExpression" at "revalidate".
+Read More - https://nextjs.org/docs/messages/invalid-page-config
+ ⨯ Next.js can't recognize the exported `config` field in route "/schools-and-housing/page":
+Unsupported node type "BinaryExpression" at "revalidate".
+Read More - https://nextjs.org/docs/messages/invalid-page-config
+ ⨯ Next.js can't recognize the exported `config` field in route "/walks/five-rise/page":
+Unsupported node type "BinaryExpression" at "revalidate".
+Read More - https://nextjs.org/docs/messages/invalid-page-config
+ ⨯ Next.js can't recognize the exported `config` field in route "/things-to-do/page":
+Unsupported node type "BinaryExpression" at "revalidate".
+Read More - https://nextjs.org/docs/messages/invalid-page-config
+ ⨯ Next.js can't recognize the exported `config` field in route "/things-to-do/ultimate-guide/page":
+Unsupported node type "BinaryExpression" at "revalidate".
+Read More - https://nextjs.org/docs/messages/invalid-page-config
+ ⨯ Next.js can't recognize the exported `config` field in route "/walks/hirst-wood/page":
+Unsupported node type "BinaryExpression" at "revalidate".
+Read More - https://nextjs.org/docs/messages/invalid-page-config
+ ⨯ Next.js can't recognize the exported `config` field in route "/walks/page":
+Unsupported node type "BinaryExpression" at "revalidate".
+Read More - https://nextjs.org/docs/messages/invalid-page-config
+ ⨯ Next.js can't recognize the exported `config` field in route "/walks/shipley-glen/page":
+Unsupported node type "BinaryExpression" at "revalidate".
+Read More - https://nextjs.org/docs/messages/invalid-page-config
+Failed to compile.
+
+./src/app/brunch/page.tsx
+Error:   [31mx[0m Unterminated string constant
+    ,-[[36;1;4m/home/giuseppe/saltaire-guide/src/app/brunch/page.tsx[0m:67:1]
+ [2m64[0m |       { label: 'Parking tips', href: '/parking' },
+ [2m65[0m |     ],
+ [2m66[0m |     image: {
+ [2m67[0m |       src: '/images/cafe-pubs-restaurants.png
+    : [35;1m           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+ [2m68[0m |       alt: 'Coffee and pastries on a wooden table',
+ [2m69[0m |       width: 1200,
+ [2m70[0m |       height: 800,
+    `----
+  [31mx[0m Expected ',', got 'alt'
+    ,-[[36;1;4m/home/giuseppe/saltaire-guide/src/app/brunch/page.tsx[0m:68:1]
+ [2m65[0m |     ],
+ [2m66[0m |     image: {
+ [2m67[0m |       src: '/images/cafe-pubs-restaurants.png
+ [2m68[0m |       alt: 'Coffee and pastries on a wooden table',
+    : [35;1m      ^^^[0m
+ [2m69[0m |       width: 1200,
+ [2m70[0m |       height: 800,
+ [2m71[0m |     },
+    `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/app/brunch/page.tsx
+
+./src/app/events/page.tsx
+Error:   [31mx[0m Unterminated string constant
+    ,-[[36;1;4m/home/giuseppe/saltaire-guide/src/app/events/page.tsx[0m:66:1]
+ [2m63[0m |     blurb:
+ [2m64[0m |       'Music, markets, food, art and outdoor performances across the village and park. Expect busy weekends and evening events.',
+ [2m65[0m |     image: {
+ [2m66[0m |       src: '/images/whats-on.png
+    : [35;1m           ^^^^^^^^^^^^^^^^^^^^^[0m
+ [2m67[0m |       alt: 'Crowd at an outdoor festival with bunting',
+ [2m68[0m |       width: 1200,
+ [2m69[0m |       height: 800,
+    `----
+  [31mx[0m Expected ',', got 'alt'
+    ,-[[36;1;4m/home/giuseppe/saltaire-guide/src/app/events/page.tsx[0m:67:1]
+ [2m64[0m |       'Music, markets, food, art and outdoor performances across the village and park. Expect busy weekends and evening events.',
+ [2m65[0m |     image: {
+ [2m66[0m |       src: '/images/whats-on.png
+ [2m67[0m |       alt: 'Crowd at an outdoor festival with bunting',
+    : [35;1m      ^^^[0m
+ [2m68[0m |       width: 1200,
+ [2m69[0m |       height: 800,
+ [2m70[0m |     },
+    `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/app/events/page.tsx
+
+./src/app/salts-mill/page.tsx
+Error:   [31mx[0m Unterminated string constant
+    ,-[[36;1;4m/home/giuseppe/saltaire-guide/src/app/salts-mill/page.tsx[0m:53:1]
+ [2m50[0m |       'Large independent bookshop with art, architecture, travel and plenty of local history titles.',
+ [2m51[0m |     highlights: ['Big selection', 'Quiet reading corners', 'Giftable local titles'],
+ [2m52[0m |     image: {
+ [2m53[0m |       src: '/images/salts-mill.png
+    : [35;1m           ^^^^^^^^^^^^^^^^^^^^^^^[0m
+ [2m54[0m |       alt: 'Bookshelves and tables with art books',
+ [2m55[0m |       width: 1200,
+ [2m56[0m |       height: 800,
+    `----
+  [31mx[0m Expected ',', got 'alt'
+    ,-[[36;1;4m/home/giuseppe/saltaire-guide/src/app/salts-mill/page.tsx[0m:54:1]
+ [2m51[0m |     highlights: ['Big selection', 'Quiet reading corners', 'Giftable local titles'],
+ [2m52[0m |     image: {
+ [2m53[0m |       src: '/images/salts-mill.png
+ [2m54[0m |       alt: 'Bookshelves and tables with art books',
+    : [35;1m      ^^^[0m
+ [2m55[0m |       width: 1200,
+ [2m56[0m |       height: 800,
+ [2m57[0m |     },
+    `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/app/salts-mill/page.tsx
+
+
+> Build failed because of webpack errors

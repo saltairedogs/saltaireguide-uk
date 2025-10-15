@@ -1,0 +1,58 @@
+// Food & drink locations in Saltaire with GPS coordinates
+
+export const foodDrinkLocations = [
+  {
+    slug: 'salts-mill-cafe',
+    name: 'Salts Diner (Salts Mill)',
+    coords: { lat: 53.8380, lng: -1.7935 },
+    excerpt: 'Café inside Salts Mill - sandwiches, cakes, coffee',
+    website: '',
+    phoneTel: '',
+    priceFrom: '£5-12',
+  },
+  {
+    slug: 'dont-tell-titus',
+    name: "Don't Tell Titus",
+    coords: { lat: 53.8383, lng: -1.7920 },
+    excerpt: 'Independent café - speciality coffee, brunch, local vibe',
+    website: '',
+    phoneTel: '',
+    priceFrom: '£6-15',
+  },
+  {
+    slug: 'fanny-by-gaslight',
+    name: 'Fanny by Gaslight',
+    coords: { lat: 53.8377, lng: -1.7925 },
+    excerpt: 'Traditional pub - real ales, pub food, cozy atmosphere',
+    website: '',
+    phoneTel: '',
+    priceFrom: '£8-18',
+  },
+  {
+    slug: 'cafe-into-the-opera',
+    name: 'Café into the Opera',
+    coords: { lat: 53.8384, lng: -1.7918 },
+    excerpt: 'Italian café - pasta, pizza, coffee, wine',
+    website: '',
+    phoneTel: '',
+    priceFrom: '£10-20',
+  },
+  {
+    slug: 'salt-cellar',
+    name: 'Salt Cellar',
+    coords: { lat: 53.8381, lng: -1.7922 },
+    excerpt: 'Micropub - craft beers, wines, cheese boards',
+    website: '',
+    phoneTel: '',
+    priceFrom: '£4-12',
+  },
+  {
+    slug: 'caroline-social-club',
+    name: 'Caroline Social Club',
+    coords: { lat: 53.8379, lng: -1.7915 },
+    excerpt: 'Members club open to public - traditional ales, events',
+    website: '',
+    phoneTel: '',
+    priceFrom: '£3-10',
+  },
+]
