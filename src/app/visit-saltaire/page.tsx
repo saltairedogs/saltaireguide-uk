@@ -1,295 +1,395 @@
-import type { Metadata } from 'next'
-import Link from 'next/link'
-import Image from 'next/image'
+// app/visit-saltaire/page.tsx
+import type { Metadata } from "next";
+import Link from "next/link";
+import Image from "next/image";
+
+/**
+ * VISIT SALTAIRE — Premium card design (paper aesthetic)
+ * - Server Component only (no styled-jsx, no 'use client')
+ * - Full-bleed hero w/ parallax
+ * - Paper cards with grain, layered shadows, warm borders
+ * - Chips, tinted variants, micro-interactions
+ */
 
 export const metadata: Metadata = {
-  title: 'Visit Saltaire 2025 | Complete UNESCO Village Guide | BD18',
+  metadataBase: new URL("https://saltaireguide.uk"),
+  title: "Visit Saltaire 2025 | Complete UNESCO Village Guide | BD18",
   description:
-    'Plan your visit to Saltaire UNESCO World Heritage Site. Free parking, what to see, where to eat, walks, history & practical tips. Independent local guide to BD18.',
+    "Plan your visit to Saltaire UNESCO World Heritage Site (BD18). Parking, best things to do, Salts Mill, Roberts Park, canal walks, cafés & practical local tips.",
+  alternates: { canonical: "/visit-saltaire" },
   openGraph: {
-    title: 'Visit Saltaire 2025 | Complete UNESCO Village Guide',
-    description: 'Everything you need to visit Saltaire - parking, attractions, food, walks & history.',
-    url: 'https://saltaireguide.uk/visit-saltaire',
+    type: "website",
+    url: "https://saltaireguide.uk/visit-saltaire",
+    siteName: "Saltaire Guide",
+    title: "Visit Saltaire 2025 | Complete UNESCO Village Guide",
+    description:
+      "Everything you need for a Saltaire day out: parking, attractions, food, walks & history.",
+    images: [{ url: "/og/visit-saltaire.png", width: 1200, height: 630, alt: "Salts Mill and canal in Saltaire" }],
+    locale: "en_GB",
   },
+  twitter: {
+    card: "summary_large_image",
+    title: "Visit Saltaire 2025 | Complete UNESCO Village Guide",
+    description:
+      "Plan the perfect visit to Saltaire — best things to do, parking, walks, cafés & practical tips.",
+    images: ["/og/visit-saltaire.png"],
+  },
+  robots: { index: true, follow: true, "max-image-preview": "large" },
+  category: "travel",
+};
+
+const UPDATED = "2025-10-15";
+
+/* ---------- Presentational helpers ---------- */
+
+function Chip({ children }: { children: React.ReactNode }) {
+  return <span className="chip">{children}</span>;
 }
+
+function Card({
+  children,
+  className = "",
+  tint, // "blue" | "green" | undefined
+  as: As = "article",
+}: {
+  children: React.ReactNode;
+  className?: string;
+  tint?: "blue" | "green";
+  as?: any;
+}) {
+  const tintClass =
+    tint === "blue" ? "card--blue" : tint === "green" ? "card--green" : "";
+  return (
+    <As className={`card reveal ${tintClass} ${className}`} data-animate="up">
+      {children}
+    </As>
+  );
+}
+
+/* ---------- PAGE ---------- */
 
 export default function VisitSaltairePage() {
   return (
-    <div className="container mx-auto max-w-4xl px-4 py-12">
-      {/* Hero */}
-      <header className="mb-12 text-center">
-        <h1 className="mb-4 text-4xl font-bold tracking-tight md:text-5xl">
-          Visit Saltaire: UNESCO World Heritage Village Guide
-        </h1>
-        <p className="text-xl text-gray-700">
-          Everything you need to plan the perfect day in Saltaire, West Yorkshire BD18
-        </p>
-      </header>
+    // inherit global background from layout (no bg-* here)
+    <main className="flex min-h-screen flex-col text-stone-900">
+      {/* HERO */}
+      <section className="relative isolate min-h-[60vh]">
+        <div className="absolute inset-0 -z-10 overflow-hidden">
+          <Image
+            src="/images/saltaire-canal.png"
+            alt="Saltaire canal and mill — soft overcast day"
+            fill
+            priority
+            sizes="100vw"
+            style={{ transform: "translateY(var(--heroY,0px))" }}
+            className="object-cover will-change-transform"
+          />
+          <div
+            className="absolute inset-0"
+            style={{
+              background:
+                "linear-gradient(to bottom, rgba(0,0,0,.35), rgba(0,0,0,.2), rgba(0,0,0,.55))",
+            }}
+          />
+          <div className="pointer-events-none absolute inset-0 -z-10 animate-grain opacity-30 mix-blend-overlay" />
+        </div>
 
-      {/* Quick Start */}
-      <section className="mb-12 rounded-2xl bg-gradient-to-br from-blue-50 to-indigo-50 p-8">
-        <h2 className="mb-6 text-2xl font-bold">First Time Visiting Saltaire?</h2>
-        <div className="grid gap-4 md:grid-cols-2">
-          <div>
-            <h3 className="mb-2 font-semibold">🚗 Getting Here</h3>
-            <p className="text-sm text-gray-700">
-              <Link href="/parking" className="underline">
-                Free parking
-              </Link>{' '}
-              on side streets or{' '}
-              <Link href="/plan/getting-here" className="underline">
-                15min by train
-              </Link>{' '}
-              from Bradford/Leeds
+        {/* Breadcrumbs */}
+        <nav aria-label="Breadcrumb" className="mx-auto max-w-6xl px-4 pt-6 text-sm text-stone-200">
+          <ol className="flex flex-wrap items-center gap-2">
+            <li>
+              <Link className="underline decoration-stone-300/60 underline-offset-2 hover:text-white" href="/">
+                Home
+              </Link>
+            </li>
+            <li aria-hidden>›</li>
+            <li aria-current="page" className="text-white/90">
+              Visit Saltaire
+            </li>
+          </ol>
+        </nav>
+
+        {/* Hero copy */}
+        <header className="mx-auto max-w-6xl px-4 pb-16 pt-20 md:pt-28">
+          <div className="max-w-3xl">
+            <h1
+              className="reveal mb-3 text-4xl font-bold leading-tight tracking-tight text-white drop-shadow-lg md:text-6xl"
+              data-animate="fade"
+              data-delay="0"
+            >
+              Visit Saltaire: UNESCO World Heritage Village Guide
+            </h1>
+
+            <p className="reveal text-lg/7 text-white/90 md:text-xl" data-animate="fade" data-delay="90">
+              Everything you need to plan the perfect day in Saltaire, West Yorkshire (BD18). Local tips for parking,
+              attractions, walks, cafés and the history that makes this place special.
             </p>
+
+            <div className="reveal mt-5 flex flex-wrap gap-2" data-animate="stagger">
+              <Chip>Updated {UPDATED}</Chip>
+              <Chip>Family friendly</Chip>
+              <Chip>Free & paid options</Chip>
+              <Chip>Step-free areas</Chip>
+            </div>
+
+            {/* Anchors */}
+            <div className="reveal mt-8 flex flex-wrap gap-3" data-animate="up" data-delay="140">
+              {[
+                { href: "#top-5", label: "Top things to do" },
+                { href: "#itineraries", label: "Itineraries" },
+                { href: "#parking", label: "Parking" },
+                { href: "#food", label: "Food & drink" },
+                { href: "#walks", label: "Walks" },
+                { href: "#best-time", label: "Best time" },
+                { href: "#photo-spots", label: "Photo spots" },
+                { href: "#faq", label: "FAQ" },
+              ].map((a) => (
+                <Link key={a.href} href={a.href} className="chip chip--button hover:-translate-y-0.5 transition">
+                  {a.label}
+                </Link>
+              ))}
+            </div>
           </div>
-          <div>
-            <h3 className="mb-2 font-semibold">⏱️ How Long?</h3>
-            <p className="text-sm text-gray-700">2-4 hours for village + mill, full day with walks</p>
-          </div>
-          <div>
-            <h3 className="mb-2 font-semibold">🍽️ Food & Drink</h3>
-            <p className="text-sm text-gray-700">
-              <Link href="/food-drink" className="underline">
-                Cafes, pubs & restaurants
-              </Link>{' '}
-              in village and Salts Mill
-            </p>
-          </div>
-          <div>
-            <h3 className="mb-2 font-semibold">🎫 Cost</h3>
-            <p className="text-sm text-gray-700">FREE - village, galleries, park & most attractions</p>
+        </header>
+
+        {/* Sticky in-page nav */}
+        <div
+          id="sticky-nav"
+          className="sticky -top-px z-20 mx-auto hidden w-full md:block"
+          style={{
+            borderBottom: "1px solid rgba(255,255,255,.12)",
+            backgroundColor: "rgba(0,0,0,.30)",
+            backdropFilter: "blur(8px)",
+            WebkitBackdropFilter: "blur(8px)",
+          }}
+        >
+          <div className="mx-auto max-w-6xl px-4">
+            <div className="flex flex-wrap items-center gap-4 py-3 text-sm text-white/90">
+              {[
+                ["Top", "#top-5"],
+                ["Itineraries", "#itineraries"],
+                ["Parking", "#parking"],
+                ["Food", "#food"],
+                ["Walks", "#walks"],
+                ["Best time", "#best-time"],
+                ["Photo spots", "#photo-spots"],
+                ["FAQ", "#faq"],
+              ].map(([label, href]) => (
+                <Link key={href} href={href} className="anchor-link hover:text-white">
+                  {label}
+                </Link>
+              ))}
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Must-See */}
-      <section className="mb-12">
-        <h2 className="mb-6 text-3xl font-bold">Top 5 Things to Do in Saltaire</h2>
-        <div className="space-y-6">
+      {/* Intro */}
+      <section className="mx-auto mt-10 w-full max-w-6xl px-4">
+        <Card className="grid gap-6 md:grid-cols-2 md:p-8 p-6" >
+          <div>
+            <h2 className="mb-2 text-2xl font-extrabold tracking-tight text-stone-800">First time in Saltaire?</h2>
+            <p className="text-stone-700">
+              Saltaire is a complete Victorian model village founded in 1853 by Sir Titus Salt and recognised by UNESCO
+              for its industrial heritage. You’ll find Salts Mill (free David Hockney gallery), Roberts Park, the canal,
+              independent cafés and a walkable grid of honey-stone streets.
+            </p>
+          </div>
+          <ul className="grid list-disc gap-2 pl-5 text-sm text-stone-700">
+            <li>
+              <Link href="/parking" className="link">
+                Free on-street parking
+              </Link>{" "}
+              (time-limited) + low-cost car parks.
+            </li>
+            <li>
+              <Link href="/plan/getting-here" className="link">
+                15–25 minutes by train
+              </Link>{" "}
+              from Leeds or Bradford.
+            </li>
+            <li>Plan 2–4 hours for village & mill; a full day with walks.</li>
+            <li>Dogs welcome in Roberts Park & on the canal towpath (guide dogs only inside the mill).</li>
+          </ul>
+        </Card>
+      </section>
+
+      {/* Top 5 */}
+      <section id="top-5" className="mx-auto w-full max-w-6xl px-4 py-14">
+        <h2 className="reveal mb-6 text-3xl font-extrabold tracking-tight text-stone-900" data-animate="up">
+          Top 5 things to do in Saltaire
+        </h2>
+        <div className="grid gap-6 md:grid-cols-2">
           {[
-            {
-              title: '1. Salts Mill & Hockney Gallery',
-              time: '45-90 mins',
-              desc: "Explore David Hockney's 1853 Gallery (free), independent shops, bookshop and cafes inside this iconic Victorian mill building.",
-              link: '/salts-mill',
-            },
-            {
-              title: '2. Roberts Park',
-              time: '30-60 mins',
-              desc: 'Victorian park with river walks, bandstand, play areas and Half Moon Cafe. Perfect for families and picnics.',
-              link: '/roberts-park',
-            },
-            {
-              title: '3. UNESCO Village Walk',
-              time: '45 mins',
-              desc: 'Self-guided walk through Victorian streets, see the Congregational Church, almshouses and mill architecture.',
-              link: '/history',
-            },
-            {
-              title: '4. Canal Towpath Walk',
-              time: '30-90 mins',
-              desc: 'Flat, scenic walk along the Leeds-Liverpool Canal. Dog-friendly, pram-friendly, stunning mill views.',
-              link: '/walks',
-            },
-            {
-              title: '5. Food & Coffee Break',
-              time: '30-60 mins',
-              desc: 'Brunch at local cafes, artisan coffee, or traditional pub lunch. Outdoor seating in good weather.',
-              link: '/food-drink',
-            },
-          ].map((item) => (
-            <div key={item.title} className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
-              <div className="flex items-start justify-between">
+            { title: "Salts Mill & 1853 Hockney Gallery", time: "45–90 mins", desc: "Explore the free David Hockney gallery, bookshop, independent stores and cafés inside the landmark mill.", link: "/salts-mill" },
+            { title: "Roberts Park", time: "30–60 mins", desc: "Victorian park with river walks, bandstand and play areas. Perfect for a picnic (Half Moon Café nearby).", link: "/roberts-park" },
+            { title: "UNESCO village walk", time: "45 mins", desc: "Self-guided loop past the Congregational Church, almshouses and Italianate terraces.", link: "/history" },
+            { title: "Canal towpath walk", time: "30–90 mins", desc: "Flat, pram-friendly stretch of the Leeds–Liverpool Canal with classic mill views.", link: "/walks" },
+            { title: "Coffee, brunch & pubs", time: "30–60 mins", desc: "Cafés in the mill and village; outdoor seating in good weather; independent bakeries and roasts.", link: "/food-drink" },
+          ].map((item, i) => (
+            <Card key={item.title} className="p-6">
+              <div className="flex items-start justify-between gap-4">
                 <div className="flex-1">
-                  <h3 className="mb-2 text-xl font-semibold">{item.title}</h3>
-                  <p className="mb-3 text-sm text-gray-600">{item.desc}</p>
-                  <Link
-                    href={item.link}
-                    className="inline-block text-sm font-medium text-blue-600 underline hover:text-blue-800"
-                  >
-                    Full guide →
-                  </Link>
+                  <div className="eyebrow">{i + 1}</div>
+                  <h3 className="mb-1 text-xl font-semibold tracking-tight">{item.title}</h3>
+                  <p className="mb-3 text-sm text-stone-600">{item.desc}</p>
+                  <Link href={item.link} className="link-cta">Full guide →</Link>
                 </div>
-                <span className="ml-4 rounded-full bg-gray-100 px-3 py-1 text-xs font-medium text-gray-700">
-                  {item.time}
-                </span>
+                <Chip>{item.time}</Chip>
               </div>
-            </div>
+            </Card>
           ))}
         </div>
       </section>
 
-      {/* Sample Itineraries */}
-      <section className="mb-12">
-        <h2 className="mb-6 text-3xl font-bold">Sample Visit Itineraries</h2>
+      {/* Itineraries */}
+      <section id="itineraries" className="mx-auto w-full max-w-6xl px-4 pb-14">
+        <h2 className="reveal mb-6 text-3xl font-extrabold tracking-tight text-stone-900" data-animate="up">
+          Sample visit itineraries
+        </h2>
         <div className="grid gap-6 md:grid-cols-2">
-          <div className="rounded-xl border-2 border-blue-200 bg-blue-50 p-6">
-            <h3 className="mb-4 text-xl font-bold">Half Day (2-3 hours)</h3>
+          <Card tint="blue" className="p-6">
+            <h3 className="mb-3 text-xl font-bold">Half day (2–3 hours)</h3>
             <ol className="space-y-2 text-sm">
-              <li>
-                <strong>10:00</strong> - Park & explore Salts Mill
-              </li>
-              <li>
-                <strong>11:15</strong> - Coffee break at mill cafe
-              </li>
-              <li>
-                <strong>11:45</strong> - Walk through village streets
-              </li>
-              <li>
-                <strong>12:30</strong> - Roberts Park stroll
-              </li>
+              <li><strong>10:00</strong> — Park & explore Salts Mill</li>
+              <li><strong>11:15</strong> — Coffee at the mill café</li>
+              <li><strong>11:45</strong> — Stroll the village streets</li>
+              <li><strong>12:30</strong> — Roberts Park loop</li>
             </ol>
-          </div>
-          <div className="rounded-xl border-2 border-green-200 bg-green-50 p-6">
-            <h3 className="mb-4 text-xl font-bold">Full Day (5-6 hours)</h3>
+          </Card>
+
+          <Card tint="green" className="p-6">
+            <h3 className="mb-3 text-xl font-bold">Full day (5–6 hours)</h3>
             <ol className="space-y-2 text-sm">
-              <li>
-                <strong>10:00</strong> - Start at Salts Mill
-              </li>
-              <li>
-                <strong>11:30</strong> - Brunch in village
-              </li>
-              <li>
-                <strong>13:00</strong> - Canal walk to Five Rise Locks
-              </li>
-              <li>
-                <strong>15:00</strong> - Roberts Park & ice cream
-              </li>
-              <li>
-                <strong>16:30</strong> - Explore village shops
-              </li>
+              <li><strong>10:00</strong> — Salts Mill galleries & shops</li>
+              <li><strong>11:30</strong> — Brunch in the village</li>
+              <li><strong>13:00</strong> — Canal walk (option to Five Rise Locks)</li>
+              <li><strong>15:00</strong> — Roberts Park & ice cream</li>
+              <li><strong>16:30</strong> — Explore independent shops</li>
             </ol>
-          </div>
+          </Card>
         </div>
       </section>
 
-      {/* Practical Info */}
-      <section className="mb-12">
-        <h2 className="mb-6 text-3xl font-bold">Practical Information for Visiting Saltaire</h2>
+      {/* Practical */}
+      <section id="parking" className="mx-auto w-full max-w-6xl px-4 pb-14">
+        <h2 className="reveal mb-6 text-3xl font-extrabold tracking-tight text-stone-900" data-animate="up">
+          Practical information
+        </h2>
         <div className="grid gap-6 md:grid-cols-2">
-          <div className="rounded-xl border border-gray-200 bg-white p-6">
-            <h3 className="mb-3 text-lg font-semibold">📍 Location & Access</h3>
-            <ul className="space-y-2 text-sm text-gray-700">
-              <li>
-                <strong>Address:</strong> Saltaire, West Yorkshire, BD18
-              </li>
-              <li>
-                <strong>From Bradford:</strong> 10 min drive or 15 min train
-              </li>
-              <li>
-                <strong>From Leeds:</strong> 20 min drive or 25 min train
-              </li>
-              <li>
-                <strong>Station:</strong> Saltaire Railway Station (on site)
-              </li>
+          <Card className="p-6">
+            <h3 className="mb-3 text-lg font-semibold">📍 Location & access</h3>
+            <ul className="space-y-2 text-sm text-stone-700">
+              <li><strong>Where:</strong> Saltaire, West Yorkshire, BD18.</li>
+              <li><strong>From Bradford:</strong> 10 mins drive / 15 mins train.</li>
+              <li><strong>From Leeds:</strong> 20 mins drive / 25 mins train.</li>
+              <li><strong>Station:</strong> Saltaire Railway Station (on site).</li>
             </ul>
-          </div>
-          <div className="rounded-xl border border-gray-200 bg-white p-6">
-            <h3 className="mb-3 text-lg font-semibold">🅿️ Parking Options</h3>
-            <ul className="space-y-2 text-sm text-gray-700">
-              <li>
-                <strong>Free:</strong> Side streets (2hr limit, check signs)
-              </li>
-              <li>
-                <strong>Paid:</strong> Caroline St (£3-5/day) or Exhibition Rd
-              </li>
-              <li>
-                <strong>Disabled:</strong> Blue badge bays on Victoria Rd
-              </li>
-              <li>
-                <Link href="/parking" className="font-medium text-blue-600 underline">
-                  Full parking guide →
-                </Link>
-              </li>
+          </Card>
+
+          <Card className="p-6">
+            <h3 className="mb-3 text-lg font-semibold">🅿️ Parking options</h3>
+            <ul className="space-y-2 text-sm text-stone-700">
+              <li><strong>Free:</strong> Side streets (often 2-hour zones — check signs).</li>
+              <li><strong>Paid:</strong> Caroline St (£3–5/day) & Exhibition Rd car parks.</li>
+              <li><strong>Disabled:</strong> Blue badge bays on Victoria Rd.</li>
+              <li><Link href="/parking" className="link">Full parking guide →</Link></li>
             </ul>
-          </div>
-          <div className="rounded-xl border border-gray-200 bg-white p-6">
+          </Card>
+
+          <Card className="p-6">
             <h3 className="mb-3 text-lg font-semibold">♿ Accessibility</h3>
-            <ul className="space-y-2 text-sm text-gray-700">
-              <li>Salts Mill: Level access, lift, accessible toilets</li>
-              <li>Roberts Park: Flat paths, accessible cafe</li>
-              <li>Village: Mostly flat, cobbled areas near mill</li>
-              <li>
-                <Link href="/plan/accessibility" className="font-medium text-blue-600 underline">
-                  Full accessibility info →
-                </Link>
-              </li>
+            <ul className="space-y-2 text-sm text-stone-700">
+              <li>Salts Mill has level access, lifts and accessible toilets.</li>
+              <li>Roberts Park paths are flat; café accessible.</li>
+              <li>Village mostly flat; some cobbles near the mill.</li>
+              <li><Link href="/plan/accessibility" className="link">Accessibility info →</Link></li>
             </ul>
-          </div>
-          <div className="rounded-xl border border-gray-200 bg-white p-6">
-            <h3 className="mb-3 text-lg font-semibold">🐕 Dog-Friendly</h3>
-            <ul className="space-y-2 text-sm text-gray-700">
-              <li>Dogs welcome in Roberts Park & canal walks</li>
-              <li>Many cafes have dog-friendly outdoor seating</li>
-              <li>Mill: Guide dogs only indoors</li>
-              <li>
-                <Link href="/walks/dog-friendly" className="font-medium text-blue-600 underline">
-                  Dog-friendly walks →
-                </Link>
-              </li>
+          </Card>
+
+          <Card className="p-6">
+            <h3 id="food" className="mb-3 text-lg font-semibold">🍽️ Food & drink</h3>
+            <ul className="space-y-2 text-sm text-stone-700">
+              <li>Cafés and bakeries in the mill and village.</li>
+              <li>Independent coffee, brunch and traditional Yorkshire pubs.</li>
+              <li>Outdoor seating in good weather.</li>
+              <li><Link href="/food-drink" className="link">Food & drink guide →</Link></li>
             </ul>
-          </div>
+          </Card>
         </div>
       </section>
 
-      {/* When to Visit */}
-      <section className="mb-12">
-        <h2 className="mb-6 text-3xl font-bold">Best Time to Visit Saltaire</h2>
-        <div className="space-y-4 rounded-xl border border-gray-200 bg-white p-6">
-          <div>
-            <h3 className="mb-2 font-semibold">🌸 Spring (Mar-May)</h3>
-            <p className="text-sm text-gray-700">
-              Daffodils in Roberts Park, fewer crowds, pleasant walking weather. Check{' '}
-              <Link href="/events" className="underline">
-                events calendar
-              </Link>{' '}
-              for spring festivals.
+      {/* Walks & seasons */}
+      <section id="walks" className="mx-auto w-full max-w-6xl px-4 pb-14">
+        <h2 className="reveal mb-6 text-3xl font-extrabold tracking-tight text-stone-900" data-animate="up">
+          Walks & seasons
+        </h2>
+        <div className="grid gap-6 md:grid-cols-2">
+          <Card className="p-6">
+            <h3 className="mb-3 text-lg font-semibold">🥾 Canal & village walks</h3>
+            <p className="text-sm text-stone-700">
+              The Leeds–Liverpool Canal is flat and pram-friendly. The UNESCO village is compact and easy to explore on foot.
             </p>
-          </div>
-          <div>
-            <h3 className="mb-2 font-semibold">☀️ Summer (Jun-Aug)</h3>
-            <p className="text-sm text-gray-700">
-              Peak season - bandstand concerts, outdoor dining, longer days. Book ahead for popular events
-              like Saltaire Festival (September).
-            </p>
-          </div>
-          <div>
-            <h3 className="mb-2 font-semibold">🍂 Autumn (Sep-Nov)</h3>
-            <p className="text-sm text-gray-700">
-              Gorgeous canal walks with autumn colors, Saltaire Festival, fewer tourists. Perfect for
-              photography.
-            </p>
-          </div>
-          <div>
-            <h3 className="mb-2 font-semibold">❄️ Winter (Dec-Feb)</h3>
-            <p className="text-sm text-gray-700">
-              Quietest time, cozy cafe culture, Christmas events. Mill and indoor attractions still open. Wrap
-              up for canal walks.
-            </p>
-          </div>
+            <div className="mt-3"><Link href="/walks" className="link">Browse walks →</Link></div>
+          </Card>
+          <Card className="p-6">
+            <h3 id="best-time" className="mb-3 text-lg font-semibold">🗓️ Best time to visit</h3>
+            <ul className="space-y-3 text-sm text-stone-700">
+              <li><strong>Spring:</strong> Daffodils in Roberts Park, quiet weekdays.</li>
+              <li><strong>Summer:</strong> Long days, bandstand concerts, busiest season.</li>
+              <li><strong>Autumn:</strong> Canal colours, Saltaire Festival (Sept).</li>
+              <li><strong>Winter:</strong> Quiet, cosy cafés; galleries open; wrap up for towpath walks.</li>
+            </ul>
+          </Card>
         </div>
       </section>
 
-      {/* Quick Links */}
-      <section className="mb-12">
-        <h2 className="mb-6 text-3xl font-bold">Plan Your Saltaire Visit</h2>
+      {/* Photo spots */}
+      <section id="photo-spots" className="mx-auto w-full max-w-6xl px-4 pb-16">
+        <h2 className="reveal mb-6 text-3xl font-extrabold tracking-tight text-stone-900" data-animate="up">
+          Best photo spots in Saltaire
+        </h2>
+        <div className="grid gap-6 md:grid-cols-3">
+          {[
+            ["Salts Mill chimney from the canal", "Golden hour reflection along the towpath."],
+            ["Roberts Park footbridge", "Symmetry over the river with the mill in the distance."],
+            ["Congregational Church portico", "Classic columns; shoot at 50mm for clean lines."],
+            ["Victoria Road terraces", "Honey-stone streets; avoid midday contrast for softer tones."],
+            ["Half Moon Café", "Candid coffee shot outdoors (mind privacy)."],
+            ["Hockney posters inside the mill", "Detail-led, texture shots; signage rules apply."],
+          ].map(([title, tip], i) => (
+            <Card key={String(i)} className="p-5">
+              <div className="eyebrow">{i + 1}</div>
+              <h3 className="mb-1 font-semibold">{title}</h3>
+              <p className="text-sm text-stone-600">{tip}</p>
+            </Card>
+          ))}
+        </div>
+      </section>
+
+      {/* Plan links */}
+      <section className="mx-auto w-full max-w-6xl px-4 pb-20">
+        <h2 className="reveal mb-6 text-3xl font-extrabold tracking-tight text-stone-900" data-animate="up">
+          Plan your Saltaire visit
+        </h2>
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {[
-            { title: 'Parking Guide', href: '/parking', icon: '🅿️' },
-            { title: 'Getting Here', href: '/plan/getting-here', icon: '🚂' },
-            { title: 'Food & Drink', href: '/food-drink', icon: '🍽️' },
-            { title: 'Walks & Trails', href: '/walks', icon: '🥾' },
-            { title: 'What\'s On', href: '/events', icon: '📅' },
-            { title: 'Family Guide', href: '/plan/family', icon: '👨‍👩‍👧' },
-            { title: 'UNESCO History', href: '/history/unesco', icon: '🏛️' },
-            { title: 'Local Services', href: '/local-services', icon: '🔧' },
-            { title: 'Browse All Pages', href: '/blog', icon: '📖' },
-          ].map((link) => (
+            { title: "Parking Guide", href: "/parking", icon: "🅿️" },
+            { title: "Getting Here", href: "/plan/getting-here", icon: "🚂" },
+            { title: "Food & Drink", href: "/food-drink", icon: "🍽️" },
+            { title: "Walks & Trails", href: "/walks", icon: "🥾" },
+            { title: "What’s On", href: "/events", icon: "📅" },
+            { title: "Family Guide", href: "/plan/family", icon: "👨‍👩‍👧" },
+            { title: "UNESCO History", href: "/history/unesco", icon: "🏛️" },
+            { title: "Local Services", href: "/local-services", icon: "🔧" },
+            { title: "Browse All Pages", href: "/blog", icon: "📖" },
+          ].map((link, i) => (
             <Link
               key={link.href}
               href={link.href}
-              className="flex items-center gap-3 rounded-xl border border-gray-200 bg-white p-4 transition hover:border-blue-300 hover:shadow-md"
+              className="card reveal flex items-center gap-3 p-4 transition hover:-translate-y-0.5"
+              data-animate="up"
+              data-delay={String(40 * i)}
             >
               <span className="text-2xl">{link.icon}</span>
               <span className="font-medium">{link.title}</span>
@@ -298,81 +398,159 @@ export default function VisitSaltairePage() {
         </div>
       </section>
 
-      {/* FAQ Schema */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            '@context': 'https://schema.org',
-            '@type': 'FAQPage',
-            mainEntity: [
-              {
-                '@type': 'Question',
-                name: 'Is parking free in Saltaire?',
-                acceptedAnswer: {
-                  '@type': 'Answer',
-                  text: 'Yes, free parking is available on side streets near Saltaire with a 2-hour limit. Paid car parks (£3-5/day) at Caroline Street and Exhibition Road offer all-day parking.',
-                },
-              },
-              {
-                '@type': 'Question',
-                name: 'How long does it take to visit Saltaire?',
-                acceptedAnswer: {
-                  '@type': 'Answer',
-                  text: 'A half-day visit (2-3 hours) covers Salts Mill and the village. A full day (5-6 hours) allows time for walks, Roberts Park, and leisurely dining.',
-                },
-              },
-              {
-                '@type': 'Question',
-                name: 'What is Saltaire famous for?',
-                acceptedAnswer: {
-                  '@type': 'Answer',
-                  text: 'Saltaire is a UNESCO World Heritage Site, a complete Victorian model village built by Sir Titus Salt in 1853. It is famous for Salts Mill, the David Hockney gallery, and its well-preserved industrial heritage.',
-                },
-              },
-              {
-                '@type': 'Question',
-                name: 'Is Saltaire dog friendly?',
-                acceptedAnswer: {
-                  '@type': 'Answer',
-                  text: 'Yes, dogs are welcome in Roberts Park, on canal walks, and at many outdoor cafe seating areas. Guide dogs only are permitted inside Salts Mill.',
-                },
-              },
-            ],
-          }),
-        }}
-      />
+      {/* JSON-LD */}
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
+        "@context":"https://schema.org","@type":"BreadcrumbList",
+        itemListElement:[
+          {"@type":"ListItem","position":1,"name":"Home","item":"https://saltaireguide.uk/"},
+          {"@type":"ListItem","position":2,"name":"Visit Saltaire","item":"https://saltaireguide.uk/visit-saltaire"}
+        ]})}} />
+      <script id="faq" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
+        "@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+          {"@type":"Question","name":"Is parking free in Saltaire?","acceptedAnswer":{"@type":"Answer","text":"Yes, free parking is available on nearby side streets with a typical 2-hour limit. Low-cost car parks on Caroline Street and Exhibition Road offer full-day options."}},
+          {"@type":"Question","name":"How long does it take to visit Saltaire?","acceptedAnswer":{"@type":"Answer","text":"A half-day visit (2–3 hours) covers Salts Mill and the village. A full day (5–6 hours) allows time for walks, Roberts Park and a relaxed meal."}},
+          {"@type":"Question","name":"What is Saltaire famous for?","acceptedAnswer":{"@type":"Answer","text":"Saltaire is a UNESCO World Heritage Site — a complete Victorian model village built by Sir Titus Salt in 1853. It’s known for Salts Mill, the David Hockney gallery, and beautifully preserved architecture."}},
+          {"@type":"Question","name":"Is Saltaire dog-friendly?","acceptedAnswer":{"@type":"Answer","text":"Dogs are welcome in Roberts Park and on canal walks. Many cafés have outdoor seating. Inside Salts Mill, only guide dogs are permitted."}}
+        ]})}} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
+        "@context":"https://schema.org","@type":"TouristAttraction",
+        name:"Saltaire UNESCO World Heritage Village",
+        description:"Victorian model village featuring Salts Mill, David Hockney gallery, Roberts Park and historic architecture.",
+        image:["https://saltaireguide.uk/og/visit-saltaire.png"],
+        address:{"@type":"PostalAddress","streetAddress":"Victoria Road","addressLocality":"Saltaire","addressRegion":"West Yorkshire","postalCode":"BD18","addressCountry":"GB"},
+        geo:{"@type":"GeoCoordinates","latitude":53.8385,"longitude":-1.7868},
+        isAccessibleForFree:true, publicAccess:true,
+        url:"https://saltaireguide.uk/visit-saltaire",
+        datePublished:"2024-01-01", dateModified: UPDATED,
+        touristType:["Family","History enthusiasts","Architecture fans","Day trippers"]
+      })}} />
 
-      {/* Place Schema */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            '@context': 'https://schema.org',
-            '@type': 'TouristAttraction',
-            name: 'Saltaire UNESCO World Heritage Village',
-            description:
-              'Complete Victorian model village and UNESCO World Heritage Site featuring Salts Mill, David Hockney gallery, Roberts Park, and historic architecture.',
-            image: 'https://saltaireguide.uk/images/salts-mill.png',
-            address: {
-              '@type': 'PostalAddress',
-              streetAddress: 'Victoria Road',
-              addressLocality: 'Saltaire',
-              addressRegion: 'West Yorkshire',
-              postalCode: 'BD18',
-              addressCountry: 'GB',
-            },
-            geo: {
-              '@type': 'GeoCoordinates',
-              latitude: 53.8385,
-              longitude: -1.7868,
-            },
-            isAccessibleForFree: true,
-            publicAccess: true,
-            touristType: ['Family', 'History enthusiasts', 'Architecture fans', 'Day trippers'],
-          }),
-        }}
-      />
-    </div>
-  )
+      {/* Animations */}
+      <script dangerouslySetInnerHTML={{ __html: `
+(function () {
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const els = document.querySelectorAll('[data-animate]');
+  if (!prefersReduced && 'IntersectionObserver' in window) {
+    const io = new IntersectionObserver((entries) => {
+      for (const e of entries) if (e.isIntersecting) {
+        const delay = parseInt(e.target.getAttribute('data-delay') || '0', 10);
+        setTimeout(() => e.target.classList.add('is-visible'), delay);
+        io.unobserve(e.target);
+      }
+    }, { threshold: 0.12, rootMargin: '0px 0px -10% 0px' });
+    els.forEach((el) => io.observe(el));
+  } else { els.forEach((el) => el.classList.add('is-visible')); }
+
+  if (!prefersReduced) {
+    const root = document.documentElement;
+    const onScroll = () => {
+      const y = Math.min(40, window.scrollY * 0.08);
+      root.style.setProperty('--heroY', y + 'px');
+      const anchors = document.querySelectorAll('.anchor-link');
+      const ids = ['#top-5','#itineraries','#parking','#food','#walks','#best-time','#photo-spots','#faq'];
+      const sections = ids.map((id) => document.querySelector(id)).filter(Boolean);
+      let active = '';
+      for (const sec of sections) {
+        const rect = sec.getBoundingClientRect();
+        if (rect.top < 120 && rect.bottom > 180) { active = '#' + sec.id; break; }
+      }
+      anchors.forEach((a) => a.classList.toggle('text-white', a.getAttribute('href') === active));
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  }
+})();`}} />
+
+      {/* Premium card styles (plain CSS, no styled-jsx) */}
+      <style dangerouslySetInnerHTML={{ __html: `
+:root{
+  --ink:#342e28;
+  --paper:#FBF7EF;
+  --paper-2:#F6F1E7;
+  --border:#E8E1D4;
+  --border-strong:#D9D0C1;
+  --shadow-a: 0 10px 24px rgba(34,25,17,.06);
+  --shadow-b: 0 2px 6px rgba(34,25,17,.05);
+  --inner: inset 0 1px 0 rgba(255,255,255,.75);
+}
+
+/* Film grain */
+@keyframes grain { 0%,100% { transform: translate(0,0) scale(1); } 50% { transform: translate(-2%, -2%) scale(1.02); } }
+.animate-grain { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='128' height='128' viewBox='0 0 128 128'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='128' height='128' filter='url(%23n)'/%3E%3C/svg%3E"); background-size: 256px 256px; animation: grain 9s linear infinite; }
+
+/* Card: warm paper, crisp borders, layered shadow, soft grain overlay */
+.card{
+  position: relative;
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  background: linear-gradient(180deg,#fff 0%, #fdfbf7 100%);
+  box-shadow: var(--shadow-a), var(--shadow-b);
+}
+.card::before{
+  content:"";
+  position:absolute; inset:0; pointer-events:none; border-radius:16px;
+  background-image: radial-gradient(transparent 60%, rgba(0,0,0,.03));
+  opacity:.35;
+}
+.card:hover{ box-shadow: 0 16px 32px rgba(34,25,17,.08), 0 4px 10px rgba(34,25,17,.06); }
+
+/* Tints for special cards */
+.card--blue{
+  background: linear-gradient(180deg,#f5f8ff 0%, #eef3ff 100%);
+  border-color:#D9E4FF;
+}
+.card--green{
+  background: linear-gradient(180deg,#f4fcf6 0%, #ecfaf2 100%);
+  border-color:#CFEFDC;
+}
+
+/* Eyebrow number / subtle label */
+.eyebrow{
+  display:inline-block;
+  font-size:.72rem; letter-spacing:.08em; text-transform:uppercase;
+  color:#7a6f62; margin-bottom:.25rem;
+}
+
+/* Chips (badges + buttons) */
+.chip{
+  display:inline-flex; align-items:center; gap:.4rem;
+  background: linear-gradient(180deg,#ffffff 0%, #f7f3ea 100%);
+  color: var(--ink);
+  border:1px solid var(--border);
+  border-radius:9999px;
+  padding:.38rem .7rem;
+  box-shadow: var(--inner), 0 1px 1.5px rgba(34,25,17,.08);
+}
+.chip--button{ text-decoration:none; font-weight:600; }
+
+/* Links */
+.link{ color:#1d4ed8; text-decoration:underline; text-underline-offset:2px; }
+.link:hover{ color:#153ea9; }
+.link-cta{ color:#1d4ed8; font-weight:600; text-decoration:underline; text-underline-offset:3px; }
+.link-cta:hover{ color:#153ea9; }
+
+/* Reveal animation */
+.reveal { opacity: 0; transform: translateY(14px) scale(0.995); transition: opacity .7s cubic-bezier(.2,.65,.2,1), transform .7s cubic-bezier(.2,.65,.2,1), filter .7s; will-change: opacity, transform, filter; }
+.reveal.is-visible { opacity: 1; transform: translateY(0) scale(1); filter: none; }
+.reveal[data-animate="fade"] { transform: none; }
+.reveal[data-animate="up"] { transform: translateY(16px); }
+.reveal[data-animate="stagger"] > * { opacity: 0; transform: translateY(16px); transition: opacity .7s, transform .7s; }
+.reveal.is-visible[data-animate="stagger"] > * { opacity: 1; transform: none; }
+.reveal.is-visible[data-animate="stagger"] > *:nth-child(1) { transition-delay: .05s; }
+.reveal.is-visible[data-animate="stagger"] > *:nth-child(2) { transition-delay: .10s; }
+.reveal.is-visible[data-animate="stagger"] > *:nth-child(3) { transition-delay: .15s; }
+.reveal.is-visible[data-animate="stagger"] > *:nth-child(4) { transition-delay: .20s; }
+
+/* Sticky nav links */
+.anchor-link { color: rgba(255,255,255,.8); transition: color .2s ease; }
+.anchor-link:hover { color: #fff; }
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .reveal, .reveal > * { transition: none !important; opacity: 1 !important; transform: none !important; }
+  .animate-grain { animation: none !important; }
+}
+` }} />
+    </main>
+  );
 }

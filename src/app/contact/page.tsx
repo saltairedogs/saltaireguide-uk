@@ -11,6 +11,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { site } from '@/config/site'
+import FormBridge from '@/components/FormBridge'
 
 export const dynamic = 'error'
 
@@ -195,17 +196,9 @@ function ContactForm() {
         <Link className="underline underline-offset-4" href="/legal/privacy">Privacy policy</Link>.
       </p>
 
-      <form
-        className="mt-6 grid gap-5 rounded-2xl border border-gray-200 bg-white p-6 md:p-8"
-        action="/api/contact" // TODO: implement server action or API route
-        method="post"
-        noValidate
-      >
+      <FormBridge formName="Contact: general" className="mt-6 grid gap-5 rounded-2xl border border-gray-200 bg-white p-6 md:p-8" noValidate>
         {/* Honeypot anti-spam field (hidden from users) */}
-        <div aria-hidden="true" className="hidden">
-          <label htmlFor="website">Website</label>
-          <input id="website" name="website" type="text" tabIndex={-1} autoComplete="off" />
-        </div>
+        {/* Replaced by FormBridge built-in */}
 
         <div className="grid gap-5 md:grid-cols-2">
           <Field id="name" label="Your name">
@@ -279,7 +272,7 @@ function ContactForm() {
           </a>
           <span className="hint">We usually reply within 1–2 working days.</span>
         </div>
-      </form>
+      </FormBridge>
 
       <div className="mt-4 smallprint">
         This form does not subscribe you to any newsletter. For news, see the footer sign-up or{' '}

@@ -49,10 +49,10 @@ type Category = {
 /* ------------------------------- Local images ------------------------------ */
 
 const ICONS = {
-  file: { src: '/file.svg', alt: 'Document icon', width: 64, height: 64 },
-  globe: { src: '/globe.svg', alt: 'Globe icon', width: 64, height: 64 },
+  file: { src: '/images/local-services-2.png', alt: 'Document icon', width: 64, height: 64 },
+  globe: { src: '/images/local-services-1.png', alt: 'Globe icon', width: 64, height: 64 },
   next: { src: '/next.svg', alt: 'Arrow icon', width: 64, height: 64 },
-  window: { src: '/window.svg', alt: 'Window icon', width: 64, height: 64 },
+  window: { src: '/images/default-service.png', alt: 'Window icon', width: 64, height: 64 },
 }
 
 /* -------------------------- Category configuration ------------------------- */
@@ -280,11 +280,11 @@ function CategoryCard({
       <Link href={`/local-services/${cat.slug}`} className="block focus-visible:outline-none">
         <div className="relative h-28 w-full bg-gray-50">
           <Image
-            alt={cat.icon?.alt ?? 'Category icon'}
-            src={cat.icon?.src ?? ICONS.window.src}
+            alt={cat.icon?.alt ?? 'Service category'}
+            src={ICONS.window.src}
             fill
             sizes="(max-width:768px) 100vw, (max-width:1200px) 50vw, 33vw"
-            className="object-contain p-6"
+            className="object-cover"
           />
         </div>
         <div className="p-5">

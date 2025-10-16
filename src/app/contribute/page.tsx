@@ -8,6 +8,7 @@
 
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import FormBridge from '@/components/FormBridge'
 import { site } from '@/config/site'
 
 export const dynamic = 'error'
@@ -214,6 +215,8 @@ function WhyContribute() {
   )
 }
 
+// Migrated to Google Apps Script via FormBridge
+
 function UpdateForm() {
   return (
     <section id="update-form" aria-labelledby="update-title" className="container mx-auto max-w-7xl px-4 py-10">
@@ -223,14 +226,11 @@ function UpdateForm() {
         feedback use <Link href="/contact" className="underline underline-offset-4">Contact</Link>.
       </p>
 
-      <form
+      <FormBridge
+        formName="Contribute: update"
         className="mt-4 grid gap-4 rounded-2xl border border-gray-200 bg-white p-6"
-        action="/api/contribute/update" // TODO: implement handler
-        method="post"
         noValidate
       >
-        {/* Honeypot (simple spam mitigation) */}
-        <input type="text" name="company" tabIndex={-1} autoComplete="off" className="hidden" aria-hidden="true" />
 
         <div className="field">
           <label htmlFor="page" className="label">Which page is this about?</label>
@@ -276,10 +276,12 @@ function UpdateForm() {
 
         <button type="submit" className="btn btn-primary">Send update</button>
         <p className="smallprint">By submitting, you confirm the information is to your knowledge accurate and not confidential.</p>
-      </form>
+      </FormBridge>
     </section>
   )
 }
+
+// Migrated to Google Apps Script via FormBridge
 
 function PhotoSection() {
   return (
@@ -312,12 +314,11 @@ function PhotoSection() {
         </div>
       </div>
 
-      <form
+      <FormBridge
+        formName="Contribute: photos"
         className="mt-4 grid gap-4 rounded-2xl border border-gray-200 bg-white p-6"
-        action="/api/contribute/photos" // TODO: implement handler
-        method="post"
-        encType="multipart/form-data"
         noValidate
+        encType="multipart/form-data"
       >
         <div className="field">
           <label htmlFor="photo-page" className="label">Which page should these support? (optional)</label>
@@ -356,10 +357,12 @@ function PhotoSection() {
 
         <button type="submit" className="btn btn-primary">Submit photos</button>
         <p className="smallprint">By uploading, you confirm you own the rights and grant us a non-exclusive licence to publish (see “Licensing”).</p>
-      </form>
+      </FormBridge>
     </section>
   )
 }
+
+// Migrated to Google Apps Script via FormBridge
 
 function PitchSection() {
   return (
@@ -370,10 +373,9 @@ function PitchSection() {
         Keep pitches short and specific with a sample paragraph or two.
       </p>
 
-      <form
+      <FormBridge
+        formName="Contribute: pitch"
         className="mt-4 grid gap-4 rounded-2xl border border-gray-200 bg-white p-6"
-        action="/api/contribute/pitch" // TODO: implement handler
-        method="post"
         noValidate
       >
         <div className="field">
@@ -404,7 +406,7 @@ function PitchSection() {
 
         <button type="submit" className="btn btn-primary">Send pitch</button>
         <p className="smallprint">We’ll reply if it’s a fit or ask follow-ups. Thanks for understanding we can’t take everything.</p>
-      </form>
+      </FormBridge>
     </section>
   )
 }

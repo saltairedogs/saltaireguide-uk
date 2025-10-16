@@ -4,9 +4,12 @@ import type { Metadata, Viewport } from 'next'
 import Link from 'next/link'
 import { site } from '@/config/site'
 import { ld } from '@/lib/structuredData'
-import { Inter } from 'next/font/google'
+import { inter, playfair, crimson } from './fonts'
+import { Analytics } from "@vercel/analytics/next"
+import AnnouncementBar from '@/components/AnnouncementBar'
+import Header from '@/components/Header'
 
-const inter = Inter({ subsets: ['latin'], display: 'swap', adjustFontFallback: true })
+// Font configured in src/lib/fonts
 
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
@@ -41,41 +44,11 @@ export const viewport: Viewport = {
   interactiveWidget: 'resizes-visual',
 }
 
-type NavItem = { name: string; href: string }
-const MAIN_NAV: NavItem[] = [
-  { name: 'Walks', href: '/walks' },
-  { name: 'Eat & Drink', href: '/food-drink' },
-  { name: 'What’s On', href: '/events' },
-  { name: 'Parking', href: '/parking' },
-  { name: 'About', href: '/about' },
-]
-
 function SkipLink() {
   return (
     <a href="#main" className="sr-only focus:not-sr-only focus:fixed focus:left-3 focus:top-3 focus:z-50 rounded bg-black px-3 py-2 text-white">
       Skip to content
     </a>
-  )
-}
-
-function Header() {
-  return (
-    <header role="banner" className="sticky top-0 z-40 border-b border-gray-200 bg-white/80 backdrop-blur supports-[backdrop-filter]:bg-white/60">
-      <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3">
-        <Link href="/" className="text-base font-semibold tracking-tight md:text-lg" aria-label="Home">Saltaire Guide</Link>
-        <nav aria-label="Primary" itemScope itemType="https://schema.org/SiteNavigationElement">
-          <ul className="flex flex-wrap items-center gap-4 text-sm text-gray-800">
-            {MAIN_NAV.map((item) => (
-              <li key={item.href} itemProp="name">
-                <Link href={item.href} itemProp="url" className="underline decoration-transparent underline-offset-4 transition hover:decoration-black">
-                  {item.name}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </nav>
-      </div>
-    </header>
   )
 }
 
@@ -140,11 +113,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en-GB" dir="ltr">
       <head>
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+  {/* Fonts are bundled via next/font; no external preconnect needed */}
         <link rel="preconnect" href="https://cdn.jsdelivr.net" crossOrigin="anonymous" />
       </head>
-      <body className={`${inter.className} min-h-screen bg-white text-gray-900 antialiased`}>
+  <body className={`${inter.className} ${playfair.variable} ${crimson.variable} min-h-screen bg-white text-gray-900 antialiased`}>
         <SkipLink />
+        <AnnouncementBar />
         <Header />
         <main id="main" className="min-h-[60vh]">{children}</main>
         <Footer />
