@@ -2,6 +2,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
+import RevealInit from "@/components/RevealInit";
 
 /**
  * VISIT SALTAIRE — Premium card design (paper aesthetic)
@@ -72,6 +73,7 @@ export default function VisitSaltairePage() {
   return (
     // inherit global background from layout (no bg-* here)
     <main className="flex min-h-screen flex-col text-stone-900">
+      <RevealInit />
       {/* HERO */}
       <section className="relative isolate min-h-[60vh]">
         <div className="absolute inset-0 -z-10 overflow-hidden">
@@ -113,19 +115,19 @@ export default function VisitSaltairePage() {
         <header className="mx-auto max-w-6xl px-4 pb-16 pt-20 md:pt-28">
           <div className="max-w-3xl">
             <h1
-              className="reveal mb-3 text-4xl font-bold leading-tight tracking-tight text-white drop-shadow-lg md:text-6xl"
+              className="reveal is-visible mb-3 text-4xl font-bold leading-tight tracking-tight text-white drop-shadow-lg md:text-6xl"
               data-animate="fade"
               data-delay="0"
             >
               Visit Saltaire: UNESCO World Heritage Village Guide
             </h1>
 
-            <p className="reveal text-lg/7 text-white/90 md:text-xl" data-animate="fade" data-delay="90">
+            <p className="reveal is-visible text-lg/7 text-white/90 md:text-xl" data-animate="fade" data-delay="90">
               Everything you need to plan the perfect day in Saltaire, West Yorkshire (BD18). Local tips for parking,
               attractions, walks, cafés and the history that makes this place special.
             </p>
 
-            <div className="reveal mt-5 flex flex-wrap gap-2" data-animate="stagger">
+            <div className="reveal is-visible mt-5 flex flex-wrap gap-2" data-animate="stagger">
               <Chip>Updated {UPDATED}</Chip>
               <Chip>Family friendly</Chip>
               <Chip>Free & paid options</Chip>
@@ -133,7 +135,7 @@ export default function VisitSaltairePage() {
             </div>
 
             {/* Anchors */}
-            <div className="reveal mt-8 flex flex-wrap gap-3" data-animate="up" data-delay="140">
+            <div className="reveal is-visible mt-8 flex flex-wrap gap-3" data-animate="up" data-delay="140">
               {[
                 { href: "#top-5", label: "Top things to do" },
                 { href: "#itineraries", label: "Itineraries" },
@@ -425,41 +427,7 @@ export default function VisitSaltairePage() {
         touristType:["Family","History enthusiasts","Architecture fans","Day trippers"]
       })}} />
 
-      {/* Animations */}
-      <script dangerouslySetInnerHTML={{ __html: `
-(function () {
-  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const els = document.querySelectorAll('[data-animate]');
-  if (!prefersReduced && 'IntersectionObserver' in window) {
-    const io = new IntersectionObserver((entries) => {
-      for (const e of entries) if (e.isIntersecting) {
-        const delay = parseInt(e.target.getAttribute('data-delay') || '0', 10);
-        setTimeout(() => e.target.classList.add('is-visible'), delay);
-        io.unobserve(e.target);
-      }
-    }, { threshold: 0.12, rootMargin: '0px 0px -10% 0px' });
-    els.forEach((el) => io.observe(el));
-  } else { els.forEach((el) => el.classList.add('is-visible')); }
-
-  if (!prefersReduced) {
-    const root = document.documentElement;
-    const onScroll = () => {
-      const y = Math.min(40, window.scrollY * 0.08);
-      root.style.setProperty('--heroY', y + 'px');
-      const anchors = document.querySelectorAll('.anchor-link');
-      const ids = ['#top-5','#itineraries','#parking','#food','#walks','#best-time','#photo-spots','#faq'];
-      const sections = ids.map((id) => document.querySelector(id)).filter(Boolean);
-      let active = '';
-      for (const sec of sections) {
-        const rect = sec.getBoundingClientRect();
-        if (rect.top < 120 && rect.bottom > 180) { active = '#' + sec.id; break; }
-      }
-      anchors.forEach((a) => a.classList.toggle('text-white', a.getAttribute('href') === active));
-    };
-    window.addEventListener('scroll', onScroll, { passive: true });
-    onScroll();
-  }
-})();`}} />
+      {/* Animations handled by RevealInit client component */}
 
       {/* Premium card styles (plain CSS, no styled-jsx) */}
       <style dangerouslySetInnerHTML={{ __html: `

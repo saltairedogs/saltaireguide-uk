@@ -4,6 +4,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import type { Metadata } from 'next'
 import RelatedLinks from '@/components/RelatedLinks'
+import FormBridge from '@/components/FormBridge'
 
 export const dynamic = 'error'
 
@@ -189,21 +190,23 @@ function Hero() {
     <section aria-labelledby="hero-title" className="bg-gradient-to-b from-white to-gray-50">
       <div className="mx-auto grid max-w-7xl items-center gap-10 px-4 pb-10 pt-8 md:grid-cols-2 md:pt-14">
         <div>
-          <h1 id="hero-title" className="text-3xl font-extrabold tracking-tight md:text-5xl">
+          <h1 id="hero-title" className="animate-in text-3xl font-extrabold tracking-tight md:text-5xl">
             The independent guide to Saltaire
           </h1>
-          <p className="mt-4 max-w-prose text-lg text-gray-700">
+          <p className="animate-in mt-4 max-w-prose text-lg text-gray-700" style={{ animationDelay: '.06s' }}>
             History, Salts Mill, Roberts Park, cafés, pubs, walks, parking, accessibility and events — written by locals, kept practical and up to date.
           </p>
-          <div className="mt-6 flex flex-wrap gap-3">
+          <div className="animate-in mt-6 flex flex-wrap gap-3" style={{ animationDelay: '.12s' }}>
             <Link href="/parking" className="btn btn-primary">Parking guide</Link>
             <Link href="/walks" className="btn btn-outline">Best walks</Link>
           </div>
-          <ul className="mt-6 flex flex-wrap gap-x-6 gap-y-2 text-sm text-gray-600">
-            <li>Sub-2.5s LCP</li><li>Original photos &amp; maps</li><li>Local &amp; unbiased</li>
-          </ul>
+          <div className="animate-in mt-6 flex flex-wrap gap-2" style={{ animationDelay: '.18s' }}>
+            <span className="badge">Fast to load</span>
+            <span className="badge">Original photos</span>
+            <span className="badge">Local &amp; unbiased</span>
+          </div>
         </div>
-        <div className="relative aspect-[4/3] overflow-hidden rounded-2xl shadow">
+        <div className="animate-in relative aspect-[4/3] overflow-hidden rounded-2xl shadow" style={{ animationDelay: '.12s' }}>
           <Image
             src="/images/saltaire-canal.png"
             alt="Historic mill buildings and canal at Saltaire"
@@ -233,11 +236,11 @@ function TrustBar() {
   )
 }
 
-function ClusterCard({ c }: { c: Cluster }) {
+function ClusterCard({ c, delay = 0 }: { c: Cluster; delay?: number }) {
   return (
-    <article className="group overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm transition hover:shadow-md focus-within:shadow-md">
+    <article className="card card-hover animate-in" style={{ animationDelay: `${delay}s` }}>
       <Link href={c.href as any} className="block">
-        <div className="relative h-44 w-full md:h-52">
+        <div className="relative h-44 w-full overflow-hidden rounded-t-[16px] md:h-52">
           {c.image ? (
             <Image alt={c.image.alt} src={c.image.src} fill sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" priority={c.slug === 'parking'} />
           ) : (
@@ -265,10 +268,10 @@ function ClusterCard({ c }: { c: Cluster }) {
 function FeaturedClusters() {
   return (
     <section aria-labelledby="featured-title" className="mx-auto max-w-7xl px-4 py-10 md:py-14 lg:py-16">
-      <h2 id="featured-title" className="text-2xl font-bold tracking-tight md:text-3xl">Start with these</h2>
-      <p className="mt-2 max-w-prose text-gray-700">Practical evergreen guides, each with maps, accessibility notes and FAQs. These are your most-read topics if you’re planning a visit.</p>
+      <h2 id="featured-title" className="animate-in text-2xl font-bold tracking-tight md:text-3xl">Start with these</h2>
+      <p className="animate-in mt-2 max-w-prose text-gray-700" style={{ animationDelay: '.06s' }}>Practical evergreen guides, each with maps, accessibility notes and FAQs. These are your most-read topics if you’re planning a visit.</p>
       <div className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {FEATURED_CLUSTERS.map((c) => <ClusterCard key={c.slug} c={c} />)}
+        {FEATURED_CLUSTERS.map((c, i) => <ClusterCard key={c.slug} c={c} delay={0.03 * i} />)}
       </div>
     </section>
   )
@@ -278,10 +281,10 @@ function LatestPosts() {
   return (
     <section aria-labelledby="latest-title" className="border-y border-gray-200 bg-gradient-to-b from-white to-gray-50">
       <div className="mx-auto max-w-7xl px-4 py-10 md:py-14 lg:py-16">
-        <h2 id="latest-title" className="text-2xl font-bold tracking-tight md:text-3xl">Latest guides &amp; updates</h2>
+        <h2 id="latest-title" className="animate-in text-2xl font-bold tracking-tight md:text-3xl">Latest guides &amp; updates</h2>
         <ul className="mt-4 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-          {LATEST.map((p) => (
-            <li key={p.href} className="rounded-xl border border-gray-200 bg-white p-4">
+          {LATEST.map((p, i) => (
+            <li key={p.href} className="card animate-in p-4" style={{ animationDelay: `${0.04 * i}s` }}>
               <Link className="font-medium underline-offset-4 hover:underline" href={p.href}>{p.title}</Link>
               <p className="mt-2 text-sm text-gray-600">Fresh, local information. We update pages when prices change, paths close, or new places open.</p>
             </li>
@@ -300,15 +303,15 @@ function Newsletter() {
     <section aria-labelledby="nl-title" className="mx-auto max-w-7xl px-4 py-10 md:py-14 lg:py-16 newsletter">
       <div className="grid items-center gap-8 rounded-2xl border border-gray-200 bg-white p-6 md:grid-cols-2 md:p-10">
         <div>
-          <h2 id="nl-title" className="text-2xl font-bold md:text-3xl">The Saltaire Weekend (free)</h2>
-          <p className="mt-2 max-w-prose text-gray-700">A short Friday email with what’s on, weather, parking notes and a featured walk. No spam, no fluff.</p>
+          <h2 id="nl-title" className="animate-in text-2xl font-bold md:text-3xl">The Saltaire Weekend (free)</h2>
+          <p className="animate-in mt-2 max-w-prose text-gray-700" style={{ animationDelay: '.06s' }}>A short Friday email with what’s on, weather, parking notes and a featured walk. No spam, no fluff.</p>
         </div>
-        <form className="flex flex-col gap-3 md:flex-row" action="/api/subscribe" method="post" noValidate>
+        <FormBridge formName="Newsletter signup" className="flex flex-col gap-3 md:flex-row" noValidate>
           <label htmlFor="email" className="sr-only">Email address</label>
           <input id="email" name="email" type="email" placeholder="you@domain.com" required className="w-full rounded-xl border border-gray-300 px-4 py-3 outline-none ring-0 focus:border-black" />
           <button type="submit" className="rounded-xl bg-black px-5 py-3 text-white transition hover:opacity-90" aria-label="Subscribe to The Saltaire Weekend newsletter">Subscribe</button>
           <p className="text-xs text-gray-500">Unsubscribe anytime.</p>
-        </form>
+        </FormBridge>
       </div>
     </section>
   )
