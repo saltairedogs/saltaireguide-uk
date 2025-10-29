@@ -1,4 +1,4 @@
-// src/app/layout.tsx (v3)
+// src/app/layout.tsx (v4)
 import './globals.css'
 import type { Metadata, Viewport } from 'next'
 import Link from 'next/link'
@@ -59,8 +59,12 @@ function Footer() {
       <div className="mx-auto grid max-w-7xl gap-8 px-4 py-10 md:grid-cols-3">
         <div>
           <div className="text-lg font-semibold">Saltaire Guide</div>
-          <p className="mt-2 max-w-prose text-sm text-gray-600">Independent local site for Saltaire. Practical guides with original photos, maps and accessibility notes. Updated regularly.</p>
+          <p className="mt-2 max-w-prose text-sm text-gray-600">
+            Independent local site for Saltaire. Practical guides with original photos,
+            maps and accessibility notes. Updated regularly.
+          </p>
         </div>
+
         <nav aria-label="Footer" className="text-sm">
           <ul className="grid grid-cols-2 gap-2">
             <li><Link className="hover:underline" href="/about">About</Link></li>
@@ -71,9 +75,22 @@ function Footer() {
             <li><Link className="hover:underline" href="/legal/masthead">Masthead &amp; imprint</Link></li>
           </ul>
         </nav>
+
         <div className="text-sm text-gray-600">
           <p>© {year} Saltaire Guide. Made in Shipley &amp; Saltaire.</p>
-          <p className="mt-1">Email: <a className="underline underline-offset-4" href={`mailto:${site.email}`}>{site.email}</a></p>
+          <p className="mt-1">
+            Email: <a className="underline underline-offset-4" href={`mailto:${site.email}`}>{site.email}</a>
+          </p>
+          {/* NEW: agency credit (entire sentence clickable) */}
+          <p className="mt-3">
+            <Link
+              href="https://alveriano.com"
+              target="_blank"
+              className="underline underline-offset-4 hover:text-gray-800"
+            >
+              This site was created by and is managed by: alveriano.com
+            </Link>
+          </p>
         </div>
       </div>
     </footer>
@@ -113,10 +130,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en-GB" dir="ltr">
       <head>
-  {/* Fonts are bundled via next/font; no external preconnect needed */}
+        {/* Fonts are bundled via next/font; no external preconnect needed */}
         <link rel="preconnect" href="https://cdn.jsdelivr.net" crossOrigin="anonymous" />
       </head>
-  <body className={`${inter.className} ${playfair.variable} ${crimson.variable} min-h-screen bg-white text-gray-900 antialiased`}>
+      <body className={`${inter.className} ${playfair.variable} ${crimson.variable} min-h-screen bg-white text-gray-900 antialiased`}>
         <SkipLink />
         <AnnouncementBar />
         <Header />
