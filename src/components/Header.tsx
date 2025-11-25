@@ -1,17 +1,83 @@
-"use client"
+"use client";
 
-import Link from "next/link"
-import React from "react"
-import { createPortal } from "react-dom"
+import Link from "next/link";
+import React from "react";
+import { createPortal } from "react-dom";
 
-type NavItem = { name: string; href: string; mdUp?: boolean }
+type NavItem = {
+  name: string;
+  href?: string;
+  mdUp?: boolean;
+  description?: string;
+  children?: NavItem[];
+};
 
-const MAIN_NAV: NavItem[] = [
-  { name: "Visit", href: "/visit-saltaire" },
+/**
+ * Single source of truth for navigation.
+ * You can add future pages (WW1, Archives etc.) here even before
+ * the content is written.
+ */
+const NAV_ITEMS: NavItem[] = [
+  {
+    name: "Visit",
+    href: "/visit-saltaire",
+    children: [
+      { name: "Visit overview", href: "/visit-saltaire" },
+      { name: "Top 10 attractions", href: "/saltaire-attractions" },
+      { name: "Free things to do", href: "/free-things-to-do-saltaire" },
+      { name: "Eat & drink in Saltaire", href: "/food-drink" },
+      { name: "Parking & getting here", href: "/parking" },
+      { name: "Plan your day", href: "/plan" },
+    ],
+  },
   { name: "Walks", href: "/walks" },
   { name: "Eat & Drink", href: "/food-drink" },
   { name: "What’s On", href: "/events" },
   { name: "Parking", href: "/parking" },
+  {
+    name: "History",
+    href: "/history",
+    children: [
+      // Featured / current pages
+      {
+        name: "History hub (all topics)",
+        href: "/history",
+        description: "Start here for buildings, people, timeline and archives.",
+      },
+      {
+        name: "Buildings & architecture",
+        href: "/history/architecture",
+        description:
+          "How Saltaire was planned, built and laid out – mills, streets and civic set pieces.",
+      },
+      {
+        name: "Titus Salt & family",
+        href: "/history/titus-salt",
+        description: "The man behind the village, his family and legacy.",
+      },
+      {
+        name: "Timeline",
+        href: "/history/timeline",
+        description: "Key dates from the mills opening to UNESCO inscription.",
+      },
+
+      // Current / planned sub-topics
+      { name: "Church (URC)", href: "/history/church" },
+      { name: "Almshouses & model housing", href: "/history/almshouses" },
+      { name: "Housing streets & typologies", href: "/history/housing" },
+      { name: "School & education", href: "/history/school" },
+      { name: "Myths & local stories", href: "/history/architecture/myths" },
+      { name: "UNESCO World Heritage", href: "/history/architecture/unesco" },
+
+      // Future expansions – OK if they 404 for now or point to anchors
+      { name: "People & biographies", href: "/history/people" },
+      { name: "House histories", href: "/history/house-histories" },
+      { name: "WW1: Saltaire story", href: "/history/ww1" },
+      { name: "WW2 & 20th century", href: "/history/ww2" },
+      { name: "Journal & Sentinel archive", href: "/history/archives" },
+      { name: "Research tools & reading list", href: "/history/reading-list" },
+    ],
+  },
   { name: "Attractions", href: "/saltaire-attractions" },
   { name: "Free", href: "/free-things-to-do-saltaire" },
   { name: "About", href: "/about" },
@@ -19,21 +85,21 @@ const MAIN_NAV: NavItem[] = [
   { name: "Roberts Park", href: "/roberts-park", mdUp: true },
   { name: "Shops", href: "/shops", mdUp: true },
   { name: "Plan", href: "/plan", mdUp: true },
-]
+];
 
 function MobileMenuPortal({
   open,
   onClose,
   children,
 }: {
-  open: boolean
-  onClose: () => void
-  children: React.ReactNode
+  open: boolean;
+  onClose: () => void;
+  children: React.ReactNode;
 }) {
   // Only render on client
-  const [mounted, setMounted] = React.useState(false)
-  React.useEffect(() => setMounted(true), [])
-  if (!mounted || !open) return null
+  const [mounted, setMounted] = React.useState(false);
+  React.useEffect(() => setMounted(true), []);
+  if (!mounted || !open) return null;
 
   return createPortal(
     <div
@@ -48,32 +114,58 @@ function MobileMenuPortal({
       </div>
     </div>,
     document.body
-  )
+  );
 }
 
 export default function Header() {
-  const [open, setOpen] = React.useState(false)
+  const [open, setOpen] = React.useState(false);
+  const [openDesktopDropdown, setOpenDesktopDropdown] =
+    React.useState<string | null>(null);
+  const [openMobileSection, setOpenMobileSection] =
+    React.useState<string | null>(null);
 
-  // Close on Escape
-  React.useEffect(() => {
-    if (!open) return
-    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false)
-    window.addEventListener("keydown", onKey)
-    return () => window.removeEventListener("keydown", onKey)
-  }, [open])
+  // small delay so moving from "History" → dropdown doesn't instantly close it
+  const closeDropdownTimeout = React.useRef<number | null>(null);
 
-  // Prevent background scroll when open
-  React.useEffect(() => {
-    const { body } = document
-    if (!body) return
-    if (open) {
-      const prev = body.style.overflow
-      body.style.overflow = "hidden"
-      return () => {
-        body.style.overflow = prev
-      }
+  const clearDropdownCloseTimeout = () => {
+    if (closeDropdownTimeout.current !== null) {
+      window.clearTimeout(closeDropdownTimeout.current);
+      closeDropdownTimeout.current = null;
     }
-  }, [open])
+  };
+
+  const openDropdown = (name: string) => {
+    clearDropdownCloseTimeout();
+    setOpenDesktopDropdown(name);
+  };
+
+  const scheduleCloseDropdown = () => {
+    clearDropdownCloseTimeout();
+    closeDropdownTimeout.current = window.setTimeout(() => {
+      setOpenDesktopDropdown(null);
+    }, 140); // tweak delay to taste
+  };
+
+  // Close on Escape (mobile menu)
+  React.useEffect(() => {
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [open]);
+
+  // Prevent background scroll when mobile menu open
+  React.useEffect(() => {
+    const { body } = document;
+    if (!body) return;
+    if (open) {
+      const prev = body.style.overflow;
+      body.style.overflow = "hidden";
+      return () => {
+        body.style.overflow = prev;
+      };
+    }
+  }, [open]);
 
   return (
     <header
@@ -100,11 +192,16 @@ export default function Header() {
           className="inline-flex items-center justify-center rounded px-2.5 py-2 text-gray-900 hover:bg-gray-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black md:hidden"
         >
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+            <path
+              d="M4 7h16M4 12h16M4 17h16"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+            />
           </svg>
         </button>
 
-        {/* Desktop nav (unchanged) */}
+        {/* Desktop nav */}
         <nav
           aria-label="Primary"
           itemScope
@@ -112,28 +209,116 @@ export default function Header() {
           className="hidden md:block"
         >
           <ul className="flex flex-wrap items-center gap-4 text-sm text-gray-800">
-            {MAIN_NAV.map((item) => (
-              <li
-                key={item.href}
-                itemProp="name"
-                className={item.mdUp ? "hidden md:block" : undefined}
-              >
-                <Link
-                  href={item.href}
-                  itemProp="url"
-                  className="underline decoration-transparent underline-offset-4 transition hover:decoration-black"
+            {NAV_ITEMS.map((item) => {
+              const hasChildren = !!item.children && item.children.length > 0;
+              const hiddenOnSmall = item.mdUp ? "hidden md:block" : undefined;
+
+              if (!hasChildren) {
+                return (
+                  <li key={item.name} itemProp="name" className={hiddenOnSmall}>
+                    {item.href && (
+                      <Link
+                        href={item.href}
+                        itemProp="url"
+                        className="underline decoration-transparent underline-offset-4 transition hover:decoration-black"
+                      >
+                        {item.name}
+                      </Link>
+                    )}
+                  </li>
+                );
+              }
+
+              // Desktop dropdown (e.g. History, Visit)
+              return (
+                <li
+                  key={item.name}
+                  itemProp="name"
+                  className={`relative ${hiddenOnSmall ?? ""}`}
+                  onMouseEnter={() => openDropdown(item.name)}
+                  onMouseLeave={scheduleCloseDropdown}
                 >
-                  {item.name}
-                </Link>
-              </li>
-            ))}
+                  <Link
+                    href={item.href ?? "#"}
+                    itemProp="url"
+                    className="inline-flex items-center gap-1 underline decoration-transparent underline-offset-4 transition hover:decoration-black"
+                  >
+                    <span>{item.name}</span>
+                    <svg
+                      aria-hidden="true"
+                      width="14"
+                      height="14"
+                      viewBox="0 0 20 20"
+                      className="mt-[1px]"
+                    >
+                      <path
+                        d="M5 7l5 5 5-5"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="1.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                  </Link>
+
+                  {openDesktopDropdown === item.name && (
+                    <div
+                      className="absolute right-0 mt-2 w-screen max-w-md rounded-2xl border border-gray-200 bg-white p-4 shadow-lg"
+                      onMouseEnter={() => openDropdown(item.name)}
+                      onMouseLeave={scheduleCloseDropdown}
+                    >
+                      {/* Featured children with descriptions */}
+                      <div className="space-y-2">
+                        {item.children
+                          ?.filter((c) => c.description)
+                          .map((child) => (
+                            <Link
+                              key={child.name}
+                              href={child.href ?? "#"}
+                              className="block rounded-lg p-2 hover:bg-gray-50"
+                            >
+                              <div className="text-sm font-semibold text-gray-900">
+                                {child.name}
+                              </div>
+                              <p className="text-xs text-gray-600">
+                                {child.description}
+                              </p>
+                            </Link>
+                          ))}
+                      </div>
+
+                      {/* Simple list of the rest */}
+                      <div className="mt-3 border-t border-gray-100 pt-3">
+                        <div className="text-xs font-semibold uppercase tracking-wide text-gray-500">
+                          All {item.name} pages
+                        </div>
+                        <div className="mt-1 flex flex-wrap gap-x-3 gap-y-1 text-xs">
+                          {item.children
+                            ?.filter((c) => !c.description)
+                            .map((child) => (
+                              <Link
+                                key={child.name}
+                                href={child.href ?? "#"}
+                                className="underline decoration-transparent underline-offset-4 hover:decoration-gray-700"
+                              >
+                                {child.name}
+                              </Link>
+                            ))}
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </li>
+              );
+            })}
           </ul>
         </nav>
       </div>
 
       {/* Mobile menu in a portal so it sits above everything else */}
       <MobileMenuPortal open={open} onClose={() => setOpen(false)}>
-        <div className="relative px-4 py-3 border-b border-stone-300">
+        <div className="relative border-b border-stone-300 px-4 py-3">
           <div className="text-base font-semibold text-stone-900">Menu</div>
           <button
             type="button"
@@ -142,26 +327,90 @@ export default function Header() {
             onClick={() => setOpen(false)}
           >
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+              <path
+                d="M6 6l12 12M18 6L6 18"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+              />
             </svg>
           </button>
         </div>
+
         <nav aria-label="Mobile" className="px-2 py-2">
           <ul className="w-fit divide-y divide-stone-300 text-stone-900">
-            {MAIN_NAV.map((item) => (
-              <li key={item.href}>
-                <Link
-                  href={item.href}
-                  onClick={() => setOpen(false)}
-                  className="inline-flex whitespace-nowrap px-4 py-3 text-base hover:bg-stone-300/50"
-                >
-                  {item.name}
-                </Link>
-              </li>
-            ))}
+            {NAV_ITEMS.map((item) => {
+              const hasChildren = !!item.children && item.children.length > 0;
+
+              // mdUp flag only affects DESKTOP – mobile should show everything.
+              if (!hasChildren) {
+                return (
+                  <li key={item.name}>
+                    <Link
+                      href={item.href ?? "#"}
+                      onClick={() => setOpen(false)}
+                      className="inline-flex whitespace-nowrap px-4 py-3 text-base hover:bg-stone-300/50"
+                    >
+                      {item.name}
+                    </Link>
+                  </li>
+                );
+              }
+
+              const isOpen = openMobileSection === item.name;
+
+              return (
+                <li key={item.name}>
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setOpenMobileSection((prev) =>
+                        prev === item.name ? null : item.name
+                      )
+                    }
+                    className="flex w-full items-center justify-between px-4 py-3 text-left text-base hover:bg-stone-300/50"
+                  >
+                    <span>{item.name}</span>
+                    <svg
+                      width="18"
+                      height="18"
+                      viewBox="0 0 20 20"
+                      aria-hidden="true"
+                      className={`transform transition ${
+                        isOpen ? "rotate-180" : ""
+                      }`}
+                    >
+                      <path
+                        d="M5 7l5 5 5-5"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="1.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                  </button>
+                  {isOpen && (
+                    <ul className="pb-2 pl-2 text-sm">
+                      {item.children?.map((child) => (
+                        <li key={child.name}>
+                          <Link
+                            href={child.href ?? "#"}
+                            onClick={() => setOpen(false)}
+                            className="block px-4 py-2 pr-6 text-sm hover:bg-stone-300/40"
+                          >
+                            {child.name}
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </li>
+              );
+            })}
           </ul>
         </nav>
       </MobileMenuPortal>
     </header>
-  )
+  );
 }

@@ -51,7 +51,7 @@ const FEATURED_CLUSTERS: Cluster[] = [
     description:
       'Hockney art, bookshops, cafés and opening hours. What to see, where to eat, and how long to spend.',
     image: {
-      src: '/images/salts-mill.png',
+      src: '/images/salts-mill-img.png',
       alt: 'Historic mill building with tall chimney',
       width: 1200,
       height: 800,

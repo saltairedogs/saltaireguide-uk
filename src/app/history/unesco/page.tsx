@@ -1,8 +1,8 @@
 // src/app/history/unesco/page.tsx
-// UNESCO World Heritage: Saltaire — why it’s listed, criteria, OUV, management (cornerstone v1.1)
+// UNESCO World Heritage: Saltaire — why it’s listed, criteria, OUV, management (cornerstone v2)
 // - Server component only (no client JS), static HTML for excellent CWV
 // - SEO: deep internal linking, rich headings, table data, FAQ, speakable, JSON-LD
-// - All inline citation placeholders removed; normal links + Sources section used instead
+// - Clear explainer for visitors, residents and owners
 
 import type { Metadata } from 'next'
 import Link from 'next/link'
@@ -17,12 +17,12 @@ export const metadata: Metadata = {
   title:
     'UNESCO World Heritage: Why Saltaire is listed (criteria, OUV, buffer zone, protection)',
   description:
-    'Understand Saltaire’s UNESCO inscription (2001): Outstanding Universal Value, criteria (ii) and (iv), integrity & authenticity, boundaries & buffer zone, protection and management, and what it means for visitors and residents.',
+    'Understand Saltaire’s UNESCO inscription: Outstanding Universal Value, criteria (ii) & (iv), integrity & authenticity, boundaries & buffer zone, protection, and what it means for visitors and residents.',
   alternates: { canonical: `${site.url}/history/unesco` },
   openGraph: {
     title: 'UNESCO World Heritage: Saltaire',
     description:
-      'Criteria, Outstanding Universal Value, buffer zone and how protection & management work in practice—clear, local guidance.',
+      'Criteria, Outstanding Universal Value, buffer zone and how protection & management work in practice—clear, local guidance for visitors, residents and owners.',
     url: `${site.url}/history/unesco`,
     type: 'article',
   },
@@ -33,13 +33,13 @@ export const metadata: Metadata = {
 
 const UPDATED = '2025-10-12'
 
-// UNESCO core facts (as summarised from primary sources)
+// UNESCO core facts (summarised from primary sources)
 const CORE = [
   { label: 'Inscription year', value: '2001' },
   { label: 'Criteria', value: '(ii) and (iv)' },
-  { label: 'Property area', value: '20 ha' },
-  { label: 'Buffer zone', value: '1,078 ha' },
-  { label: 'Coordinates (centroid)', value: '53.839° N, 1.788° W (approx.)' },
+  { label: 'Property area', value: 'c. 20 ha' },
+  { label: 'Buffer zone', value: 'c. 1,078 ha' },
+  { label: 'UNESCO reference no.', value: '1028' },
 ]
 
 const CRITERIA = [
@@ -47,64 +47,69 @@ const CRITERIA = [
     id: 'ii',
     title: 'Criterion (ii): Interchange of human values',
     text:
-      'Saltaire’s planning and social ideas influenced later urban movements, especially the British garden city tradition and planned industrial communities.',
+      'Saltaire embodies 19th-century ideas about industrial efficiency, welfare and town planning that influenced later approaches to planned settlements and model communities.',
   },
   {
     id: 'iv',
     title: 'Criterion (iv): Outstanding example of a type',
     text:
-      'An exceptionally complete mid-19th-century industrial village: mills, hierarchical housing and civic institutions laid out as a unified model of philanthropic industrial management.',
+      'A remarkably complete mid-19th-century industrial village: mill complex, hierarchical stone housing, church, institute, park and other civic buildings conceived and built as a unified model.',
   },
 ]
 
 const INTEGRITY = [
-  'The ensemble—mill(s), housing, church, institute, park—survives as a legible, coherent plan.',
-  'Only a very small proportion of original buildings have been lost; plan form remains intact.',
-  'Adaptive re-use (e.g. Salts Mill) sustains the site as a living place without erasing significance.',
+  'The core ensemble—mill complex, housing, church, institute, park and related streets—survives as a coherent, legible plan.',
+  'Only a small proportion of original buildings have been lost or substantially altered; the street pattern is highly intact.',
+  'Adaptive re-use of major structures (notably Salts Mill) sustains the site as a living place without erasing its character.',
 ]
 
 const AUTHENTICITY = [
-  'Form, design, materials and urban layout remain strongly expressed.',
-  'Setting has evolved; the buffer zone helps manage views and landscape context.',
-  'Ongoing conservation aligns with the Statement of Outstanding Universal Value.',
+  'Form, design and materials—stone façades, roofscape, massing and key public buildings—remain strongly expressed.',
+  'The urban layout and relationships between mill, housing, civic buildings and park are still clearly understandable on the ground.',
+  'Ongoing conservation work is guided by the Statement of Outstanding Universal Value and local/national policy.',
 ]
 
 const PROTECTION = [
-  'World Heritage is a key material consideration in UK planning decisions (NPPF).',
-  'Nearly every building is listed; the whole site is a Conservation Area.',
-  'Bradford Council leads on the Management Plan; guidance covers buildings and open spaces.',
+  'World Heritage status is a key material consideration in planning decisions alongside national and local policies.',
+  'Most principal structures are statutorily listed; the village sits within a designated Conservation Area.',
+  'City of Bradford MDC leads on the World Heritage Site Management Plan, which guides decisions on buildings, streets and open space.',
 ]
 
 const INTERNAL_NAV = [
-  { href: '/history', label: 'History overview' },
-  { href: '/history/architecture', label: 'Architecture highlights' },
-  { href: '/history/titus-salt', label: 'Titus Salt (biography)' },
-  { href: '/roberts-park', label: 'Roberts Park' },
-  { href: '/salts-mill', label: 'Salts Mill today' },
-  { href: '/plan/getting-here', label: 'Getting here' },
-  { href: '/parking', label: 'Parking' },
+  { href: '/history', label: 'History overview', desc: 'Start here for the full story.' },
+  { href: '/history/timeline', label: 'History timeline', desc: 'Key dates from 1803 to today.' },
+  { href: '/history/architecture', label: 'Architecture highlights', desc: 'Italianate mills and stone streets.' },
+  { href: '/history/titus-salt', label: 'Titus Salt (biography)', desc: 'The industrialist behind Saltaire.' },
+  { href: '/salts-mill', label: 'Salts Mill today', desc: 'Galleries, shops and 1853 Gallery.' },
+  { href: '/roberts-park', label: 'Roberts Park', desc: 'Bandstand, lawns and river views.' },
+  { href: '/plan/getting-here', label: 'Getting here', desc: 'Train, car and step-free options.' },
+  { href: '/parking', label: 'Parking', desc: 'Where to leave the car on busy days.' },
 ]
 
 const FAQS: Array<{ q: string; a: string }> = [
   {
     q: 'Which UNESCO criteria does Saltaire meet?',
-    a: 'Criteria (ii) and (iv): interchange of human values, and an outstanding example of a model industrial village with unified architecture and planning.',
+    a: 'Saltaire is inscribed under cultural criteria (ii) and (iv). In short, it shows an important 19th-century interchange of planning and social ideas, and it is an exceptionally complete example of a model industrial village.',
   },
   {
     q: 'What is the buffer zone and why does it matter?',
-    a: 'A planning layer around the core property to protect key views and setting. For Saltaire the buffer zone is large relative to the 20 ha core and helps manage development in the wider valley.',
+    a: 'The buffer zone is a planning layer around the core World Heritage property that helps protect setting and key views. For Saltaire it is large relative to the 20 ha core and takes in parts of the wider Aire valley so that new development respects the village and landscape.',
   },
   {
-    q: 'Who manages the site?',
-    a: 'City of Bradford Metropolitan District Council leads management, with a formal Management Plan and conservation policies that guide decisions and projects.',
+    q: 'Who manages the World Heritage Site?',
+    a: 'City of Bradford Metropolitan District Council leads on management, working with partners and the community. A formal Management Plan and related guidance support decisions on buildings, streets and open spaces.',
   },
   {
     q: 'Does UNESCO status stop development?',
-    a: 'Not by default. It sets a high bar: proposals must avoid harm to Outstanding Universal Value or show overwhelming public benefit. Most change is small-scale, sensitive conservation or reuse.',
+    a: 'No. It does not mean “no change”, but it does set a high bar. Proposals have to avoid harm to Outstanding Universal Value, or show clear public benefit and strong justification. Most change is small-scale, sensitive repair, adaptation or public-realm work.',
   },
   {
     q: 'How is Roberts Park part of the designation?',
-    a: 'Roberts Park is a designed landscape within the property and was restored using guidance in open-space management plans after inscription.',
+    a: 'Roberts Park is a designed landscape within the World Heritage property. It helps express the planned balance between work, housing and recreation and has been restored using guidance in open-space and conservation plans.',
+  },
+  {
+    q: 'I own a house in Saltaire – where should I start if I want to make changes?',
+    a: 'Begin with Bradford Council’s Saltaire World Heritage Site and Conservation Area guidance, then speak to the planning or conservation team before committing to works. Early advice helps you avoid problems and plan repairs or alterations in a way that respects the village.',
   },
 ]
 
@@ -150,13 +155,32 @@ function Hero() {
           <ul className="mt-6 flex flex-wrap gap-3 text-sm text-gray-600">
             <li className="badge">Updated: {UPDATED}</li>
             <li className="badge">Criteria (ii) &amp; (iv)</li>
-            <li className="badge">Clear, local guidance</li>
+            <li className="badge">Plain-English guidance</li>
           </ul>
+          <p className="mt-4 text-sm text-gray-700">
+            For the fuller story behind the listing, pair this page with our{' '}
+            <Link href="/history" className="underline underline-offset-4">
+              History of Saltaire
+            </Link>
+            ,{' '}
+            <Link href="/history/titus-salt" className="underline underline-offset-4">
+              Titus Salt biography
+            </Link>
+            ,{' '}
+            <Link href="/history/architecture" className="underline underline-offset-4">
+              architecture guide
+            </Link>{' '}
+            and{' '}
+            <Link href="/history/timeline" className="underline underline-offset-4">
+              history timeline
+            </Link>
+            .
+          </p>
         </div>
         <div className="relative aspect-[4/3] overflow-hidden rounded-2xl shadow">
           <Image
             src="/images/history-unesco.png"
-            alt="Saltaire mill and village fabric seen from the Aire valley"
+            alt="Salts Mill and the stone village fabric in Saltaire’s World Heritage core"
             fill
             priority
             sizes="(max-width: 768px) 100vw, 50vw"
@@ -200,6 +224,7 @@ function OnThisPage() {
     { href: '#boundaries', label: 'Boundaries & buffer zone' },
     { href: '#protection', label: 'Protection & management' },
     { href: '#visiting', label: 'Visiting & behaviour' },
+    { href: '#explore-more', label: 'Related guides' },
     { href: '#faqs', label: 'FAQs' },
     { href: '#read-more', label: 'Sources' },
   ]
@@ -235,14 +260,25 @@ function WhatIsCovered() {
           <p>
             The inscription recognises Saltaire as an exceptionally complete model industrial village
             of the later 19th century—its mills, civic buildings and ordered stone housing forming a
-            unified plan that remains legible today. The listing text emphasises architectural
-            quality, intact planning and the philanthropy-inflected approach to industrial
-            management.
+            unified plan that remains legible today. The listing text highlights architectural
+            quality, coherent planning and the way social welfare and industrial efficiency are built
+            into the layout.
           </p>
           <p>
             In practical terms, the World Heritage property is the compact historic village and key
             structures; the wider <em>buffer zone</em> helps manage setting, views and landscape
             change across the Aire valley.
+          </p>
+          <p className="text-sm text-gray-700">
+            For more background, see our{' '}
+            <Link href="/history" className="underline underline-offset-4">
+              History of Saltaire
+            </Link>{' '}
+            hub and the{' '}
+            <Link href="/history/architecture" className="underline underline-offset-4">
+              Saltaire architecture guide
+            </Link>
+            .
           </p>
         </div>
         <div className="callout">
@@ -250,7 +286,7 @@ function WhatIsCovered() {
           <p className="mt-2 text-gray-700">
             UNESCO status brings international recognition and a conservation framework. It doesn’t
             freeze the village in time; it guides sensitive change so the reasons for inscription are
-            not eroded.
+            not eroded as people live, work and visit here.
           </p>
         </div>
       </div>
@@ -266,10 +302,10 @@ function Criteria() {
       </h2>
       <div className="mt-2 max-w-prose text-gray-700">
         <p>
-          UNESCO inscribed Saltaire under criteria <strong>(ii)</strong> and <strong>(iv)</strong>.
-          In brief, the village demonstrates an interchange of planning and social ideas influential
-          on later urbanism, and it stands as an outstanding, complete example of the model
-          industrial settlement type.
+          UNESCO inscribed Saltaire under cultural criteria <strong>(ii)</strong> and{' '}
+          <strong>(iv)</strong>. In short, the village shows how 19th-century ideas about industry,
+          health and town planning were built into one place, and it stands as an outstanding,
+          remarkably intact example of a model industrial settlement.
         </p>
       </div>
       <div className="mt-4 grid gap-4 md:grid-cols-2">
@@ -296,15 +332,26 @@ function OutstandingUniversalValue() {
       <div className="grid gap-6 md:grid-cols-2">
         <div className="prose">
           <p>
-            The OUV statement highlights the architectural and engineering quality across the
-            ensemble—<em>Salt’s Mill and New Mill; hierarchical housing; the Dining Room,
-            Congregational Church, Almshouses, Hospital, School, Institute, and Roberts Park</em>—
-            and notes its influence on later garden-city development.
+            The Statement of Outstanding Universal Value highlights the architectural and engineering
+            quality across the ensemble—Salts Mill and New Mill; hierarchical housing; Dining Room,
+            Congregational Church, Almshouses, Hospital, School, Institute and Roberts Park—and notes
+            its influence on later garden-city and planned-community thinking.
           </p>
           <p>
-            This completeness is unusual: the plan, massing and civic provision are readable at
-            street level, and adaptive reuse since the 1980s has preserved significance while
-            keeping the place alive for visitors and residents.
+            Saltaire is unusual in how complete it feels on the ground. The plan, massing and civic
+            provision are readable at street level, and adaptive reuse since the 1980s has preserved
+            significance while keeping the place lively for residents and visitors.
+          </p>
+          <p className="text-sm text-gray-700">
+            To see how this plays out in the buildings, use our{' '}
+            <Link href="/history/architecture" className="underline underline-offset-4">
+              architecture
+            </Link>{' '}
+            and{' '}
+            <Link href="/salts-mill" className="underline underline-offset-4">
+              Salts Mill
+            </Link>{' '}
+            pages as a companion.
           </p>
         </div>
         <div className="card card-muted">
@@ -312,9 +359,9 @@ function OutstandingUniversalValue() {
             <div className="text-lg font-semibold">Plain-English OUV</div>
             <ul className="mt-2 list-disc pl-5 text-gray-700">
               <li>One of the best-preserved model industrial villages anywhere.</li>
-              <li>Unified architecture and town planning, not a scattered relic.</li>
-              <li>Social infrastructure (education, health, recreation) baked in.</li>
-              <li>Later movements (garden city) took cues from places like this.</li>
+              <li>Unified architecture and town planning, not a scattered set of relics.</li>
+              <li>Social infrastructure (education, health, recreation) built in from the start.</li>
+              <li>Later planners and reformers looked to places like this for inspiration.</li>
             </ul>
           </div>
         </div>
@@ -353,7 +400,7 @@ function IntegrityAuthenticity() {
           </ul>
           <p className="mt-2 text-sm text-gray-600">
             Authenticity touches on design, materials and workmanship, but also on the ability to
-            understand the original plan and purpose.
+            understand the original plan, purpose and relationships between the parts of the village.
           </p>
         </div>
       </div>
@@ -368,23 +415,45 @@ function BoundariesBuffer() {
         Boundaries &amp; buffer zone
       </h2>
       <p className="mt-2 max-w-prose text-gray-700">
-        The core property covers around <strong>20 hectares</strong>; the buffer zone extends across
-        approximately <strong>1,078 hectares</strong> of the Aire valley to protect the village’s
-        setting and significant views, as described in the UNESCO entry and related documentation.
+        The core World Heritage property covers around <strong>20 hectares</strong>. It focuses on
+        the historic village, Salts Mill and New Mill, Roberts Park and the closely related streets
+        and spaces that express the planned model-village layout. The buffer zone extends across
+        approximately <strong>1,078 hectares</strong> of the Aire valley to protect the wider setting
+        and important views.
       </p>
 
-      <div className="mt-4 overflow-hidden rounded-2xl border border-gray-200">
-        <Image
-          src="/images/history-unesco.png"
-          width={1600}
-          height={900}
-          alt="Aire valley placeholder map area for Saltaire WHS buffer concept"
-        />
+      <div className="mt-3 grid gap-6 md:grid-cols-2">
+        <div className="prose">
+          <h3 className="text-lg font-semibold">At a glance</h3>
+          <ul className="mt-2 list-disc pl-5 text-gray-700">
+            <li>Core area: compact historic village, mill complex and Roberts Park.</li>
+            <li>
+              Buffer zone: a wider planning layer that helps manage change in the valley around the
+              village.
+            </li>
+            <li>
+              Key idea: new development should respect the character of the core and the way it sits
+              in the landscape.
+            </li>
+          </ul>
+          <p className="mt-2 text-sm text-gray-600">
+            Exact boundaries and maps are held by UNESCO and Bradford Council. Always use official
+            documents when you need precise lines on a plan.
+          </p>
+        </div>
+        <div className="overflow-hidden rounded-2xl border border-gray-200">
+          <Image
+            src="/images/history-unesco.png"
+            width={1600}
+            height={900}
+            alt="Illustrative Aire valley scene representing Saltaire’s World Heritage setting"
+          />
+          <p className="px-4 pb-3 pt-2 text-xs text-gray-500">
+            Illustrative visual only—consult official UNESCO and Bradford Council sources for exact
+            extents and mapping.
+          </p>
+        </div>
       </div>
-
-      <p className="mt-2 text-xs text-gray-500">
-        Indicative visual only—consult official UNESCO/Bradford Council sources for extents and maps.
-      </p>
     </section>
   )
 }
@@ -398,40 +467,51 @@ function ProtectionManagement() {
       <div className="grid gap-6 md:grid-cols-2">
         <div className="prose">
           <p>
-            Bradford Council leads on the World Heritage Site’s Management Plan (revised 2014) and
-            related guidance. Nearly all structures are statutorily listed and the whole site is a
-            conservation area. In UK planning, World Heritage status is a key material consideration
-            alongside national and local policy.
+            Bradford Council leads on the World Heritage Site’s Management Plan (most recently
+            updated in the 2010s) and related guidance. Nearly all principal structures are
+            statutorily listed and the whole village sits within a Conservation Area. In UK planning,
+            World Heritage status is a key material consideration alongside national and local policy
+            documents.
           </p>
           <p>
-            For day-to-day decision-making, World Heritage considerations sit alongside normal
-            controls (e.g. Conservation Area and Listed Building Consent). The open-spaces plan
-            helped guide the restoration of Roberts Park after inscription.
+            Day to day, most decisions run through familiar tools such as Listed Building Consent,
+            planning applications and Conservation Area guidance. The open-space plans and management
+            strategies also informed the restoration of Roberts Park after inscription.
+          </p>
+          <p className="text-sm text-gray-700">
+            For policy detail and downloads, start with Bradford Council’s{' '}
+            <a
+              href="https://www.bradford.gov.uk/environment/saltaire/saltaire-world-heritage-site-information-and-history/"
+              className="underline underline-offset-4"
+            >
+              Saltaire World Heritage Site information pages
+            </a>
+            .
           </p>
         </div>
         <div className="card card-muted">
           <div className="card-body">
             <div className="text-lg font-semibold">Planning pointers (plain English)</div>
             <ul className="mt-2 list-disc pl-5 text-gray-700">
-              <li>Small like-for-like repairs may still need listed building consent—check first.</li>
+              <li>Small like-for-like repairs may still need listed building consent—always check.</li>
               <li>
-                Replacement doors/windows should match original proportions and profiles; consult
+                Replacement doors and windows should match original proportions and profiles; use
                 Council guidance and the Conservation Area Appraisal.
               </li>
-              <li>Public-realm and signage changes should respect historic character.</li>
-              <li>Major development in the buffer zone must protect key views and setting.</li>
-              <li>Use accredited contractors; keep photographic records of works.</li>
+              <li>Public-realm and signage changes should respect historic character and materials.</li>
+              <li>
+                Major development in the buffer zone must protect key views and the wider landscape
+                setting.
+              </li>
+              <li>Use experienced contractors and keep photographic records of works.</li>
             </ul>
             <p className="mt-2 text-xs text-gray-500">
-              Summary only—always consult the Council and, where needed, heritage professionals.
+              Summary only—this is not formal advice. Always consult the Council and, where needed,
+              heritage professionals.
             </p>
           </div>
         </div>
       </div>
-      <p className="mt-3 text-sm text-gray-600">
-        See also local policy links (NPPF, local core strategy) via the Council’s World Heritage
-        pages.
-      </p>
     </section>
   )
 }
@@ -452,26 +532,26 @@ function VisitingBehaviour() {
             <div className="card-body">
               <div className="text-lg font-semibold">Do</div>
               <ul className="mt-2 list-disc pl-5 text-gray-700">
-                <li>Photograph respectfully; residents live here year-round.</li>
-                <li>Use marked paths; keep dogs on leads where signed.</li>
-                <li>Support local cafés/shops that keep the village lively.</li>
-                <li>Use public transport or designated car parks when busy.</li>
+                <li>Photograph respectfully; people live here year-round.</li>
+                <li>Use marked paths and keep dogs on leads where signed.</li>
+                <li>Support local cafés and shops that keep the village lively.</li>
+                <li>Use public transport or designated car parks when it’s busy.</li>
               </ul>
             </div>
           </div>
           <div className="callout callout-warn">
             <div className="text-lg font-semibold">Don’t</div>
             <ul className="mt-2 list-disc pl-5 text-gray-700">
-              <li>Climb on monuments, boundary walls or railings.</li>
+              <li>Climb on monuments, walls, railings or the bandstand.</li>
               <li>Block narrow streets with parking—use official car parks.</li>
-              <li>Fly drones without permissions (CAA + landowner + Council rules).</li>
+              <li>Fly drones without the necessary permissions and checks.</li>
             </ul>
           </div>
         </div>
         <div className="mt-6 text-sm text-gray-600">
           Plan your visit with our practical guides:{' '}
-          <Link className="underline underline-offset-4" href="/plan/getting-here">
-            Getting here
+          <Link className="underline underline-offset-4" href="/plan">
+            Plan your visit
           </Link>
           ,{' '}
           <Link className="underline underline-offset-4" href="/parking">
@@ -483,6 +563,37 @@ function VisitingBehaviour() {
           </Link>
           .
         </div>
+      </div>
+    </section>
+  )
+}
+
+function ExploreMore() {
+  return (
+    <section
+      id="explore-more"
+      aria-labelledby="explore-more-title"
+      className="container mx-auto max-w-7xl px-4 py-10"
+    >
+      <h2 id="explore-more-title" className="text-2xl font-bold tracking-tight md:text-3xl">
+        Explore more of Saltaire’s World Heritage story
+      </h2>
+      <p className="mt-2 max-w-prose text-gray-700">
+        Use these guides to connect the UNESCO inscription with what you see on the ground: the
+        buildings, streets, park and wider valley.
+      </p>
+      <div className="mt-4 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+        {INTERNAL_NAV.map((item) => (
+          <article
+            key={item.href}
+            className="rounded-xl border border-gray-200 bg-white p-4 shadow-sm transition hover:shadow-md"
+          >
+            <Link href={item.href} className="font-semibold underline-offset-4 hover:underline">
+              {item.label}
+            </Link>
+            {item.desc ? <p className="mt-1 text-sm text-gray-600">{item.desc}</p> : null}
+          </article>
+        ))}
       </div>
     </section>
   )
@@ -517,22 +628,26 @@ function ReadMore() {
     {
       title: 'Bradford Council: World Heritage Site information & history',
       href: 'https://www.bradford.gov.uk/environment/saltaire/saltaire-world-heritage-site-information-and-history/',
-      note: 'Local context and plain-English overview.',
+      note: 'Local context, policy links and management information.',
     },
     {
-      title: 'Saltaire WHS Management Plan (2014, PDF)',
+      title: 'Saltaire WHS Management Plan (PDF)',
       href: 'https://www.bradford.gov.uk/media/3341/saltaire-world-heritage-site-management-plan2014-v2.pdf',
       note: 'Management framework guiding decisions and projects.',
     },
     {
       title: 'Historic England: Saltaire entry',
       href: 'https://historicengland.org.uk/listing/the-list/list-entry/1000099',
-      note: 'National perspective on protection, setting and guidance.',
+      note: 'National perspective on designation, setting and guidance.',
     },
   ]
   return (
     <section id="read-more" aria-labelledby="rm-title" className="container mx-auto max-w-7xl px-4 py-10">
       <h2 id="rm-title" className="text-2xl font-bold tracking-tight md:text-3xl">Sources</h2>
+      <p className="mt-2 max-w-prose text-gray-700">
+        These links take you to primary and official sources. Use them when you need exact
+        boundaries, policy wording or technical detail.
+      </p>
       <ul className="mt-4 grid grid-cols-1 gap-3 md:grid-cols-2">
         {items.map((it) => (
           <li key={it.href} className="rounded-xl border border-gray-200 bg-white p-4">
@@ -633,6 +748,7 @@ export default function UnescoPage() {
       <BoundariesBuffer />
       <ProtectionManagement />
       <VisitingBehaviour />
+      <ExploreMore />
       <FAQ />
       <ReadMore />
       <JsonLd />

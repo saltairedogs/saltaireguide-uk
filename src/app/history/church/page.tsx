@@ -2,8 +2,8 @@
 // Saltaire Congregational Church (now Saltaire United Reformed Church)
 // Cornerstone history page — static, accessible, SEO-rich, CWV-friendly
 // - Server component only (no client JS)
-// - Strong internal linking to History hub, Timeline, Architecture
-// - JSON-LD: WebPage + BreadcrumbList + Church/Place + FAQPage
+// - Strong internal linking to History hub, Timeline, Architecture, UNESCO
+// - JSON-LD: WebPage + BreadcrumbList + Church/Place + FAQPage + Speakable
 // - Facts checked against UNESCO/Historic England/URC/Bradford/major refs
 
 import type { Metadata } from 'next'
@@ -69,12 +69,17 @@ const CHURCH = {
     history: '/history',
     timeline: '/history/timeline',
     architecture: '/history/architecture',
+    unesco: '/history/unesco',
   },
 }
 
-type Fact = { label: string; value: string | React.ReactNode }
+type Fact = { label: string; value: string }
+
 const QUICK_FACTS: Fact[] = [
-  { label: 'Official name', value: `${CHURCH.name} (originally ${CHURCH.original})` },
+  {
+    label: 'Official name',
+    value: `${CHURCH.name} (originally ${CHURCH.original})`,
+  },
   { label: 'Architects', value: CHURCH.architects },
   { label: 'Style', value: CHURCH.style },
   { label: 'Built / opened', value: CHURCH.built },
@@ -202,23 +207,31 @@ function OnThisPage() {
 
 function Overview() {
   return (
-    <section id="overview" aria-labelledby="overview-title" className="container mx-auto max-w-7xl px-4 py-10">
+    <section
+      id="overview"
+      aria-labelledby="overview-title"
+      className="container mx-auto max-w-7xl px-4 py-10"
+    >
       <h2 id="overview-title" className="text-2xl font-bold tracking-tight md:text-3xl">
         Why the church matters
       </h2>
       <div className="prose mt-2 text-gray-700">
         <p>
           When Sir Titus Salt planned Saltaire, he commissioned a <em>Congregational</em> church as
-          the first public building. Today it stands as the{' '}
-          <strong>{CHURCH.name}</strong>, a centrepiece of the World Heritage Site and one of the
-          most admired Nonconformist churches in England. Its Italianate Classical design, the
-          dramatic west-front portico and the tower with dome make it instantly recognisable across
-          the Aire valley.
+          the first public building. Today it stands as the <strong>{CHURCH.name}</strong>, a
+          centrepiece of the World Heritage Site and one of the most admired Nonconformist churches
+          in England. Its Italianate Classical design, the dramatic west-front portico and the tower
+          with dome make it instantly recognisable across the Aire valley.
         </p>
         <p>
           Inside, the single, aisle-less nave emphasises preaching and congregational worship, while
           the Salt family mausoleum connects the building closely to the village’s founder. The
-          church is active, welcoming visitors, worshippers and couples celebrating weddings.
+          church is active, welcoming visitors, worshippers and couples celebrating weddings. It is
+          a key part of Saltaire’s{' '}
+          <Link href={CHURCH.links.unesco} className="underline underline-offset-4">
+            UNESCO World Heritage
+          </Link>{' '}
+          value alongside the mill, housing and Roberts Park.
         </p>
         <p className="smallprint">
           Dates and details here summarise respected sources including Historic England, the
@@ -231,8 +244,14 @@ function Overview() {
 
 function QuickFacts() {
   return (
-    <section id="quick-facts" aria-labelledby="facts-title" className="container mx-auto max-w-7xl px-4 py-10">
-      <h2 id="facts-title" className="text-2xl font-bold tracking-tight md:text-3xl">Quick facts</h2>
+    <section
+      id="quick-facts"
+      aria-labelledby="facts-title"
+      className="container mx-auto max-w-7xl px-4 py-10"
+    >
+      <h2 id="facts-title" className="text-2xl font-bold tracking-tight md:text-3xl">
+        Quick facts
+      </h2>
       <div className="mt-4 overflow-hidden rounded-2xl border border-gray-200 bg-white">
         <dl className="grid grid-cols-1 divide-y divide-gray-200 md:grid-cols-2 md:divide-x md:divide-y-0">
           {QUICK_FACTS.map((f) => (
@@ -265,7 +284,7 @@ function QuickFacts() {
 
       <p className="mt-3 text-xs text-gray-500">
         <span className="font-medium">Note:</span> Opening hours vary — see the{' '}
-        <a className="underline underline-offset-4" href={CHURCH.links.visiting as any}>
+        <a className="underline underline-offset-4" href={CHURCH.links.visiting}>
           latest visiting information
         </a>
         .
@@ -276,7 +295,11 @@ function QuickFacts() {
 
 function Architecture() {
   return (
-    <section id="architecture" aria-labelledby="arch-title" className="container mx-auto max-w-7xl px-4 py-10">
+    <section
+      id="architecture"
+      aria-labelledby="arch-title"
+      className="container mx-auto max-w-7xl px-4 py-10"
+    >
       <h2 id="arch-title" className="text-2xl font-bold tracking-tight md:text-3xl">
         Architecture highlights (what to look for)
       </h2>
@@ -326,6 +349,17 @@ function Architecture() {
           conservation have since progressed with recognition for the quality of workmanship. This
           ongoing care is central to the building’s long-term preservation.
         </p>
+        <p className="mt-2">
+          For how the church fits into the wider village fabric, see our{' '}
+          <Link href={CHURCH.links.architecture} className="underline underline-offset-4">
+            architecture guide
+          </Link>{' '}
+          and{' '}
+          <Link href={CHURCH.links.timeline} className="underline underline-offset-4">
+            Saltaire timeline
+          </Link>
+          .
+        </p>
       </div>
     </section>
   )
@@ -333,8 +367,14 @@ function Architecture() {
 
 function Mausoleum() {
   return (
-    <section id="mausoleum" aria-labelledby="m-title" className="container mx-auto max-w-7xl px-4 py-10">
-      <h2 id="m-title" className="text-2xl font-bold tracking-tight md:text-3xl">Salt family mausoleum</h2>
+    <section
+      id="mausoleum"
+      aria-labelledby="m-title"
+      className="container mx-auto max-w-7xl px-4 py-10"
+    >
+      <h2 id="m-title" className="text-2xl font-bold tracking-tight md:text-3xl">
+        Salt family mausoleum
+      </h2>
       <div className="grid items-start gap-6 md:grid-cols-2">
         <div className="prose text-gray-700">
           <p>
@@ -347,6 +387,13 @@ function Mausoleum() {
             The mausoleum is classically detailed and forms part of the church’s carefully composed
             ensemble on Victoria Road, opposite Salts Mill’s main offices — a deliberate alignment
             between work, welfare and worship.
+          </p>
+          <p className="text-sm text-gray-600">
+            For more on Salt’s life and funeral procession, see our{' '}
+            <Link href="/history/titus-salt" className="underline underline-offset-4">
+              Titus Salt biography
+            </Link>
+            .
           </p>
         </div>
         <div className="relative aspect-[4/3] overflow-hidden rounded-2xl shadow">
@@ -368,8 +415,14 @@ function Visiting() {
   )}`
 
   return (
-    <section id="visit" aria-labelledby="visit-title" className="container mx-auto max-w-7xl px-4 py-10">
-      <h2 id="visit-title" className="text-2xl font-bold tracking-tight md:text-3xl">Visiting & services</h2>
+    <section
+      id="visit"
+      aria-labelledby="visit-title"
+      className="container mx-auto max-w-7xl px-4 py-10"
+    >
+      <h2 id="visit-title" className="text-2xl font-bold tracking-tight md:text-3xl">
+        Visiting & services
+      </h2>
       <div className="grid gap-6 md:grid-cols-2">
         <div className="card">
           <div className="card-body">
@@ -377,7 +430,7 @@ function Visiting() {
             <p className="mt-2 text-gray-700">
               The church is often open on Sunday afternoons and for events/tours. Opening times do
               change — please check the{' '}
-              <a className="underline underline-offset-4" href={CHURCH.links.visiting as any}>
+              <a className="underline underline-offset-4" href={CHURCH.links.visiting}>
                 official visiting page
               </a>{' '}
               for the latest details.
@@ -394,11 +447,11 @@ function Visiting() {
               </li>
               <li>
                 Combine with{' '}
-                <Link className="underline underline-offset-4" href={CHURCH.links.mill as any}>
+                <Link className="underline underline-offset-4" href={CHURCH.links.mill}>
                   Salts Mill
                 </Link>{' '}
                 and a stroll to{' '}
-                <Link className="underline underline-offset-4" href={CHURCH.links.park as any}>
+                <Link className="underline underline-offset-4" href={CHURCH.links.park}>
                   Roberts Park
                 </Link>
                 .
@@ -412,7 +465,7 @@ function Visiting() {
             <p className="mt-2 text-gray-700">
               Sunday worship and community activities run throughout the year, with weddings and
               concerts by arrangement. For current service times, weddings and bookings, see the{' '}
-              <a className="underline underline-offset-4" href={CHURCH.links.urc as any}>
+              <a className="underline underline-offset-4" href={CHURCH.links.urc}>
                 church website
               </a>
               .
@@ -430,8 +483,14 @@ function Visiting() {
 
 function AccessibilityNotes() {
   return (
-    <section id="access" aria-labelledby="access-title" className="container mx-auto max-w-7xl px-4 py-10">
-      <h2 id="access-title" className="text-2xl font-bold tracking-tight md:text-3xl">Accessibility</h2>
+    <section
+      id="access"
+      aria-labelledby="access-title"
+      className="container mx-auto max-w-7xl px-4 py-10"
+    >
+      <h2 id="access-title" className="text-2xl font-bold tracking-tight md:text-3xl">
+        Accessibility
+      </h2>
       <div className="prose text-gray-700">
         <p>
           Surfaces around Victoria Road are generally level and the route from Saltaire station is
@@ -440,9 +499,17 @@ function AccessibilityNotes() {
           the church team ahead of your visit.
         </p>
         <ul className="mt-2 list-disc pl-5">
-          <li>Nearest station: <strong>Saltaire</strong> (approx. 3–5 minutes’ walk).</li>
+          <li>
+            Nearest station: <strong>Saltaire</strong> (approx. 3–5 minutes’ walk).
+          </li>
           <li>Bus stops on Saltaire Road (Bingley/Bradford routes) a short walk away.</li>
-          <li>See our <Link href="/plan/accessibility" className="underline underline-offset-4">Accessibility guide</Link> for the wider village.</li>
+          <li>
+            See our{' '}
+            <Link href="/plan/accessibility" className="underline underline-offset-4">
+              Accessibility guide
+            </Link>{' '}
+            for the wider village.
+          </li>
         </ul>
       </div>
     </section>
@@ -451,8 +518,14 @@ function AccessibilityNotes() {
 
 function PhotographyTips() {
   return (
-    <section id="photography" aria-labelledby="photo-title" className="container mx-auto max-w-7xl px-4 py-10">
-      <h2 id="photo-title" className="text-2xl font-bold tracking-tight md:text-3xl">Photography tips</h2>
+    <section
+      id="photography"
+      aria-labelledby="photo-title"
+      className="container mx-auto max-w-7xl px-4 py-10"
+    >
+      <h2 id="photo-title" className="text-2xl font-bold tracking-tight md:text-3xl">
+        Photography tips
+      </h2>
       <div className="grid gap-6 md:grid-cols-2">
         <div className="card">
           <div className="card-body">
@@ -481,11 +554,17 @@ function PhotographyTips() {
 
 function Nearby() {
   return (
-    <section id="nearby" aria-labelledby="nearby-title" className="container mx-auto max-w-7xl px-4 py-10">
-      <h2 id="nearby-title" className="text-2xl font-bold tracking-tight md:text-3xl">Nearby highlights</h2>
+    <section
+      id="nearby"
+      aria-labelledby="nearby-title"
+      className="container mx-auto max-w-7xl px-4 py-10"
+    >
+      <h2 id="nearby-title" className="text-2xl font-bold tracking-tight md:text-3xl">
+        Nearby highlights
+      </h2>
       <ul className="mt-2 grid grid-cols-1 gap-3 md:grid-cols-2">
         <li className="rounded-xl border border-gray-200 bg-white p-4">
-          <Link href={CHURCH.links.mill as any} className="font-medium underline-offset-4 hover:underline">
+          <Link href={CHURCH.links.mill} className="font-medium underline-offset-4 hover:underline">
             Salts Mill
           </Link>
           <p className="mt-1 text-sm text-gray-700">
@@ -493,7 +572,7 @@ function Nearby() {
           </p>
         </li>
         <li className="rounded-xl border border-gray-200 bg-white p-4">
-          <Link href={CHURCH.links.park as any} className="font-medium underline-offset-4 hover:underline">
+          <Link href={CHURCH.links.park} className="font-medium underline-offset-4 hover:underline">
             Roberts Park
           </Link>
           <p className="mt-1 text-sm text-gray-700">
@@ -501,7 +580,7 @@ function Nearby() {
           </p>
         </li>
         <li className="rounded-xl border border-gray-200 bg-white p-4">
-          <Link href={CHURCH.links.history as any} className="font-medium underline-offset-4 hover:underline">
+          <Link href={CHURCH.links.history} className="font-medium underline-offset-4 hover:underline">
             History hub
           </Link>
           <p className="mt-1 text-sm text-gray-700">
@@ -510,13 +589,32 @@ function Nearby() {
         </li>
         <li className="rounded-xl border border-gray-200 bg-white p-4">
           <Link
-            href={CHURCH.links.timeline as any}
+            href={CHURCH.links.timeline}
             className="font-medium underline-offset-4 hover:underline"
           >
             Saltaire timeline
           </Link>
           <p className="mt-1 text-sm text-gray-700">
             Key dates from 1803 to UNESCO inscription and beyond.
+          </p>
+        </li>
+        <li className="rounded-xl border border-gray-200 bg-white p-4">
+          <Link
+            href={CHURCH.links.architecture}
+            className="font-medium underline-offset-4 hover:underline"
+          >
+            Architecture of Saltaire
+          </Link>
+          <p className="mt-1 text-sm text-gray-700">
+            How the church, streets and civic buildings fit into the village&apos;s Italianate plan.
+          </p>
+        </li>
+        <li className="rounded-xl border border-gray-200 bg-white p-4">
+          <Link href={CHURCH.links.unesco} className="font-medium underline-offset-4 hover:underline">
+            UNESCO &amp; protection
+          </Link>
+          <p className="mt-1 text-sm text-gray-700">
+            Why Saltaire is a World Heritage Site and what that means for conservation.
           </p>
         </li>
       </ul>
@@ -530,41 +628,47 @@ function Sources() {
       title: 'Wikipedia — Saltaire United Reformed Church',
       href: CHURCH.links.wiki,
       note: 'Summary of dates, architects, style, features and listing (with citations).',
-    }, // :contentReference[oaicite:0]{index=0}
+    },
     {
       title: 'URC — Saltaire (official site): Visiting information',
       href: CHURCH.links.visiting,
       note: 'Opening guidance and contact.',
-    }, // :contentReference[oaicite:1]{index=1}
+    },
     {
       title: 'National Churches Trust — entry for Saltaire URC',
       href: CHURCH.links.nct,
       note: 'Visitor opening pattern and address.',
-    }, // :contentReference[oaicite:2]{index=2}
+    },
     {
       title: 'Historic England — Saltaire (list search)',
       href: CHURCH.links.he_list_search,
       note: 'National Heritage List context; church is Grade I (NHLE 1314229).',
-    }, // :contentReference[oaicite:3]{index=3}
+    },
     {
       title: 'Visit Bradford — church listing',
       href: 'https://www.visitbradford.com/things-to-do/saltaire-united-reformed-church-p1620811',
       note: 'Practical visitor notes and contact route.',
-    }, // :contentReference[oaicite:4]{index=4}
+    },
     {
       title: 'Victorian Web — Lockwood & Mawson, URC Saltaire',
       href: 'https://victorianweb.org/art/architecture/lockwood/4.html',
       note: 'Architectural commentary and context.',
-    }, // :contentReference[oaicite:5]{index=5}
+    },
     {
       title: 'Cliveden Conservation — award for repair works (2023)',
       href: 'https://clivedenconservation.com/storm-damaged-saltaire-united-reformed-church-wins-gold-at-the-national-churches-awards/',
       note: 'Recognition for recent conservation after storm damage.',
-    }, // :contentReference[oaicite:6]{index=6}
+    },
   ]
   return (
-    <section id="sources" aria-labelledby="sources-title" className="container mx-auto max-w-7xl px-4 py-10">
-      <h2 id="sources-title" className="text-2xl font-bold tracking-tight md:text-3xl">Sources</h2>
+    <section
+      id="sources"
+      aria-labelledby="sources-title"
+      className="container mx-auto max-w-7xl px-4 py-10"
+    >
+      <h2 id="sources-title" className="text-2xl font-bold tracking-tight md:text-3xl">
+        Sources
+      </h2>
       <ul className="mt-3 grid grid-cols-1 gap-3 md:grid-cols-2">
         {items.map((it) => (
           <li key={it.href} className="rounded-xl border border-gray-200 bg-white p-4">
@@ -584,8 +688,14 @@ function Sources() {
 
 function FAQ() {
   return (
-    <section id="faqs" aria-labelledby="faq-title" className="container mx-auto max-w-7xl px-4 py-10">
-      <h2 id="faq-title" className="text-2xl font-bold tracking-tight md:text-3xl">Quick answers</h2>
+    <section
+      id="faqs"
+      aria-labelledby="faq-title"
+      className="container mx-auto max-w-7xl px-4 py-10"
+    >
+      <h2 id="faq-title" className="text-2xl font-bold tracking-tight md:text-3xl">
+        Quick answers
+      </h2>
       <div className="mt-4 divide-y divide-gray-200 rounded-2xl border border-gray-200 bg-white">
         {FAQS.map((f, i) => (
           <details key={f.q} className="group p-5 open:bg-gray-50">
@@ -611,7 +721,7 @@ function JsonLd() {
     name: CHURCH.name,
     alternateName: CHURCH.original,
     url: `${base}/history/church`,
-    image: `${base}/images/og/church.jpg`, // falls back to OG placeholder if not present
+    image: `${base}/images/og/church.jpg`,
     description:
       'Italianate Classical church at the heart of Saltaire (1859), designed by Lockwood & Mawson with a distinctive portico, tower and dome; Grade I listed.',
     address: {
@@ -660,13 +770,39 @@ function JsonLd() {
     })),
   }
 
+  const speakable = {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    url: `${base}/history/church`,
+    speakable: {
+      '@type': 'SpeakableSpecification',
+      cssSelector: ['#overview-title', '#arch-title'],
+    },
+  }
+
   // eslint-disable-next-line react/no-danger
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(webpage) }} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbs) }} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(churchPlace) }} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faq) }} />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(webpage) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbs) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(churchPlace) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faq) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(speakable) }}
+      />
     </>
   )
 }
