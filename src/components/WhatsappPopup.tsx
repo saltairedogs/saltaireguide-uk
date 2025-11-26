@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { WEB_APP_URL, FORM_TOKEN, DEFAULT_REDIRECT } from "@/lib/forms";
 
 const WHATSAPP_LINK = "https://chat.whatsapp.com/Iv6KTDzUSwX87LfzWN1ZkR";
@@ -8,6 +8,7 @@ const WHATSAPP_LINK = "https://chat.whatsapp.com/Iv6KTDzUSwX87LfzWN1ZkR";
 export default function WhatsappPopup() {
   const [open, setOpen] = useState(false);
   const [status, setStatus] = useState<"idle" | "submitting" | "done" | "error">("idle");
+  const primaryButtonRef = useRef<HTMLAnchorElement | null>(null);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -43,9 +44,25 @@ export default function WhatsappPopup() {
     }
   }
 
+  function handleClose() {
+    // On first close, move focus to the primary CTA so it visually highlights
+    if (primaryButtonRef.current) {
+      primaryButtonRef.current.focus();
+    }
+    setOpen(false);
+  }
+
   return (
     <div className="fixed inset-0 z-[12000] flex items-center justify-center bg-black/40 px-4">
-      <div className="w-full max-w-sm rounded-2xl border border-stone-600/70 bg-stone-950/90 p-5 text-stone-50 shadow-[0_20px_60px_rgba(0,0,0,0.65)] backdrop-blur-sm">
+      <div className="relative w-full max-w-sm rounded-2xl border border-stone-600/70 bg-stone-950/90 p-5 text-stone-50 shadow-[0_20px_60px_rgba(0,0,0,0.65)] backdrop-blur-sm">
+        <button
+          type="button"
+          aria-label="Close WhatsApp popup"
+          onClick={handleClose}
+          className="absolute right-3 top-3 inline-flex h-7 w-7 items-center justify-center rounded-full border border-stone-600/80 bg-stone-900/80 text-xs text-stone-300 shadow-sm transition hover:bg-stone-800 hover:text-white focus:outline-none focus:ring-2 focus:ring-amber-300/80"
+        >
+          ×
+        </button>
         <p className="text-xs font-semibold uppercase tracking-[0.18em] text-amber-200/90">
           WhatsApp group
         </p>
@@ -56,6 +73,7 @@ export default function WhatsappPopup() {
 
         <div className="mt-4 space-y-3 text-sm">
           <a
+            ref={primaryButtonRef}
             href={WHATSAPP_LINK}
             target="_blank"
             rel="noreferrer"
