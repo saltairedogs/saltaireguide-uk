@@ -93,11 +93,8 @@ function Recommendation() {
             >
               Visit saltairedogs.uk
             </Link>
-            <Link href={`tel:+${WA_NUMBER}`} className={chip}>
-              Call: 07305 367941
-            </Link>
             <Link href={WA_LINK} target="_blank" className={chip}>
-              WhatsApp: 07305 367941
+              WhatsApp: +44 7424 208127
             </Link>
             <Link
               href="mailto:saltairedogs@proton.me?subject=Saltaire%20pet%20services%20enquiry"
@@ -250,16 +247,10 @@ function HowItWorks() {
           </ol>
           <div className="mt-4 flex flex-wrap gap-2">
             <Link href={WA_LINK} target="_blank" className={chipPrimary}>
-              WhatsApp: 07305 367941
+              WhatsApp: +44 7424 208127
             </Link>
             <Link href={`tel:+${WA_NUMBER}`} className={chip}>
-              Call: 07305 367941
-            </Link>
-            <Link
-              href="mailto:saltairedogs@proton.me?subject=Pet%20services%20enquiry"
-              className={chip}
-            >
-              Email: saltairedogs@proton.me
+              Call: +44 7424 208127
             </Link>
           </div>
         </div>

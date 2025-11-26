@@ -36,9 +36,9 @@ export const metadata: Metadata = {
 
 const UPDATED = '2025-10-13'
 
-type Feature = { title: string; note: string }
 type BenchSpot = { label: string; shade: 'AM' | 'PM' | 'Mixed'; near: string; tip: string }
 type PhotoSpot = { label: string; time: 'Morning' | 'Midday' | 'Golden hour' | 'Any'; tip: string }
+type Feature = { title: string; note: string }
 
 const HIGHLIGHTS: Feature[] = [
   {

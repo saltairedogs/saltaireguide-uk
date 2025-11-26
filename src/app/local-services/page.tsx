@@ -417,7 +417,7 @@ function OwnersCta() {
   const body = encodeURIComponent(
     `Hi,\n\nI'd like to list my business on Saltaire Guide.\n\nBusiness name:\nCategory:\nContact name:\nPhone:\nEmail:\nWebsite:\nShort description:\nVerification available (DBS/insurance/etc):\nFeatured trial? (yes/no):\n\nThanks!`,
   )
-  const mailto = `mailto:hello@saltaireguide.uk?subject=${subject}&body=${body}`
+  const mailto = `https://wa.me/447424208127?text=${subject}%0A%0A${body}`
 
   return (
     <section id="owners" aria-labelledby="owners-title" className="border-y border-gray-200 bg-gradient-to-b from-white to-gray-50">
@@ -430,8 +430,8 @@ function OwnersCta() {
               verification badge and priority slots.
             </p>
             <div className="mt-4 flex flex-wrap gap-3">
-              <a href={mailto} className="btn btn-primary">
-                Request a listing by email
+              <a href={mailto} className="btn btn-primary" target="_blank" rel="noopener">
+                Request a listing via WhatsApp
               </a>
               <Link href="/legal/editorial-policy" className="btn btn-outline">
                 Editorial policy
@@ -467,7 +467,7 @@ function FAQ() {
     },
     {
       q: 'Can I suggest a new category?',
-      a: 'Yes — email hello@saltaireguide.uk with the category and 1–2 local providers to seed it.',
+      a: 'Yes — send a WhatsApp message to +44 7424 208127 with the category and 1–2 local providers to seed it.',
     },
   ]
   return (

@@ -907,9 +907,9 @@ function SponsoredSlot() {
         {!sponsored ? (
           <div className="rounded-2xl border border-dashed border-gray-300 bg-white p-6 text-sm text-gray-700">
             We occasionally feature a local clinic here with clear “Sponsored” labelling. Placement includes a profile
-            card, verification prompts and a link to the clinic’s site. To enquire, email{' '}
-            <a href="mailto:hello@saltaireguide.uk" className="underline underline-offset-4">
-              hello@saltaireguide.uk
+            card, verification prompts and a link to the clinic’s site. To enquire, send a WhatsApp message to{' '}
+            <a href="https://wa.me/447424208127" className="underline underline-offset-4" target="_blank" rel="noopener">
+              +44 7424 208127
             </a>
             . Inclusion is opt-in and does not affect editorial content.
           </div>

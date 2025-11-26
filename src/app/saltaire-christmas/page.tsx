@@ -157,6 +157,54 @@ export default function SaltaireChristmasPage() {
         </div>
       </section>
 
+      {/* FAQ */}
+      <section
+        id="faq"
+        aria-labelledby="christmas-faq-title"
+        className="mb-12"
+      >
+        <h2
+          id="christmas-faq-title"
+          className="mb-4 text-2xl font-bold tracking-tight md:text-3xl"
+        >
+          Christmas in Saltaire – quick answers
+        </h2>
+        <div className="space-y-4 text-sm leading-relaxed text-gray-800">
+          <div>
+            <h3 className="font-semibold">When is the best time to visit Saltaire at Christmas?</h3>
+            <p>
+              Early December is calm but festive; mid–late December is
+              busier, especially on Saturdays and event days. Weekday
+              afternoons are usually quieter than weekends.
+            </p>
+          </div>
+          <div>
+            <h3 className="font-semibold">Are Saltaire shops and cafés open between Christmas and New Year?</h3>
+            <p>
+              Many reopen between 27–31 December but with reduced hours.
+              Always check individual venues and Salts Mill before a special
+              trip, as some take a longer winter break.
+            </p>
+          </div>
+          <div>
+            <h3 className="font-semibold">Is Saltaire good for kids at Christmas?</h3>
+            <p>
+              Yes – winter canal walks, Roberts Park, galleries and cosy
+              cafés work well with children. Just wrap up warmly and plan
+              shorter outdoor stints with warm-up stops.
+            </p>
+          </div>
+          <div>
+            <h3 className="font-semibold">Do I need to book Christmas events in advance?</h3>
+            <p>
+              For markets, carol services and ticketed events, advance
+              booking is common and popular slots sell out. Check our events
+              calendar and venue sites from November onwards.
+            </p>
+          </div>
+        </div>
+      </section>
+
       {/* Related Links */}
       <section>
         <h2 className="mb-6 text-2xl font-bold">More Saltaire Guides</h2>

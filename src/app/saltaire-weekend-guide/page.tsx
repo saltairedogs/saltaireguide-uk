@@ -203,6 +203,64 @@ export default function SaltaireWeekendPage() {
       <section className="mb-12 rounded-2xl bg-gradient-to-br from-purple-50 to-pink-50 p-8">
         <h2 className="mb-4 text-2xl font-bold">Staying Overnight?</h2>
         <p className="mb-4 text-gray-700">
+
+          <section
+            id="faqs"
+            aria-labelledby="weekend-faq-title"
+            className="mx-auto max-w-5xl px-4 pb-20"
+          >
+            <h2
+              id="weekend-faq-title"
+              className="text-2xl font-bold tracking-tight md:text-3xl mb-4"
+            >
+              Saltaire weekend – quick answers
+            </h2>
+            <div className="space-y-4 text-sm leading-relaxed text-gray-800">
+              <div>
+                <h3 className="font-semibold">
+                  Is one day enough to see Saltaire?
+                </h3>
+                <p>
+                  You can see the village, Salts Mill and Roberts Park in a day,
+                  but a full weekend lets you fit in a canal or woods walk, slow
+                  meals and time to wander the side streets without rushing.
+                </p>
+              </div>
+              <div>
+                <h3 className="font-semibold">
+                  Where should I stay for a Saltaire weekend?
+                </h3>
+                <p>
+                  Most visitors stay in B&amp;Bs, apartments or small hotels in
+                  Saltaire, Shipley or Bingley. Being within walking distance of
+                  the station makes it much easier to pop in and out without
+                  parking stress.
+                </p>
+              </div>
+              <div>
+                <h3 className="font-semibold">
+                  Do I need a car for a weekend in Saltaire?
+                </h3>
+                <p>
+                  No. Trains run regularly from Leeds and Bradford, and once
+                  you&apos;re here everything is walkable. A car only really helps if
+                  you&apos;re combining Saltaire with more remote Yorkshire Dales
+                  trips.
+                </p>
+              </div>
+              <div>
+                <h3 className="font-semibold">
+                  What&apos;s the best season to visit for a weekend?
+                </h3>
+                <p>
+                  Spring and early autumn are sweet spots: lighter evenings,
+                  colourful trees and usually fewer crowds than summer festival
+                  weekends. Winter can be magical too, especially around
+                  Christmas, but plan for short daylight hours.
+                </p>
+              </div>
+            </div>
+          </section>
           While Saltaire is perfect for a day trip, consider staying in nearby Shipley, Bradford or Leeds for a full weekend experience. Easy train access back to Saltaire (10-15 mins).
         </p>
         <p className="text-sm text-gray-600">

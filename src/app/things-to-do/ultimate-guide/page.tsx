@@ -979,9 +979,7 @@ function Rules() {
   )
 }
 
-import FormBridge from '@/components/FormBridge'
-
-// Newsletter posts to Google Apps Script via FormBridge
+import NewsletterFormClient from '@/components/NewsletterFormClient'
 
 function NewsletterCTA() {
   return (
@@ -991,12 +989,7 @@ function NewsletterCTA() {
           <h2 id="nl-title" className="text-2xl font-bold md:text-3xl">The Saltaire Weekend (free)</h2>
           <p className="mt-2 max-w-prose text-gray-700">A short Friday email with what’s on, weather, parking notes and a featured walk. No spam, no fluff.</p>
         </div>
-  <FormBridge formName="Newsletter signup" className="flex flex-col gap-3 md:flex-row" noValidate>
-          <label htmlFor="email" className="sr-only">Email address</label>
-          <input id="email" name="email" type="email" placeholder="you@domain.com" required className="w-full rounded-xl border border-gray-300 px-4 py-3 outline-none ring-0 focus:border-black" />
-          <button type="submit" className="rounded-xl bg-black px-5 py-3 text-white transition hover:opacity-90" aria-label="Subscribe to The Saltaire Weekend newsletter">Subscribe</button>
-          <p className="text-xs text-gray-500">Unsubscribe anytime.</p>
-        </FormBridge>
+        <NewsletterFormClient />
       </div>
     </section>
   )

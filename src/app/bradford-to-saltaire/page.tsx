@@ -257,6 +257,54 @@ export default function BradfordToSaltairePage() {
         </div>
       </section>
 
+      {/* FAQ */}
+      <section
+        id="faq"
+        aria-labelledby="bradford-faq-title"
+        className="mb-12"
+      >
+        <h2
+          id="bradford-faq-title"
+          className="mb-4 text-2xl font-bold tracking-tight md:text-3xl"
+        >
+          Bradford → Saltaire – quick answers
+        </h2>
+        <div className="space-y-4 text-sm leading-relaxed text-gray-800">
+          <div>
+            <h3 className="font-semibold">Do I need to book train tickets in advance?</h3>
+            <p>
+              For Bradford–Saltaire you usually don&apos;t need to book. Buying on
+              the day via app, ticket machine or conductor is fine – just aim
+              for off-peak times if you want cheaper returns.
+            </p>
+          </div>
+          <div>
+            <h3 className="font-semibold">Which Bradford station should I use?</h3>
+            <p>
+              Use Bradford Forster Square for direct trains to Saltaire. If
+              you&apos;re at Bradford Interchange, it&apos;s a short walk or bus across
+              town to Forster Square.
+            </p>
+          </div>
+          <div>
+            <h3 className="font-semibold">Is the route step-free and accessible?</h3>
+            <p>
+              Both Bradford Forster Square and Saltaire stations have
+              step-free access, lifts or ramps. From Saltaire station it&apos;s a
+              short, mostly level walk to the village and Salts Mill.
+            </p>
+          </div>
+          <div>
+            <h3 className="font-semibold">Is it safe to walk the canal between Bradford and Saltaire?</h3>
+            <p>
+              The Leeds–Liverpool Canal towpath is a popular walking and
+              cycling route in daylight. Stick to daytime, avoid icy days and
+              keep dogs and kids away from the water edge.
+            </p>
+          </div>
+        </div>
+      </section>
+
       {/* Related Guides */}
       <section>
         <h2 className="mb-6 text-2xl font-bold">Plan Your Visit</h2>

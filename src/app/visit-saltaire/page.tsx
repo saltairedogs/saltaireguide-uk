@@ -369,6 +369,55 @@ export default function VisitSaltairePage() {
         </div>
       </section>
 
+      {/* FAQ */}
+      <section
+        id="faq"
+        aria-labelledby="visit-faq-title"
+        className="mx-auto w-full max-w-6xl px-4 pb-14"
+      >
+        <h2
+          id="visit-faq-title"
+          className="mb-4 text-2xl font-extrabold tracking-tight text-stone-900 md:text-3xl"
+        >
+          Visit Saltaire – quick answers
+        </h2>
+        <div className="space-y-4 text-sm leading-relaxed text-stone-800">
+          <div>
+            <h3 className="font-semibold">How long do I need in Saltaire?</h3>
+            <p>
+              Two to four hours is enough for Salts Mill, a village wander and
+              Roberts Park. For canal or woods walks and a slow lunch, plan a
+              full day or weekend.
+            </p>
+          </div>
+          <div>
+            <h3 className="font-semibold">Is Saltaire free to visit?</h3>
+            <p>
+              Yes – walking the village, canal, Roberts Park and most of
+              Salts Mill is free. You only pay for food, shopping, parking and
+              occasional ticketed events or exhibitions.
+            </p>
+          </div>
+          <div>
+            <h3 className="font-semibold">Is Saltaire good in bad weather?</h3>
+            <p>
+              It&apos;s a solid all-weather day out: Salts Mill, cafés and shops
+              are indoors, and you can fit in short outdoor walks between
+              showers. Just bring layers and a waterproof.
+            </p>
+          </div>
+          <div>
+            <h3 className="font-semibold">Is Saltaire suitable for buggies and wheelchairs?</h3>
+            <p>
+              The village grid, canal towpath and main parts of Roberts Park
+              are mostly step-free with gentle gradients. Some historic
+              buildings and side streets have cobbles or steps – check our
+              dedicated accessibility guide before you go.
+            </p>
+          </div>
+        </div>
+      </section>
+
       {/* Plan links */}
       <section className="mx-auto w-full max-w-6xl px-4 pb-20">
         <h2 className="reveal mb-6 text-3xl font-extrabold tracking-tight text-stone-900" data-animate="up">

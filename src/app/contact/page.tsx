@@ -267,8 +267,8 @@ function ContactForm() {
           <button type="submit" className="btn btn-primary" aria-label="Send your message">
             Send message
           </button>
-          <a href={`mailto:${site.email}`} className="btn btn-outline">
-            Email instead
+          <a href="https://wa.me/447424208127" className="btn btn-outline" target="_blank" rel="noopener">
+            WhatsApp instead
           </a>
           <span className="hint">We usually reply within 1–2 working days.</span>
         </div>

@@ -169,6 +169,7 @@ export default function BarbersPage() {
       <Hero />
       <Directory barbers={BARBERS} />
       <SuggestBox />
+      <FAQ />
     </main>
   )
 }
@@ -362,6 +363,54 @@ function BarberCard({ b }: { b: Barber }) {
         </p>
       )}
     </article>
+  )
+}
+
+function FAQ() {
+  return (
+    <section className="px-4 pb-10 pt-2 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-4xl rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
+        <h2 className="mb-4 text-2xl font-bold tracking-tight text-gray-900 md:text-3xl">
+          Barbers in Saltaire – quick answers
+        </h2>
+        <div className="space-y-4 text-sm leading-relaxed text-gray-800">
+          <div>
+            <h3 className="font-semibold">Do I need to book, or can I walk in?</h3>
+            <p>
+              Some shops are appointment-only and others are mainly walk-in.
+              Our tags highlight which barbers take bookings, walk-ins or
+              both, so you can avoid turning up and waiting unnecessarily.
+            </p>
+          </div>
+          <div>
+            <h3 className="font-semibold">How much should I expect to pay for a cut?</h3>
+            <p>
+              Prices change, but most local barbers sit in the
+              £14–£22 range for a standard cut, with fades, skin fades and
+              beard work extra. Always check the latest price list when you
+              book.
+            </p>
+          </div>
+          <div>
+            <h3 className="font-semibold">Do Saltaire barbers take card and contactless?</h3>
+            <p>
+              Many do, but a few long-standing shops are still cash-first.
+              The tags show where card is accepted; if in doubt, bring some
+              cash just in case.
+            </p>
+          </div>
+          <div>
+            <h3 className="font-semibold">Are kids&apos; haircuts and beard trims available?</h3>
+            <p>
+              Yes – most shops offer kids&apos; cuts and beard services. Look for
+              the <span className="font-medium">Kids</span> and
+              <span className="font-medium"> Beard</span> tags, or check the
+              booking page for age limits and pricing before you go.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
   )
 }
 

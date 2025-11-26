@@ -6,8 +6,10 @@ import { site } from '@/config/site'
 import { ld } from '@/lib/structuredData'
 import { inter, playfair, crimson } from './fonts'
 import { Analytics } from '@vercel/analytics/next'
+import { SpeedInsights } from '@vercel/speed-insights/next'
 import AnnouncementBar from '@/components/AnnouncementBar'
 import Header from '@/components/Header'
+import WhatsappPopup from '@/components/WhatsappPopup'
 
 // Font configured in src/lib/fonts
 
@@ -153,14 +155,25 @@ function Footer() {
                 Contact
               </div>
               <p className="mt-2 text-xs md:text-sm">
-                Email:{' '}
-                <a
-                  className="underline underline-offset-4 decoration-amber-300/90 hover:decoration-amber-100"
-                  href={`mailto:${site.email}`}
-                >
-                  {site.email}
-                </a>
+                  WhatsApp:{' '}
+                  <a
+                    className="underline underline-offset-4 decoration-amber-300/90 hover:decoration-amber-100"
+                    href="https://wa.me/447424208127"
+                  >
+                    +44 7424 208127
+                  </a>
               </p>
+                <p className="mt-2 text-xs md:text-sm">
+                  Instagram:{' '}
+                  <a
+                    href="https://www.instagram.com/saltaireguide.uk"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="underline underline-offset-4 decoration-amber-300/90 hover:decoration-amber-100"
+                  >
+                    @saltaireguide.uk
+                  </a>
+                </p>
               <p className="mt-3 text-xs md:text-sm">
                 <Link
                   href="https://alveriano.com"
@@ -193,7 +206,7 @@ function JsonLd() {
       {
         '@type': 'ContactPoint',
         contactType: 'editorial',
-        email: site.email,
+        telephone: '+44 7424 208127',
         areaServed: 'GB',
         availableLanguage: ['en-GB'],
       },
@@ -242,10 +255,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <main id="main" className="min-h-[60vh]">
           {children}
         </main>
+        <WhatsappPopup />
         <Footer />
         <JsonLd />
         <Ga4 />
         <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   )

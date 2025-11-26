@@ -20,7 +20,7 @@ const SALTAIREDOGS = {
   name: "SaltaireDogs",
   phoneLocal: "07305 367941",
   phoneTel: "tel:+447305367941",
-  email: "saltairedogs@proton.me",
+  email: "WhatsApp: +44 7424 208127 (message preferred)",
   website: "https://saltairedogs.uk",
   excerpt:
     "DBS checked local dog walkers and pet sitters. Photo updates after each walk, GPS route snapshots for regular clients. Tailored 1:1 walks for nervous dogs and energetic country walks.",
@@ -112,7 +112,7 @@ const FAQS = [
   {
     q: "How do I book a dog walker?",
     a:
-      "You can call the listed telephone number, email, or use an online booking link if provided. For SaltaireDogs call 07305 367941 or email saltairedogs@proton.me. Many walkers request a meet & greet before the first walk.",
+      "You can call the listed telephone number or use WhatsApp/online booking. For SaltaireDogs, WhatsApp +44 7424 208127 (message preferred). Many walkers request a meet & greet before the first walk.",
   },
   {
     q: "Do dog walkers provide photo or GPS updates?",

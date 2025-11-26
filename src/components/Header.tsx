@@ -17,74 +17,13 @@ type NavItem = {
  * You can add future pages (WW1, Archives etc.) here even before
  * the content is written.
  */
+// Focused navigation: 4 key "money" pages + Site menu
 const NAV_ITEMS: NavItem[] = [
-  {
-    name: "Visit",
-    href: "/visit-saltaire",
-    children: [
-      { name: "Visit overview", href: "/visit-saltaire" },
-      { name: "Top 10 attractions", href: "/saltaire-attractions" },
-      { name: "Free things to do", href: "/free-things-to-do-saltaire" },
-      { name: "Eat & drink in Saltaire", href: "/food-drink" },
-      { name: "Parking & getting here", href: "/parking" },
-      { name: "Plan your day", href: "/plan" },
-    ],
-  },
-  { name: "Walks", href: "/walks" },
-  { name: "Eat & Drink", href: "/food-drink" },
-  { name: "What’s On", href: "/events" },
+  { name: "Visit Saltaire", href: "/visit-saltaire" },
   { name: "Parking", href: "/parking" },
-  {
-    name: "History",
-    href: "/history",
-    children: [
-      // Featured / current pages
-      {
-        name: "History hub (all topics)",
-        href: "/history",
-        description: "Start here for buildings, people, timeline and archives.",
-      },
-      {
-        name: "Buildings & architecture",
-        href: "/history/architecture",
-        description:
-          "How Saltaire was planned, built and laid out – mills, streets and civic set pieces.",
-      },
-      {
-        name: "Titus Salt & family",
-        href: "/history/titus-salt",
-        description: "The man behind the village, his family and legacy.",
-      },
-      {
-        name: "Timeline",
-        href: "/history/timeline",
-        description: "Key dates from the mills opening to UNESCO inscription.",
-      },
-
-      // Current / planned sub-topics
-      { name: "Church (URC)", href: "/history/church" },
-      { name: "Almshouses & model housing", href: "/history/almshouses" },
-      { name: "Housing streets & typologies", href: "/history/housing" },
-      { name: "School & education", href: "/history/school" },
-      { name: "Myths & local stories", href: "/history/architecture/myths" },
-      { name: "UNESCO World Heritage", href: "/history/architecture/unesco" },
-
-      // Future expansions – OK if they 404 for now or point to anchors
-      { name: "People & biographies", href: "/history/people" },
-      { name: "House histories", href: "/history/house-histories" },
-      { name: "WW1: Saltaire story", href: "/history/ww1" },
-      { name: "WW2 & 20th century", href: "/history/ww2" },
-      { name: "Journal & Sentinel archive", href: "/history/archives" },
-      { name: "Research tools & reading list", href: "/history/reading-list" },
-    ],
-  },
-  { name: "Attractions", href: "/saltaire-attractions" },
-  { name: "Free", href: "/free-things-to-do-saltaire" },
-  { name: "About", href: "/about" },
-  { name: "Salts Mill", href: "/salts-mill", mdUp: true },
-  { name: "Roberts Park", href: "/roberts-park", mdUp: true },
-  { name: "Shops", href: "/shops", mdUp: true },
-  { name: "Plan", href: "/plan", mdUp: true },
+  { name: "Food & Drink", href: "/food-drink" },
+  { name: "Walks", href: "/walks" },
+  { name: "Site menu", href: "/site-menu" },
 ];
 
 function MobileMenuPortal({
@@ -206,7 +145,7 @@ export default function Header() {
           aria-label="Primary"
           itemScope
           itemType="https://schema.org/SiteNavigationElement"
-          className="hidden md:block"
+          className="hidden md:flex items-center gap-4"
         >
           <ul className="flex flex-wrap items-center gap-4 text-sm text-gray-800">
             {NAV_ITEMS.map((item) => {
@@ -313,6 +252,16 @@ export default function Header() {
               );
             })}
           </ul>
+
+          {/* Instagram button */}
+          <a
+            href="https://www.instagram.com/saltaireguide.uk"
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex items-center gap-1 rounded-full border border-gray-300 px-3 py-1.5 text-xs font-medium text-gray-900 hover:bg-gray-50"
+          >
+            <span>Instagram</span>
+          </a>
         </nav>
       </div>
 
@@ -409,6 +358,16 @@ export default function Header() {
               );
             })}
           </ul>
+          <div className="mt-3 border-t border-stone-300 pt-2 px-2 pb-3">
+            <a
+              href="https://www.instagram.com/saltaireguide.uk"
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-1 rounded-full border border-stone-400 px-3 py-1.5 text-xs font-medium text-stone-900 hover:bg-stone-300/60"
+            >
+              <span>Instagram</span>
+            </a>
+          </div>
         </nav>
       </MobileMenuPortal>
     </header>

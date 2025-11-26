@@ -420,6 +420,60 @@ export default function ShopsPage() {
       <PageTOC />
       <Directory />
       <NearbyTips />
+      <section
+        id="faqs"
+        aria-labelledby="shops-faq-title"
+        className="container mx-auto max-w-5xl px-4 pb-16"
+      >
+        <h2
+          id="shops-faq-title"
+          className="mb-4 text-2xl font-bold tracking-tight md:text-3xl"
+        >
+          Shops in Saltaire – quick answers
+        </h2>
+        <div className="space-y-4 text-sm leading-relaxed text-gray-800">
+          <div>
+            <h3 className="font-semibold">
+              What time do most Saltaire shops open and close?
+            </h3>
+            <p>
+              Independent shops typically open around 10am and close between
+              4–5.30pm, with shorter hours on Sundays. Always check individual
+              listings for exact opening times, especially in winter.
+            </p>
+          </div>
+          <div>
+            <h3 className="font-semibold">
+              Are Saltaire shops open every day?
+            </h3>
+            <p>
+              Many are open Wednesday–Sunday only. Mondays and Tuesdays can be
+              very quiet, so if you&apos;re planning a big browse, aim for
+              Friday–Sunday.
+            </p>
+          </div>
+          <div>
+            <h3 className="font-semibold">
+              Can I bring my dog into Saltaire shops?
+            </h3>
+            <p>
+              A good number of shops are dog friendly, but it&apos;s not
+              universal. Look for signs on the door or ask staff when you
+              arrive. Our listings flag especially dog-welcoming spots.
+            </p>
+          </div>
+          <div>
+            <h3 className="font-semibold">
+              Do Saltaire shops take card payments?
+            </h3>
+            <p>
+              Almost all take cards and contactless, but a few very small
+              traders may be cash-only for low-value items. Carrying a little
+              cash is still handy for markets and pop-ups.
+            </p>
+          </div>
+        </div>
+      </section>
       <JsonLd />
     </>
   )

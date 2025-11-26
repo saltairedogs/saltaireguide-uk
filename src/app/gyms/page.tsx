@@ -116,6 +116,7 @@ export default function GymsPage() {
       <ExternalNote />
       <Directory gyms={GYMS} />
       <SuggestBox />
+      <FAQ />
     </main>
   )
 }
@@ -312,6 +313,54 @@ function GymCard({ g }: { g: Gym }) {
         </p>
       )}
     </article>
+  )
+}
+
+function FAQ() {
+  return (
+    <section className="px-4 pb-10 pt-2 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-4xl rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
+        <h2 className="mb-4 text-2xl font-bold tracking-tight text-gray-900 md:text-3xl">
+          Gyms near Saltaire – quick answers
+        </h2>
+        <div className="space-y-4 text-sm leading-relaxed text-gray-800">
+          <div>
+            <h3 className="font-semibold">Is there a full gym inside Saltaire village?</h3>
+            <p>
+              No – there isn&apos;t a large commercial gym in the village grid
+              itself. Most people use Nuffield Health Shipley or travel into
+              Leeds for bigger 24/7 options like PureGym.
+            </p>
+          </div>
+          <div>
+            <h3 className="font-semibold">Can I get a day pass instead of a membership?</h3>
+            <p>
+              Nuffield and many city gyms offer day passes via apps like
+              Hussle or direct purchase. Check links on each listing – it&apos;s
+              usually cheaper than locking into a long contract if you&apos;re new
+              to the area.
+            </p>
+          </div>
+          <div>
+            <h3 className="font-semibold">Which gyms are best for swimming or spa facilities?</h3>
+            <p>
+              Nuffield Health Shipley is the main local option with a pool,
+              sauna and steam room. PureGym-style sites focus on floor space
+              and classes rather than spa facilities.
+            </p>
+          </div>
+          <div>
+            <h3 className="font-semibold">Are there women-only or quieter training times?</h3>
+            <p>
+              Some clubs run women-only sessions or dedicated studio classes.
+              Early mornings, late evenings and mid-afternoons are typically
+              quieter than straight after work – always check the current
+              timetable before visiting.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
   )
 }
 
