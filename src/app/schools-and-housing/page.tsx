@@ -1,10 +1,10 @@
 // src/app/schools-and-housing/page.tsx
-// Schools & Housing in/around Saltaire — cornerstone v1 (server-only, static, SEO/E-E-A-T)
-// - No client components or event handlers (great CWV)
-// - Practical, evergreen copy + internal links to your deeper guides
-// - Outbound links only to trusted first-party sources (Ofsted, Bradford Council, National Rail)
+// Schools & Housing in/around Saltaire & Shipley — cornerstone v2
+// - Server-only, static HTML (dynamic='error') for great CWV
+// - Practical, evergreen copy + internal links to deeper guides
+// - Outbound links only to trusted sources (Ofsted, Bradford Council, National Rail, portals)
 // - JSON-LD: WebPage + ItemList (resources) + FAQPage + BreadcrumbList
-// - Avoids volatile numbers (house prices, council tax) in prose; links to live sources instead
+// - Covers both Saltaire and neighbouring Shipley (schools, housing, commuting)
 
 import type { Metadata } from 'next'
 import Link from 'next/link'
@@ -12,16 +12,18 @@ import { site } from '@/config/site'
 
 export const dynamic = 'error'
 
+/* -------------------------------- Metadata -------------------------------- */
+
 export const metadata: Metadata = {
   title:
-    'Schools & Housing in Saltaire — catchments, Ofsted links, conservation area, buying & renting (local guide)',
+    'Schools & Housing in Saltaire & Shipley — catchments, Ofsted links, conservation area, buying & renting',
   description:
-    'A practical local overview of schools and housing in/around Saltaire: Ofsted links, Bradford admissions, conservation area basics, house-hunting tips, council tax and commuting.',
+    'Local overview of schools and housing in/around Saltaire & Shipley: primary options, Ofsted and admissions links, conservation area basics, where to watch prices, council tax and commuting.',
   alternates: { canonical: `${site.url}/schools-and-housing` },
   openGraph: {
-    title: 'Schools & Housing in Saltaire — local guide',
+    title: 'Schools & Housing in Saltaire & Shipley — local guide',
     description:
-      'Catchments and Ofsted links for nearby schools, plus housing types, conservation rules, where to look for listings, council tax info and commuting from Saltaire.',
+      'Catchments and Ofsted links for nearby primaries, plus housing types, conservation rules, where to monitor the market, council tax info and commuting from Saltaire & Shipley.',
     url: `${site.url}/schools-and-housing`,
     type: 'article',
   },
@@ -31,6 +33,7 @@ export const metadata: Metadata = {
 /* -------------------------------- Types ----------------------------------- */
 
 type Resource = { name: string; href: string; note?: string }
+
 type School = {
   name: string
   phase: 'Primary' | 'Secondary'
@@ -47,7 +50,7 @@ const RESOURCES: Resource[] = [
   {
     name: 'Bradford Council – school admissions & priority area maps',
     href: 'https://www.bradford.gov.uk/education-and-skills/school-admissions/school-priority-admission-area-maps/',
-    note: 'Official catchment/priority area guidance and how places are allocated.',
+    note: 'Official catchment/priority area guidance and how places are allocated across the district.',
   },
   {
     name: 'Ofsted – Saltaire Primary School profile',
@@ -62,12 +65,22 @@ const RESOURCES: Resource[] = [
   {
     name: 'Ofsted – Shipley C of E Primary School',
     href: 'https://reports.ofsted.gov.uk/provider/21/146536',
-    note: 'Nearby option; check distance and priority area.',
+    note: 'Nearby primary; check distance and priority area from your address.',
+  },
+  {
+    name: 'Shipley C of E Primary School – website',
+    href: 'https://www.shipleyceprimary.org.uk/',
+    note: 'Prospectus, policies and contact details.',
+  },
+  {
+    name: "St Walburga’s Catholic Primary School, A Voluntary Academy – website",
+    href: 'https://wal.bcwcat.co.uk',
+    note: 'Catholic primary option in Shipley; see site and Ofsted for latest details.',
   },
   {
     name: 'Bradford Council – Saltaire Conservation Area',
     href: 'https://www.bradford.gov.uk/environment/conservation-areas/saltaire-conservation-area/',
-    note: 'Character appraisal + what the designation means for changes to homes.',
+    note: 'Character appraisal + what designation means for changes to homes.',
   },
   {
     name: 'UNESCO World Heritage listing – Saltaire',
@@ -92,18 +105,18 @@ const RESOURCES: Resource[] = [
   {
     name: 'National Rail – Saltaire station',
     href: 'https://www.nationalrail.co.uk/stations/saltaire/',
-    note: 'Facilities & accessibility; trains via Airedale Line.',
+    note: 'Facilities & accessibility; trains via the Airedale Line.',
   },
 ]
 
 /* ----------------------------- Schools list ------------------------------- */
-/** We list a couple of nearby primaries + how to check secondaries.
+/** We list a few nearby primaries + how to check secondaries.
     Avoid definitive “catchment” promises; always link to council. */
 const SCHOOLS: School[] = [
   {
     name: 'Saltaire Primary School',
     phase: 'Primary',
-    distanceNote: 'Central Saltaire (Albert Road; minutes from Victoria Road)',
+    distanceNote: 'Central Saltaire (Albert Road; minutes from Victoria Road).',
     ofstedUrl: 'https://reports.ofsted.gov.uk/provider/21/107270',
     website: 'https://www.saltaireprimaryschool.co.uk/',
     admissionsUrl:
@@ -116,14 +129,27 @@ const SCHOOLS: School[] = [
   {
     name: 'Shipley Church of England Primary School',
     phase: 'Primary',
-    distanceNote: 'Nearby (check distance/priority area from your address)',
+    distanceNote: 'Nearby in Shipley (check distance/priority area from your address).',
     ofstedUrl: 'https://reports.ofsted.gov.uk/provider/21/146536',
     website: 'https://www.shipleyceprimary.org.uk/',
     admissionsUrl:
       'https://www.bradford.gov.uk/education-and-skills/school-admissions/school-priority-admission-area-maps/',
     notes: [
-      'Ofsted “Good” at last published inspection; see the Ofsted profile.',
+      'Ofsted “Good” at last published inspection; see the Ofsted profile for updates.',
       'Admissions via Bradford Council; faith criteria may apply.',
+    ],
+  },
+  {
+    name: 'St Walburga’s Catholic Primary School, A Voluntary Academy',
+    phase: 'Primary',
+    distanceNote: 'Shipley (Catholic primary option; check transport and priority area).',
+    ofstedUrl: 'https://reports.ofsted.gov.uk/provider/21/142947',
+    website: 'https://wal.bcwcat.co.uk',
+    admissionsUrl:
+      'https://wal.bcwcat.co.uk/admissions/',
+    notes: [
+      'Part of the Blessed Christopher Wharton Catholic Academy Trust.',
+      'Check the school’s own admissions policy alongside Bradford Council guidance, especially for faith criteria.',
     ],
   },
 ]
@@ -132,36 +158,36 @@ const SCHOOLS: School[] = [
 
 const FAQS: Array<{ q: string; a: string }> = [
   {
-    q: 'How do school places work in Saltaire?',
-    a: 'Bradford Council manages allocations for local primaries and secondaries. Use their priority area maps and admissions pages to understand how places are offered. See our links below.',
+    q: 'How do school places work in Saltaire & Shipley?',
+    a: 'Bradford Council manages allocations for local primaries and secondaries. Use their priority area maps and admissions pages to understand how places are offered from your specific street, then read each school’s oversubscription criteria.',
   },
   {
-    q: 'Which secondary school catchment is Saltaire in?',
-    a: 'Catchments/priority areas vary by address and change over time. Always check the latest Bradford Council admissions guidance and each school’s oversubscription criteria before applying.',
+    q: 'Which secondary catchments cover Saltaire & Shipley?',
+    a: 'Catchments and priority areas vary by address and change over time. Use the latest Bradford Council admissions guidance and check individual schools (for example Beckfoot, Titus Salt and others) for current criteria and typical intake patterns.',
   },
   {
-    q: 'Is Saltaire good for families?',
-    a: 'It’s compact, with the station, Salts Mill, canal towpath and Roberts Park all minutes apart. The park has two play areas and a step-free riverside loop.',
+    q: 'Is Saltaire & Shipley a good area for families?',
+    a: 'Many families like the compact feel: Saltaire has the station, canal and Roberts Park in easy reach, while Shipley adds more shops, services and transport connections. Play areas, sports clubs and classes are available across both.',
   },
   {
-    q: 'What types of homes are common in Saltaire?',
-    a: 'Mainly mid-19th-century stone terraces and some apartments in converted mill buildings. The village is a conservation area and a UNESCO World Heritage Site, which shapes alterations and materials.',
+    q: 'What types of homes are common in Saltaire & Shipley?',
+    a: 'Saltaire is mainly 19th-century stone terraces and mill conversions; Shipley mixes older terraces, post-war semis and apartments. The core village is a Conservation Area and part of a UNESCO World Heritage Site, which shapes alterations and materials.',
   },
   {
-    q: 'Can I change windows/doors or add a dormer?',
-    a: 'In the Saltaire Conservation Area there are additional controls to protect character. Always read the conservation guidance and speak to the council before works.',
+    q: 'Can I change windows/doors or add a dormer in Saltaire?',
+    a: 'In the Saltaire Conservation Area there are extra controls to protect character. Always read the conservation guidance and speak to the council before works, especially for windows, roofing, boundary walls or roof extensions.',
   },
   {
     q: 'How do I check current house prices or rents?',
-    a: 'Use the big portals’ sold-price pages for trend context, then watch current listings filters for your budget. Sold-price data lags the market by a few months.',
+    a: 'Use sold-price pages on the big portals for background, then watch current listings and talk to local agents. Sold-price data lags the market by a few months, so treat it as context rather than a quote.',
   },
   {
-    q: 'What’s Council Tax in Saltaire?',
-    a: 'It depends on the property’s band and the district’s annual rates. Use Bradford Council’s live “bands & amounts” page for the current year.',
+    q: 'What’s Council Tax in Saltaire & Shipley?',
+    a: 'Council Tax depends on the property’s band and the district’s yearly rates. Use Bradford Council’s live “bands & amounts” page for the current year and check your bill for any additional parish or levy items.',
   },
   {
-    q: 'Is commuting easy?',
-    a: 'Yes. Saltaire station is on the Airedale Line for Bradford/Leeds and up to Skipton/Ilkley. Many residents walk or cycle along the canal for local trips.',
+    q: 'Is commuting easy from Saltaire & Shipley?',
+    a: 'Yes. Saltaire station is on the Airedale Line for Bradford, Leeds and up the Aire valley. Shipley adds junctions for multiple lines and more bus options. Many residents walk or cycle along the canal for local trips.',
   },
 ]
 
@@ -175,17 +201,21 @@ function SectionHeading({ id, children }: { id: string; children: React.ReactNod
   )
 }
 
-/* -------------------------------- Components ------------------------------- */
+/* -------------------------------- Components ------------------------------ */
 
 function Breadcrumbs() {
   return (
     <nav aria-label="Breadcrumb" className="container mx-auto px-4 py-3 text-sm text-gray-600">
       <ol className="breadcrumbs">
         <li>
-          <Link href="/" className="underline underline-offset-4 hover:text-black">Home</Link>
+          <Link href="/" className="underline underline-offset-4 hover:text-black">
+            Home
+          </Link>
         </li>
         <span className="sep">›</span>
-        <li aria-current="page" className="text-gray-800">Schools &amp; Housing</li>
+        <li aria-current="page" className="text-gray-800">
+          Schools &amp; Housing
+        </li>
       </ol>
     </nav>
   )
@@ -193,13 +223,18 @@ function Breadcrumbs() {
 
 function IntroHero() {
   return (
-    <header className="border-b border-gray-200/70 bg-gradient-to-b from-white to-gray-50">
+    <header className="border-b border-gray-200/70 bg-gradient-to-b from-white via-slate-50 to-slate-100">
       <div className="container mx-auto grid max-w-7xl items-center gap-8 px-4 py-10 md:grid-cols-2 md:py-14">
         <div>
-          <h1 className="text-3xl font-extrabold tracking-tight md:text-5xl">Schools &amp; Housing in Saltaire</h1>
+          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-amber-700/80">
+            Moving to Saltaire or Shipley
+          </p>
+          <h1 className="mt-2 text-3xl font-extrabold tracking-tight md:text-5xl">
+            Schools &amp; housing in Saltaire &amp; Shipley
+          </h1>
           <p className="mt-4 max-w-prose text-lg text-gray-700">
             A practical local overview: how to check catchments and Ofsted reports, what conservation area status means
-            for homes, where to watch market trends, and commuting basics from Saltaire station.
+            for homes in Saltaire, where to watch market trends, and commuting basics from both Saltaire and Shipley stations.
           </p>
           <ul className="mt-6 flex flex-wrap gap-3 text-sm text-gray-600">
             <li className="badge">Official links</li>
@@ -211,10 +246,16 @@ function IntroHero() {
           <div className="card-body">
             <p className="text-sm text-gray-700">
               Moving with kids? Start with{' '}
-              <a className="underline underline-offset-4" href="https://www.bradford.gov.uk/education-and-skills/school-admissions/school-priority-admission-area-maps/" target="_blank" rel="noopener noreferrer">
+              <a
+                className="underline underline-offset-4"
+                href="https://www.bradford.gov.uk/education-and-skills/school-admissions/school-priority-admission-area-maps/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 Bradford Council admissions &amp; maps
               </a>{' '}
-              and the Ofsted profiles linked below. Then short-list homes after you understand likely allocations.
+              and the Ofsted profiles linked below. Short-list schools first, then compare homes
+              in Saltaire and nearby Shipley with that context in mind.
             </p>
           </div>
         </div>
@@ -223,40 +264,104 @@ function IntroHero() {
   )
 }
 
+function OnThisPage() {
+  const items = [
+    { href: '#schools', label: 'Schools overview' },
+    { href: '#housing', label: 'Housing overview' },
+    { href: '#neighbourhoods', label: 'Saltaire vs Shipley' },
+    { href: '#resources', label: 'Official links' },
+    { href: '#faqs', label: 'FAQs' },
+  ]
+  return (
+    <aside className="container mx-auto px-4">
+      <nav
+        aria-label="On this page"
+        className="mt-6 rounded-xl border border-gray-200 bg-white p-4 shadow-sm"
+      >
+        <div className="text-sm font-semibold text-gray-800">On this page</div>
+        <ul className="mt-2 grid grid-cols-1 gap-2 sm:grid-cols-2 md:grid-cols-3">
+          {items.map((i) => (
+            <li key={i.href}>
+              <a
+                href={i.href}
+                className="underline decoration-gray-300 underline-offset-4 hover:decoration-black"
+              >
+                {i.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+    </aside>
+  )
+}
+
 function SchoolsOverview() {
   return (
-    <section id="schools" aria-labelledby="schools-title" className="container mx-auto max-w-7xl px-4 py-10">
+    <section
+      id="schools"
+      aria-labelledby="schools-title"
+      className="container mx-auto max-w-7xl px-4 py-10"
+    >
       <SectionHeading id="schools-title">Schools overview</SectionHeading>
       <p className="mt-2 max-w-prose text-gray-700">
-        Saltaire sits within the City of Bradford district. Primary allocations and secondary admissions are managed by
-        the council, and priority areas may change. Always check the latest official guidance before you apply.
+        Saltaire and Shipley sit within the City of Bradford district. Primary allocations and secondary admissions are
+        managed by the council, and priority areas may change. Always check the latest official guidance before you apply.
       </p>
 
-      <div className="mt-4 grid gap-6 md:grid-cols-2">
+      <div className="mt-4 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {SCHOOLS.map((s) => (
           <article key={s.name} className="card">
             <div className="card-body">
-              <h3 className="text-lg font-semibold">{s.name} <span className="ml-2 text-sm font-normal text-gray-500">({s.phase})</span></h3>
+              <h3 className="text-lg font-semibold">
+                {s.name}{' '}
+                <span className="ml-2 text-sm font-normal text-gray-500">
+                  ({s.phase})
+                </span>
+              </h3>
               <p className="mt-1 text-gray-700">{s.distanceNote}</p>
               <ul className="mt-2 flex flex-wrap gap-3 text-sm">
                 {s.website && (
                   <li>
-                    <a className="underline underline-offset-4" href={s.website} target="_blank" rel="noopener noreferrer">School website</a>
+                    <a
+                      className="underline underline-offset-4"
+                      href={s.website}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      School website
+                    </a>
                   </li>
                 )}
                 {s.ofstedUrl && (
                   <li>
-                    <a className="underline underline-offset-4" href={s.ofstedUrl} target="_blank" rel="noopener noreferrer">Ofsted profile</a>
+                    <a
+                      className="underline underline-offset-4"
+                      href={s.ofstedUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      Ofsted profile
+                    </a>
                   </li>
                 )}
                 {s.admissionsUrl && (
                   <li>
-                    <a className="underline underline-offset-4" href={s.admissionsUrl} target="_blank" rel="noopener noreferrer">Admissions</a>
+                    <a
+                      className="underline underline-offset-4"
+                      href={s.admissionsUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      Admissions
+                    </a>
                   </li>
                 )}
               </ul>
               <ul className="mt-3 list-disc pl-5 text-gray-700">
-                {s.notes.map((n) => <li key={n}>{n}</li>)}
+                {s.notes.map((n) => (
+                  <li key={n}>{n}</li>
+                ))}
               </ul>
             </div>
           </article>
@@ -265,18 +370,28 @@ function SchoolsOverview() {
           <div className="card-body">
             <h3 className="text-lg font-semibold">Secondaries &amp; how to check</h3>
             <p className="mt-2 text-gray-700">
-              Secondary places depend on distance, priority criteria and availability. Use Bradford’s official pages to
-              check current priority areas and each school’s oversubscription policy. Consider travel to Beckfoot,
-              Bingley/Shipley and other nearby options and confirm transport.
+              Secondary places depend on distance, priority criteria and availability across the wider Bradford area.
+              Use Bradford’s official pages to check current priority areas and each school’s oversubscription policy,
+              then consider travel to options such as Beckfoot, Titus Salt and other nearby schools.
             </p>
             <ul className="mt-2 list-disc pl-5 text-gray-700">
               <li>
-                <a className="underline underline-offset-4" href="https://www.bradford.gov.uk/education-and-skills/school-admissions/" target="_blank" rel="noopener noreferrer">
+                <a
+                  className="underline underline-offset-4"
+                  href="https://www.bradford.gov.uk/education-and-skills/school-admissions/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   Bradford Council – secondary admissions
                 </a>
               </li>
               <li>
-                <a className="underline underline-offset-4" href="https://www.bradford.gov.uk/education-and-skills/school-admissions/school-priority-admission-area-maps/" target="_blank" rel="noopener noreferrer">
+                <a
+                  className="underline underline-offset-4"
+                  href="https://www.bradford.gov.uk/education-and-skills/school-admissions/school-priority-admission-area-maps/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   Priority area maps
                 </a>
               </li>
@@ -295,14 +410,64 @@ function SchoolsOverview() {
   )
 }
 
+function NeighbourhoodSnapshot() {
+  return (
+    <section
+      id="neighbourhoods"
+      aria-labelledby="neighbourhoods-title"
+      className="border-y border-gray-200 bg-gradient-to-b from-white to-gray-50"
+    >
+      <div className="container mx-auto max-w-7xl px-4 py-10 md:py-14">
+        <SectionHeading id="neighbourhoods-title">
+          Saltaire vs Shipley – quick feel
+        </SectionHeading>
+        <p className="mt-2 max-w-prose text-gray-700">
+          Many people look at both Saltaire and Shipley when they&apos;re moving. Here&apos;s a simple, non-estate-agent view
+          of how they feel side-by-side.
+        </p>
+
+        <div className="mt-6 grid gap-6 md:grid-cols-2">
+          <article className="card">
+            <div className="card-body">
+              <h3 className="text-lg font-semibold">Saltaire</h3>
+              <ul className="mt-2 list-disc pl-5 text-gray-700">
+                <li>Model village feel with tightly packed stone terraces.</li>
+                <li>Immediate access to Salts Mill, Roberts Park and the canal.</li>
+                <li>Quieter evenings; busy on sunny weekends and festival days.</li>
+                <li>Conservation rules tighter on windows, roofs and external changes.</li>
+              </ul>
+            </div>
+          </article>
+          <article className="card card-muted">
+            <div className="card-body">
+              <h3 className="text-lg font-semibold">Shipley</h3>
+              <ul className="mt-2 list-disc pl-5 text-gray-700">
+                <li>More mixed housing: terraces, semis and flats.</li>
+                <li>Town-centre services, supermarkets and extra bus/rail links.</li>
+                <li>Often a little more choice on budget, size and parking.</li>
+                <li>Still walkable to Saltaire, canal and the valley&apos;s green space.</li>
+              </ul>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+  )
+}
+
 function HousingOverview() {
   return (
-    <section id="housing" aria-labelledby="housing-title" className="container mx-auto max-w-7xl px-4 py-10">
+    <section
+      id="housing"
+      aria-labelledby="housing-title"
+      className="container mx-auto max-w-7xl px-4 py-10"
+    >
       <SectionHeading id="housing-title">Housing overview</SectionHeading>
       <p className="mt-2 max-w-prose text-gray-700">
-        The core village is a mid-19th-century model settlement with Italianate stone terraces, purpose-built civic
-        buildings and converted mill spaces. It is a designated Conservation Area and part of a UNESCO World Heritage
-        Site, so external alterations are more controlled than in typical suburbs.
+        The core Saltaire village is a mid-19th-century model settlement with Italianate stone terraces, purpose-built
+        civic buildings and converted mill spaces. Shipley adds more mixed-age streets, town-centre apartments and
+        post-war semis. Saltaire is a designated Conservation Area and part of a UNESCO World Heritage Site, so external
+        alterations are more controlled than in typical suburbs.
       </p>
 
       <div className="mt-4 grid gap-6 md:grid-cols-2">
@@ -316,12 +481,22 @@ function HousingOverview() {
             </p>
             <ul className="mt-2 list-disc pl-5 text-gray-700">
               <li>
-                <a className="underline underline-offset-4" href="https://www.rightmove.co.uk/house-prices/saltaire.html" target="_blank" rel="noopener noreferrer">
+                <a
+                  className="underline underline-offset-4"
+                  href="https://www.rightmove.co.uk/house-prices/saltaire.html"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   Rightmove – sold prices (Saltaire)
                 </a>
               </li>
               <li>
-                <a className="underline underline-offset-4" href="https://www.zoopla.co.uk/house-prices/saltaire/" target="_blank" rel="noopener noreferrer">
+                <a
+                  className="underline underline-offset-4"
+                  href="https://www.zoopla.co.uk/house-prices/saltaire/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   Zoopla – sold prices (Saltaire)
                 </a>
               </li>
@@ -334,16 +509,27 @@ function HousingOverview() {
             <h3 className="text-lg font-semibold">Conservation area basics</h3>
             <p className="mt-2 text-gray-700">
               Expect tighter rules around windows/doors, roofing materials, stonework and features such as boundary
-              walls. Check whether Article 4 Directions or guidance apply and get advice before planning works.
+              walls in the Saltaire Conservation Area. Check whether Article&nbsp;4 Directions or guidance apply and get
+              advice before planning works.
             </p>
             <ul className="mt-2 list-disc pl-5 text-gray-700">
               <li>
-                <a className="underline underline-offset-4" href="https://www.bradford.gov.uk/environment/conservation-areas/saltaire-conservation-area/" target="_blank" rel="noopener noreferrer">
+                <a
+                  className="underline underline-offset-4"
+                  href="https://www.bradford.gov.uk/environment/conservation-areas/saltaire-conservation-area/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   Bradford – Saltaire Conservation Area
                 </a>
               </li>
               <li>
-                <a className="underline underline-offset-4" href="https://whc.unesco.org/en/list/1028/" target="_blank" rel="noopener noreferrer">
+                <a
+                  className="underline underline-offset-4"
+                  href="https://whc.unesco.org/en/list/1028/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   UNESCO World Heritage – Saltaire
                 </a>
               </li>
@@ -360,7 +546,12 @@ function HousingOverview() {
             </p>
             <ul className="mt-2 list-disc pl-5 text-gray-700">
               <li>
-                <a className="underline underline-offset-4" href="https://www.bradford.gov.uk/council-tax/general-council-tax-information/council-tax-bands-and-amounts/" target="_blank" rel="noopener noreferrer">
+                <a
+                  className="underline underline-offset-4"
+                  href="https://www.bradford.gov.uk/council-tax/general-council-tax-information/council-tax-bands-and-amounts/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   Bradford – Council Tax bands &amp; amounts
                 </a>
               </li>
@@ -372,13 +563,18 @@ function HousingOverview() {
           <div className="card-body">
             <h3 className="text-lg font-semibold">Commuting &amp; transport</h3>
             <p className="mt-2 text-gray-700">
-              Saltaire station is on the Airedale Line for Bradford, Leeds and up the Aire valley. Most of the village
-              core is walkable; the canal towpath is popular for local trips. Check live rail accessibility and
-              facilities before travelling.
+              Saltaire station is on the Airedale Line for Bradford, Leeds and up the Aire valley. Shipley adds junctions
+              for multiple lines and more bus options. Most of the village core is walkable; the canal towpath is popular
+              for local trips. Check live rail accessibility and facilities before travelling.
             </p>
             <ul className="mt-2 list-disc pl-5 text-gray-700">
               <li>
-                <a className="underline underline-offset-4" href="https://www.nationalrail.co.uk/stations/saltaire/" target="_blank" rel="noopener noreferrer">
+                <a
+                  className="underline underline-offset-4"
+                  href="https://www.nationalrail.co.uk/stations/saltaire/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   National Rail – Saltaire station
                 </a>
               </li>
@@ -397,27 +593,38 @@ function HousingOverview() {
 
 function CTA() {
   return (
-    <section aria-label="Explore more" className="border-t border-b border-gray-200 bg-gradient-to-b from-white to-gray-50">
+    <section
+      aria-label="Explore more"
+      className="border-t border-b border-gray-200 bg-gradient-to-b from-white to-gray-50"
+    >
       <div className="container mx-auto max-w-7xl px-4 py-10 md:py-14">
         <div className="grid items-center gap-8 md:grid-cols-2">
           <div>
             <h2 className="text-2xl font-bold md:text-3xl">Plan the rest of your move</h2>
             <p className="mt-2 max-w-prose text-gray-700">
               Get a feel for weekends and school-run reality: try our walks, food &amp; drink picks, and practical
-              parking notes. Explore with original photos and step-free details.
+              parking notes. Explore with original photos and step-free details around Saltaire and Shipley.
             </p>
             <div className="mt-4 flex flex-wrap gap-3">
-              <Link href="/walks" className="btn btn-primary">Best walks</Link>
-              <Link href="/food-drink" className="btn btn-outline">Eat &amp; Drink</Link>
-              <Link href="/parking" className="btn btn-ghost">Parking</Link>
-              <Link href="/plan/getting-here" className="btn btn-muted">Getting here</Link>
+              <Link href="/walks" className="btn btn-primary">
+                Best walks
+              </Link>
+              <Link href="/food-drink" className="btn btn-outline">
+                Eat &amp; drink
+              </Link>
+              <Link href="/parking" className="btn btn-ghost">
+                Parking
+              </Link>
+              <Link href="/plan/getting-here" className="btn btn-muted">
+                Getting here
+              </Link>
             </div>
           </div>
           <div className="callout">
             <h3 className="text-lg font-semibold">Local tip</h3>
             <p className="mt-2 text-gray-700">
-              Viewing day? Walk the canal and Roberts Park to judge noise, footfall and light. Evenings and sunny
-              weekends feel different to weekday mornings.
+              Viewing day? Walk the canal and Roberts Park to judge noise, footfall and light. Compare how a Saltaire
+              terrace and a Shipley side street feel at school-run time vs a quiet weekday morning.
             </p>
           </div>
         </div>
@@ -428,7 +635,11 @@ function CTA() {
 
 function FAQ() {
   return (
-    <section id="faqs" aria-labelledby="faq-title" className="container mx-auto max-w-7xl px-4 py-10">
+    <section
+      id="faqs"
+      aria-labelledby="faq-title"
+      className="container mx-auto max-w-7xl px-4 py-10"
+    >
       <SectionHeading id="faq-title">Quick answers</SectionHeading>
       <div className="mt-4 divide-y divide-gray-200 rounded-2xl border border-gray-200 bg-white">
         {FAQS.map((it, i) => (
@@ -463,10 +674,16 @@ function FAQ() {
 
 function ResourceDirectory() {
   return (
-    <section id="resources" aria-labelledby="resources-title" className="container mx-auto max-w-7xl px-4 py-10">
-      <SectionHeading id="resources-title">Official links &amp; resources</SectionHeading>
+    <section
+      id="resources"
+      aria-labelledby="resources-title"
+      className="container mx-auto max-w-7xl px-4 py-10"
+    >
+      <SectionHeading id="resources-title">
+        Official links &amp; resources
+      </SectionHeading>
       <p className="mt-2 max-w-prose text-gray-700">
-        Use these first. They’re authoritative and updated regularly.
+        Use these first. They&apos;re authoritative and updated regularly.
       </p>
       <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
         {RESOURCES.map((r) => (
@@ -481,7 +698,9 @@ function ResourceDirectory() {
               <h3 className="text-lg font-semibold underline decoration-gray-300 underline-offset-4 group-hover:decoration-black">
                 {r.name}
               </h3>
-              {r.note ? <p className="mt-1 text-sm text-gray-700">{r.note}</p> : null}
+              {r.note ? (
+                <p className="mt-1 text-sm text-gray-700">{r.note}</p>
+              ) : null}
             </div>
           </a>
         ))}
@@ -498,16 +717,16 @@ function JsonLd() {
   const webpage = {
     '@context': 'https://schema.org',
     '@type': 'WebPage',
-    name: 'Schools & Housing in Saltaire',
+    name: 'Schools & Housing in Saltaire & Shipley',
     url: `${base}/schools-and-housing`,
     description:
-      'How to check school catchments and Ofsted reports, understand conservation area rules, review market context and commuting from Saltaire.',
+      'How to check school catchments and Ofsted reports, understand conservation area rules, review market context and commuting from Saltaire & Shipley.',
   }
 
   const resources = {
     '@context': 'https://schema.org',
     '@type': 'ItemList',
-    name: 'Official resources for schools and housing in Saltaire',
+    name: 'Official resources for schools and housing in Saltaire & Shipley',
     numberOfItems: RESOURCES.length,
     itemListElement: RESOURCES.map((r, i) => ({
       '@type': 'ListItem',
@@ -523,16 +742,30 @@ function JsonLd() {
     '@type': 'BreadcrumbList',
     itemListElement: [
       { '@type': 'ListItem', position: 1, name: 'Home', item: `${base}/` },
-      { '@type': 'ListItem', position: 2, name: 'Schools & Housing', item: `${base}/schools-and-housing` },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Schools & Housing',
+        item: `${base}/schools-and-housing`,
+      },
     ],
   }
 
   // eslint-disable-next-line react/no-danger
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(webpage) }} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(resources) }} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbs) }} />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(webpage) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(resources) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbs) }}
+      />
     </>
   )
 }
@@ -544,7 +777,9 @@ export default function SchoolsAndHousingPage() {
     <>
       <Breadcrumbs />
       <IntroHero />
+      <OnThisPage />
       <SchoolsOverview />
+      <NeighbourhoodSnapshot />
       <HousingOverview />
       <FAQ />
       <ResourceDirectory />
