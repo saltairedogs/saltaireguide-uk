@@ -1,15 +1,5 @@
 // src/app/local-services/page.tsx
 // Local Services — Master Hub (server-only, CWV-first, SEO-rich, E-E-A-T)
-// - Static page (dynamic='error') with daily revalidate
-// - Groups high-intent categories; auto-reads listing counts from src/data/local-services/* when present
-// - Strong internal linking to /local-services/[category] (+ future /[category]/[slug])
-// - Clear verification/ranking policy, owner sign-up CTA, and FAQs
-// - JSON-LD: CollectionPage/WebPage + BreadcrumbList + ItemList (categories) + HowTo (choose safely) + Speakable
-//
-// Notes
-// - Avoid promises that hit the network; only dynamic-import local data files if present
-// - No client components or handlers; upgrade to client-side filtering later if needed
-// - Images are local from /public to keep CWV tight
 
 import type { Metadata } from 'next'
 import Link from 'next/link'
@@ -21,14 +11,14 @@ export const dynamic = 'error'
 /* -------------------------------- Metadata -------------------------------- */
 
 export const metadata: Metadata = {
-  title: 'Local Services in Saltaire — Trusted Directory (2025)',
+  title: 'Local services in Saltaire & Shipley — trusted directory (2025)',
   description:
-    'Find trusted local services in Saltaire & Shipley: trades, pets, health, kids, transport and events. Featured providers verified. Clear policies, strong internal links and practical tips.',
+    'Find trusted local services in Saltaire & Shipley: trades, pets, health, kids, transport and events. Free basic listings, optional featured providers and clear guidance on how to choose safely.',
   alternates: { canonical: `${site.url}/local-services` },
   openGraph: {
-    title: 'Local Services in Saltaire — Trusted Directory',
+    title: 'Local services in Saltaire & Shipley — trusted directory',
     description:
-      'Browse high-intent categories—plumbers, electricians, dog walkers, dentists, taxis, photographers and more. Verification policy and “how to choose” included.',
+      'Browse high-intent categories—plumbers, electricians, dog walkers, dentists, taxis, photographers and more. Free basic listings, verification policy and “how to choose” guide.',
     url: `${site.url}/local-services`,
     type: 'website',
     images: [{ url: `${site.url}/images/window.svg` }],
@@ -147,11 +137,7 @@ const GROUPS: Array<{
 ]
 
 /* ----------------------------- Data access (SSG) --------------------------- */
-/**
- * Attempt to import src/data/local-services/<slug>.ts to get listing counts.
- * The file should export { listings: Listing[] }.
- * Missing files are fine; we just return 0 to indicate “coming soon”.
- */
+
 async function getCountForCategory(slug: string): Promise<number> {
   try {
     // @ts-ignore — dynamic path resolved at build if file exists
@@ -211,16 +197,20 @@ function Hero() {
       <div className="container mx-auto grid max-w-7xl items-center gap-8 px-4 py-10 md:grid-cols-2 md:py-14">
         <div>
           <h1 id="hero-title" className="text-3xl font-extrabold tracking-tight md:text-5xl">
-            Local Services in Saltaire
+            Local services in Saltaire &amp; Shipley
           </h1>
           <p className="mt-4 max-w-prose text-lg text-gray-700">
-            The independent directory for Saltaire & Shipley. Find reliable trades, pet care, clinics, tutors, taxis
-            and more — with featured providers verified and clear guidance on how to choose safely.
+            The independent directory for Saltaire &amp; Shipley. Find reliable trades, pet care, clinics, tutors, taxis
+            and more — with clear guidance on how to choose safely and free basic listings for genuine local providers.
+          </p>
+          <p className="mt-2 text-sm text-gray-600">
+            Run a local business? Scroll down to <strong>“List your business”</strong> to request a free basic listing
+            or ask about featured spots.
           </p>
           <ul className="mt-6 flex flex-wrap gap-3 text-sm text-gray-600">
-            <li className="badge">Editor’s policy</li>
+            <li className="badge">Saltaire &amp; Shipley focus</li>
             <li className="badge">Verification badges</li>
-            <li className="badge">No spam, no fluff</li>
+            <li className="badge">No paid reviews</li>
           </ul>
           <div className="mt-6 flex flex-wrap gap-3">
             <Link href="/local-services/dog-walkers" className="btn btn-primary">
@@ -268,13 +258,7 @@ function OnThisPage() {
   )
 }
 
-function CategoryCard({
-  cat,
-  count,
-}: {
-  cat: Category
-  count: number
-}) {
+function CategoryCard({ cat, count }: { cat: Category; count: number }) {
   return (
     <article className="group overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm transition hover:shadow-md">
       <Link href={`/local-services/${cat.slug}`} className="block focus-visible:outline-none">
@@ -290,15 +274,17 @@ function CategoryCard({
         <div className="p-5">
           <div className="flex items-center justify-between gap-3">
             <h3 className="text-lg font-semibold tracking-tight">{cat.label}</h3>
-            <span className="badge">{count > 0 ? `${count} listed` : 'Add your business'}</span>
+            <span className="badge">
+              {count > 0 ? `${count} listed` : 'Free basic listing available'}
+            </span>
           </div>
           <p className="mt-2 line-clamp-3 text-sm text-gray-700">{cat.blurb}</p>
         </div>
       </Link>
       <div className="px-5 pb-5">
         <ul className="mt-1 flex flex-wrap gap-2 text-xs text-gray-600">
-          <li className="badge">Saltaire & Shipley</li>
-          <li className="badge">Verified options</li>
+          <li className="badge">Saltaire &amp; Shipley</li>
+          <li className="badge">Optional featured spots</li>
         </ul>
       </div>
     </article>
@@ -312,7 +298,8 @@ async function CategoriesGrid() {
       <SectionHeading id="cat-title">Browse categories</SectionHeading>
       <p className="mt-2 max-w-prose text-gray-700">
         Start with a category, then drill into featured providers and practical tips. Where you see a “verified” badge,
-        we’ve checked key documents (see policy).
+        we’ve checked key documents (see policy). Categories with “Free basic listing available” are actively looking
+        for more genuine local businesses.
       </p>
 
       <div className="mt-6 space-y-10">
@@ -413,11 +400,23 @@ function VerificationPolicy() {
 }
 
 function OwnersCta() {
-  const subject = encodeURIComponent('List my local service on Saltaire Guide')
-  const body = encodeURIComponent(
-    `Hi,\n\nI'd like to list my business on Saltaire Guide.\n\nBusiness name:\nCategory:\nContact name:\nPhone:\nEmail:\nWebsite:\nShort description:\nVerification available (DBS/insurance/etc):\nFeatured trial? (yes/no):\n\nThanks!`,
+  const text = encodeURIComponent(
+    [
+      'Hi, I’d like to list my local business on Saltaire Guide.',
+      '',
+      'Business name:',
+      'Category (e.g. plumbers / dog walkers):',
+      'Based in (Saltaire/Shipley/nearby village):',
+      'Contact name:',
+      'Phone:',
+      'Email:',
+      'Website/Instagram:',
+      'Short description:',
+      'Verification available (DBS/insurance etc):',
+      'Interested in featured placement? (yes/no/maybe):',
+    ].join('\n'),
   )
-  const mailto = `https://wa.me/447424208127?text=${subject}%0A%0A${body}`
+  const waLink = `https://wa.me/447424208127?text=${text}`
 
   return (
     <section id="owners" aria-labelledby="owners-title" className="border-y border-gray-200 bg-gradient-to-b from-white to-gray-50">
@@ -426,11 +425,12 @@ function OwnersCta() {
           <div>
             <SectionHeading id="owners-title">List your business (free basic)</SectionHeading>
             <p className="mt-2 max-w-prose text-gray-700">
-              We’re building the definitive local directory. Basic listings are free; featured placements come with a
-              verification badge and priority slots.
+              We’re building the definitive local directory for Saltaire &amp; Shipley. Basic listings are free for
+              genuine local providers; featured placements come with a verification badge and priority slots in your
+              category.
             </p>
             <div className="mt-4 flex flex-wrap gap-3">
-              <a href={mailto} className="btn btn-primary" target="_blank" rel="noopener">
+              <a href={waLink} className="btn btn-primary" target="_blank" rel="noopener">
                 Request a listing via WhatsApp
               </a>
               <Link href="/legal/editorial-policy" className="btn btn-outline">
@@ -484,7 +484,6 @@ function FAQ() {
           </details>
         ))}
       </div>
-      {/* FAQ JSON-LD */}
       <script
         type="application/ld+json"
         // eslint-disable-next-line react/no-danger
@@ -508,14 +507,12 @@ function FAQ() {
 
 function JsonLd() {
   const base = site.url
-
-  // Flat category list for ItemList
   const cats = GROUPS.flatMap((g) => g.items)
 
   const collection = {
     '@context': 'https://schema.org',
     '@type': 'CollectionPage',
-    name: 'Local Services in Saltaire',
+    name: 'Local services in Saltaire & Shipley',
     url: `${base}/local-services`,
     isPartOf: { '@type': 'WebSite', url: base, name: site.name },
     description:
@@ -555,7 +552,7 @@ function JsonLd() {
   const howToChoose = {
     '@context': 'https://schema.org',
     '@type': 'HowTo',
-    name: 'How to choose a local service provider in Saltaire',
+    name: 'How to choose a local service provider in Saltaire & Shipley',
     totalTime: 'PT10M',
     step: [
       { '@type': 'HowToStep', text: 'Shortlist 2–3 local providers.' },

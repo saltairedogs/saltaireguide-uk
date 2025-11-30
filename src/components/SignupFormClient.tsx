@@ -1,56 +1,74 @@
 "use client";
 
-import React, { useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { WEB_APP_URL, FORM_TOKEN, DEFAULT_REDIRECT } from "@/lib/forms";
 
 export default function SignupFormClient({ category }: { category: string }) {
-  const [status, setStatus] = useState<string | null>(null);
-  const [form, setForm] = useState({
-    business: "",
-    contact: "",
-    email: "",
-    phone: "",
-    service: category || "",
-    featured: "no",
-    notes: "",
-  });
+  const [status, setStatus] = useState<"idle" | "sending" | "ok" | "error">("idle");
+  const [path, setPath] = useState("");
+  const [startedAt, setStartedAt] = useState<number>(() => Date.now());
+  const honeypotRef = useRef<HTMLInputElement | null>(null);
 
-  function update(k: string, v: string) {
-    setForm((f) => ({ ...f, [k]: v }));
-  }
-
-  async function submit(e: React.FormEvent) {
-    e.preventDefault();
-    setStatus("sending");
+  useEffect(() => {
     try {
-      const res = await fetch("/api/listings", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
-      });
-      const data = await res.json();
-      if (res.ok) {
-        setStatus("ok");
-      } else {
-        setStatus("error");
-        console.error(data);
-      }
+      setPath((window.location?.pathname || "") + (window.location?.hash || ""));
+    } catch {}
+  }, []);
+
+  async function submit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    if (status === "sending") return;
+    setStatus("sending");
+    const formEl = e.currentTarget;
+    const formData = new FormData(formEl);
+    const nextPath = path || (window.location?.pathname || "") + (window.location?.hash || "");
+
+    formData.set("formName", "Listings: request");
+    formData.set("token", FORM_TOKEN);
+    formData.set("redirect", DEFAULT_REDIRECT);
+    formData.set("path", nextPath);
+    formData.set("started_at", String(startedAt));
+    formData.set("website", honeypotRef.current?.value || "");
+
+    try {
+      await fetch(WEB_APP_URL, { method: "POST", body: formData, mode: "no-cors" });
+      setStatus("ok");
+      formEl.reset();
+      if (honeypotRef.current) honeypotRef.current.value = "";
+      setStartedAt(Date.now());
     } catch (err) {
-      setStatus("error");
       console.error(err);
+      setStatus("error");
     }
   }
 
   return (
-    <form onSubmit={submit} className="grid gap-2">
-      <input required placeholder="Business name" value={form.business} onChange={(e)=>update("business", e.target.value)} className="border rounded p-2" />
-      <input placeholder="Contact name" value={form.contact} onChange={(e)=>update("contact", e.target.value)} className="border rounded p-2" />
-      <input required type="email" placeholder="Email" value={form.email} onChange={(e)=>update("email", e.target.value)} className="border rounded p-2" />
-      <input placeholder="Phone" value={form.phone} onChange={(e)=>update("phone", e.target.value)} className="border rounded p-2" />
-      <select value={form.featured} onChange={(e)=>update("featured", e.target.value)} className="border rounded p-2">
+    <form onSubmit={submit} className="grid gap-2" noValidate>
+      <input type="hidden" name="formName" value="Listings: request" readOnly />
+      <input type="hidden" name="token" value={FORM_TOKEN} readOnly />
+      <input type="hidden" name="redirect" value={DEFAULT_REDIRECT} readOnly />
+      <input type="hidden" name="path" value={path} readOnly />
+      <input type="hidden" name="started_at" value={String(startedAt)} readOnly />
+      <input type="hidden" name="service" value={category} readOnly />
+      <input
+        ref={honeypotRef}
+        type="text"
+        name="website"
+        className="hidden"
+        tabIndex={-1}
+        autoComplete="off"
+        aria-hidden="true"
+      />
+
+      <input name="business" required placeholder="Business name" className="border rounded p-2" />
+      <input name="contact" placeholder="Contact name" className="border rounded p-2" />
+      <input name="email" required type="email" placeholder="Email" className="border rounded p-2" />
+      <input name="phone" placeholder="Phone" className="border rounded p-2" />
+      <select name="featured" defaultValue="no" className="border rounded p-2">
         <option value="no">Basic listing (free)</option>
         <option value="yes">Featured (paid)</option>
       </select>
-      <textarea placeholder="Short description" value={form.notes} onChange={(e)=>update("notes", e.target.value)} className="border rounded p-2"></textarea>
+      <textarea name="notes" placeholder="Short description" className="border rounded p-2"></textarea>
       <div>
         <button type="submit" className="px-4 py-2 rounded bg-sky-600 text-white">
           {status === "sending" ? "Sending…" : "Request listing"}

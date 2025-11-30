@@ -18,12 +18,12 @@ export const dynamic = 'error'
 export const metadata: Metadata = {
   title: 'Masthead & Imprint — Saltaire Guide',
   description:
-    'Publisher identity for Saltaire Guide: editorial structure, responsibilities, contact points, policies and disclosures.',
+    'Publisher identity for Saltaire Guide: editorial structure, responsibilities, contact points, policies and disclosures for this independent local guide to Saltaire & Shipley.',
   alternates: { canonical: `${site.url}/legal/masthead` },
   openGraph: {
     title: 'Masthead & Imprint — Saltaire Guide',
     description:
-      'Who publishes Saltaire Guide: roles, responsibilities, contact points, and our core policies.',
+      'Who publishes Saltaire Guide: roles, responsibilities, contact points, and our core policies as an independent local publication.',
     url: `${site.url}/legal/masthead`,
     type: 'article',
   },
@@ -41,7 +41,9 @@ type Role = {
 
 /* --------------------------------- Data ----------------------------------- */
 
-const UPDATED = '2025-10-12'
+// ISO-style string for humans + JSON-LD
+const UPDATED = '2025-11-30'
+const PUBLISHED = '2025-10-12'
 
 const ROLES: Role[] = [
   {
@@ -121,8 +123,12 @@ function Intro() {
         <div>
           <h1 className="text-3xl font-extrabold tracking-tight md:text-5xl">Masthead &amp; Imprint</h1>
           <p className="mt-4 max-w-prose text-lg text-gray-700">
-            {site.name} is an independent local publication about Saltaire. This page sets out who publishes it,
-            how we make decisions, and how to contact us.
+            {site.name} is an independent local publication about Saltaire &amp; Shipley. This page sets out who
+            publishes it, how we make decisions, and how to contact us.
+          </p>
+          <p className="mt-2 max-w-prose text-sm text-gray-600">
+            We&apos;re not an official council or tourism site. We run this as a small local project with clear
+            editorial standards and transparent policies.
           </p>
           <ul className="mt-6 flex flex-wrap gap-3 text-sm text-gray-600">
             <li className="badge">Independent &amp; local</li>
@@ -134,19 +140,54 @@ function Intro() {
           <div className="card-body">
             <div className="text-lg font-semibold">Quick links</div>
             <ul className="mt-3 grid list-disc gap-1 pl-5 text-sm text-gray-700">
-              <li><a href="#publisher" className="underline underline-offset-4">Publisher</a></li>
-              <li><a href="#team" className="underline underline-offset-4">Editorial structure</a></li>
-              <li><a href="#contact" className="underline underline-offset-4">Contact points</a></li>
-              <li><a href="#policies" className="underline underline-offset-4">Core policies</a></li>
-              <li><a href="#credits" className="underline underline-offset-4">Credits &amp; licensing</a></li>
+              <li>
+                <a href="#publisher" className="underline underline-offset-4">
+                  Publisher
+                </a>
+              </li>
+              <li>
+                <a href="#team" className="underline underline-offset-4">
+                  Editorial structure
+                </a>
+              </li>
+              <li>
+                <a href="#contact" className="underline underline-offset-4">
+                  Contact points
+                </a>
+              </li>
+              <li>
+                <a href="#policies" className="underline underline-offset-4">
+                  Core policies
+                </a>
+              </li>
+              <li>
+                <a href="#credits" className="underline underline-offset-4">
+                  Credits &amp; licensing
+                </a>
+              </li>
             </ul>
             <p className="mt-3 text-sm text-gray-600">
               Related:{' '}
-              <Link className="underline underline-offset-4" href="/about">About</Link>,{' '}
-              <Link className="underline underline-offset-4" href="/contact">Contact</Link>,{' '}
-              <Link className="underline underline-offset-4" href="/legal/editorial-policy">Editorial policy</Link>,{' '}
-              <Link className="underline underline-offset-4" href="/legal/corrections">Corrections</Link>,{' '}
-              <Link className="underline underline-offset-4" href="/legal/privacy">Privacy</Link>.
+              <Link className="underline underline-offset-4" href="/about">
+                About
+              </Link>
+              ,{' '}
+              <Link className="underline underline-offset-4" href="/contact">
+                Contact
+              </Link>
+              ,{' '}
+              <Link className="underline underline-offset-4" href="/legal/editorial-policy">
+                Editorial policy
+              </Link>
+              ,{' '}
+              <Link className="underline underline-offset-4" href="/legal/corrections">
+                Corrections
+              </Link>
+              ,{' '}
+              <Link className="underline underline-offset-4" href="/legal/privacy">
+                Privacy
+              </Link>
+              .
             </p>
           </div>
         </div>
@@ -175,7 +216,9 @@ function Publisher() {
               <div>
                 <dt className="text-sm font-medium text-gray-600">Email</dt>
                 <dd className="text-gray-800">
-                  <a className="underline underline-offset-4" href={`mailto:${site.email}`}>{site.email}</a>
+                  <a className="underline underline-offset-4" href={`mailto:${site.email}`}>
+                    {site.email}
+                  </a>
                 </dd>
               </div>
               <div>
@@ -184,8 +227,12 @@ function Publisher() {
               </div>
             </dl>
             <p className="mt-3 text-sm text-gray-600">
-              We are a small, independent publisher. We don’t sell sponsored posts or accept payment for positive
-              coverage. See <Link className="underline underline-offset-4" href="/legal/editorial-policy">Editorial policy</Link>.
+              We are a small, independent publisher. We don&apos;t sell sponsored posts or accept payment for positive
+              coverage. See{' '}
+              <Link className="underline underline-offset-4" href="/legal/editorial-policy">
+                Editorial policy
+              </Link>
+              .
             </p>
           </div>
         </div>
@@ -193,7 +240,10 @@ function Publisher() {
           <div className="text-lg font-semibold">What the masthead means</div>
           <p className="mt-2 text-gray-700">
             A masthead (imprint) identifies who is responsible for publishing and maintaining the site. It supports
-            transparency and accountability—key E-E-A-T signals for visitors and search engines.
+            transparency and accountability—key E-E-A-T signals for visitors, search engines and local partners.
+          </p>
+          <p className="mt-2 text-sm text-gray-600">
+            If you ever need to escalate an issue or query a decision, start here: the buck stops with the Editor.
           </p>
         </div>
       </div>
@@ -206,7 +256,8 @@ function EditorialStructure() {
     <section id="team" aria-labelledby="team-title" className="container mx-auto max-w-7xl px-4 py-10">
       <SectionHeading id="team-title">Editorial structure</SectionHeading>
       <p className="mt-2 max-w-prose text-gray-700">
-        We publish under clear roles and responsibilities. Named editors and contributors may be added here later.
+        We publish under clear roles and responsibilities. Named editors and contributors may be added here later as the
+        project grows.
       </p>
       <div className="mt-4 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {ROLES.map((r) => (
@@ -227,7 +278,11 @@ function EditorialStructure() {
         ))}
       </div>
       <div className="mt-4 smallprint">
-        Want to contribute photos, accessibility notes or local history? <Link className="underline underline-offset-4" href="/contact">Get in touch</Link>.
+        Want to contribute photos, accessibility notes or local history?{' '}
+        <Link className="underline underline-offset-4" href="/contact">
+          Get in touch
+        </Link>
+        .
       </div>
     </section>
   )
@@ -259,8 +314,15 @@ function ContactPoints() {
         ))}
       </div>
       <div className="mt-4 text-sm text-gray-600">
-        Prefer forms? Use the <Link className="underline underline-offset-4" href="/contact">Contact page</Link> or{' '}
-        <Link className="underline underline-offset-4" href="/legal/corrections">Corrections policy</Link>.
+        Prefer forms? Use the{' '}
+        <Link className="underline underline-offset-4" href="/contact">
+          Contact page
+        </Link>{' '}
+        or{' '}
+        <Link className="underline underline-offset-4" href="/legal/corrections">
+          Corrections policy
+        </Link>
+        .
       </div>
     </section>
   )
@@ -271,20 +333,17 @@ function Policies() {
     {
       title: 'Editorial policy',
       href: '/legal/editorial-policy',
-      desc:
-        'Sourcing, verification, independence, disclosures, images and update practices.',
+      desc: 'Sourcing, verification, independence, disclosures, images and update practices.',
     },
     {
       title: 'Corrections policy',
       href: '/legal/corrections',
-      desc:
-        'How to report an error and how we triage, fix and note material updates.',
+      desc: 'How to report an error and how we triage, fix and note material updates.',
     },
     {
       title: 'Privacy policy',
       href: '/legal/privacy',
-      desc:
-        'What we collect, why, retention periods, cookies/analytics and your rights.',
+      desc: 'What we collect, why, retention periods, cookies/analytics and your rights.',
     },
   ]
   return (
@@ -318,15 +377,19 @@ function Credits() {
               attribution is provided in-page. Please request permission before reuse.
             </p>
             <p className="mt-2 text-sm text-gray-600">
-              For media use, see <Link className="underline underline-offset-4" href="/contact">Contact</Link>.
+              For media use, see{' '}
+              <Link className="underline underline-offset-4" href="/contact">
+                Contact
+              </Link>
+              .
             </p>
           </div>
         </div>
         <div className="callout">
           <SubHeading>Content licence</SubHeading>
           <p className="mt-2 text-gray-700">
-            Unless stated otherwise, text and original images are © {new Date().getFullYear()} {site.name}. We’re happy
-            to permit limited quotation with clear credit and a link back to the source page.
+            Unless stated otherwise, text and original images are © {new Date().getFullYear()} {site.name}. We&apos;re
+            happy to permit limited quotation with clear credit and a link back to the source page.
           </p>
         </div>
       </div>
@@ -345,19 +408,27 @@ function CTA() {
           <div>
             <h2 className="text-2xl font-bold md:text-3xl">Questions about the imprint?</h2>
             <p className="mt-2 max-w-prose text-gray-700">
-              We’re happy to discuss roles, sources and decisions. For tips or corrections, use the dedicated routes.
+              We&apos;re happy to discuss roles, sources and decisions. For tips or corrections, use the dedicated
+              routes so we can keep a clear audit trail.
             </p>
             <div className="mt-4 flex flex-wrap gap-3">
-              <Link href="/contact" className="btn btn-primary">Contact editors</Link>
-              <Link href="/legal/corrections" className="btn btn-outline">Report a correction</Link>
-              <Link href="/about" className="btn btn-ghost">About us</Link>
+              <Link href="/contact" className="btn btn-primary">
+                Contact editors
+              </Link>
+              <Link href="/legal/corrections" className="btn btn-outline">
+                Report a correction
+              </Link>
+              <Link href="/about" className="btn btn-ghost">
+                About us
+              </Link>
             </div>
           </div>
           <div className="card card-muted">
             <div className="card-body">
               <div className="text-lg font-semibold">Transparency</div>
               <p className="mt-2 text-gray-700">
-                Our policies explain how we publish and how we handle updates and data. They’re kept short and clear.
+                Our policies explain how we publish and how we handle updates and data. They&apos;re kept short and
+                clear so they&apos;re actually readable.
               </p>
             </div>
           </div>
@@ -380,6 +451,13 @@ function JsonLd() {
     inLanguage: 'en-GB',
     description:
       'Publisher identity for Saltaire Guide: editorial structure, responsibilities, contact points, policies and disclosures.',
+    datePublished: PUBLISHED,
+    dateModified: UPDATED,
+    isPartOf: {
+      '@type': 'WebSite',
+      name: site.name,
+      url: base,
+    },
     speakable: {
       '@type': 'SpeakableSpecification',
       cssSelector: ['#publisher-title', '#team-title'],
@@ -403,8 +481,7 @@ function JsonLd() {
     email: site.email,
     areaServed: 'GB',
     sameAs: [
-      // Add socials when live:
-      // 'https://twitter.com/saltaireguide',
+      // Add socials when live, e.g.:
       // 'https://www.instagram.com/saltaireguide',
       // 'https://www.youtube.com/@saltaireguide',
     ],

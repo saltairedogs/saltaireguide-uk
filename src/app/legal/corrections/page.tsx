@@ -7,6 +7,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { site } from '@/config/site'
+import FormBridge from '@/components/FormBridge'
 
 export const dynamic = 'error'
 
@@ -136,10 +137,9 @@ function HowToReport() {
         <li>Share any accessibility impact (e.g., steps, gradients, closures) so we can prioritise.</li>
       </ol>
 
-      <form
+      <FormBridge
+        formName="Corrections: report"
         className="mt-6 grid gap-5 rounded-2xl border border-gray-200 bg-white p-6 md:p-8"
-        action="/api/contact" // Implement later; posts to the same endpoint used on /contact
-        method="post"
         noValidate
       >
         <input type="hidden" name="category" value="correction" />
@@ -174,7 +174,7 @@ function HowToReport() {
           <a href={`mailto:${site.email}?subject=Correction`} className="btn btn-outline">Email instead</a>
           <span className="hint">We aim to reply within 1–2 working days.</span>
         </div>
-      </form>
+      </FormBridge>
     </section>
   )
 }

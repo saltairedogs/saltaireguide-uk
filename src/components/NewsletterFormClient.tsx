@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { WEB_APP_URL, FORM_TOKEN, DEFAULT_REDIRECT } from "@/lib/forms";
 
 type Props = {
@@ -10,6 +10,15 @@ type Props = {
 
 export default function NewsletterFormClient({ formName = "Newsletter signup", className = "flex flex-col gap-3 md:flex-row" }: Props) {
   const [status, setStatus] = useState<"idle" | "submitting" | "done" | "error">("idle");
+  const [path, setPath] = useState("");
+  const [startedAt, setStartedAt] = useState<number>(() => Date.now());
+  const honeypotRef = useRef<HTMLInputElement | null>(null);
+
+  useEffect(() => {
+    try {
+      setPath((window.location?.pathname || "") + (window.location?.hash || ""));
+    } catch {}
+  }, []);
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     // Always prevent the browser from following any action/href
@@ -25,19 +34,22 @@ export default function NewsletterFormClient({ formName = "Newsletter signup", c
     }
 
     const formData = new FormData(form);
+    const nextPath = path || (window.location?.pathname || "") + (window.location?.hash || "");
 
     formData.set("formName", formName);
     formData.set("token", FORM_TOKEN);
     formData.set("redirect", DEFAULT_REDIRECT);
-    formData.set("path", window.location.pathname + window.location.hash);
-    formData.set("started_at", String(Date.now()));
-    formData.set("website", ""); // honeypot field used by Apps Script
+    formData.set("path", nextPath);
+    formData.set("started_at", String(startedAt));
+    formData.set("website", honeypotRef.current?.value || ""); // honeypot field used by Apps Script
 
     try {
       // no-cors so we don't block on opaque response; network error will still throw
       await fetch(WEB_APP_URL, { method: "POST", body: formData, mode: "no-cors" });
       setStatus("done");
       form.reset();
+      if (honeypotRef.current) honeypotRef.current.value = "";
+      setStartedAt(Date.now());
     } catch (err) {
       console.error("Newsletter signup failed", err);
       setStatus("error");
@@ -46,6 +58,20 @@ export default function NewsletterFormClient({ formName = "Newsletter signup", c
 
   return (
     <form className={className} onSubmit={onSubmit} noValidate>
+      <input type="hidden" name="formName" value={formName} readOnly />
+      <input type="hidden" name="token" value={FORM_TOKEN} readOnly />
+      <input type="hidden" name="redirect" value={DEFAULT_REDIRECT} readOnly />
+      <input type="hidden" name="path" value={path} readOnly />
+      <input type="hidden" name="started_at" value={String(startedAt)} readOnly />
+      <input
+        ref={honeypotRef}
+        type="text"
+        name="website"
+        className="hidden"
+        tabIndex={-1}
+        autoComplete="off"
+        aria-hidden="true"
+      />
       <label htmlFor="email" className="sr-only">Email address</label>
       <input
         id="email"

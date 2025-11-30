@@ -16,14 +16,15 @@ export const dynamic = 'error'
 /* --------------------------------- SEO meta -------------------------------- */
 
 export const metadata: Metadata = {
-  title: 'About Saltaire Guide — who we are, how we work, and our editorial standards',
+  title:
+    'About Saltaire Guide — who we are, how we work, and our editorial standards',
   description:
-    'We’re a small local team creating practical, independent guides to Saltaire. Learn how we verify info, update pages, handle corrections and keep content accessible.',
+    'We’re a small local team in Saltaire & Shipley creating practical, independent guides. Learn how we verify info, update pages, handle corrections and keep content accessible.',
   alternates: { canonical: `${site.url}/about` },
   openGraph: {
     title: 'About Saltaire Guide',
     description:
-      'Local, practical, independent. Read our editorial policy, corrections process and how we verify information.',
+      'Local, practical, independent. Read our editorial policy, corrections process and how we verify information for Saltaire & Shipley.',
     url: `${site.url}/about`,
     type: 'website',
     images: [
@@ -56,7 +57,7 @@ const VALUES: Value[] = [
   {
     label: 'Local, practical, independent',
     body:
-      'We live nearby and walk these paths weekly. No pay-to-play listings, no fluff—just the details visitors actually need.',
+      'We live in Saltaire & Shipley and walk these paths weekly. No pay-to-play listings, no fluff—just the details visitors and locals actually need.',
   },
   {
     label: 'Accuracy over hype',
@@ -75,13 +76,32 @@ const VALUES: Value[] = [
   },
 ]
 
+const FOUNDER: Person = {
+  id: 'founder',
+  name: 'Giuseppe',
+  role: 'Founder & editor',
+  bio:
+    'Started Saltaire Guide to make it easier for visitors and locals to actually enjoy this area without trawling ten different tabs. Walks, cafés, parks and practical details are checked on foot and kept as honest as possible.',
+  photo: {
+    src: '/images/giuseppe.jpg', // replace with your actual photo path
+    alt: 'Giuseppe, who runs Saltaire Guide, in Saltaire or Shipley',
+    width: 800,
+    height: 800,
+  },
+  links: [
+    { label: 'Instagram (i post food videos here)', href: 'https://www.instagram.com/ggg002g' },
+    { label: 'Studio: alveriano.com', href: 'https://alveriano.com' },
+  ],
+}
+
 const TEAM: Person[] = [
+  FOUNDER,
   {
     id: 'editor',
-    name: 'Editorial Team',
-    role: 'Editors & Researchers',
+    name: 'Editorial & research',
+    role: 'Routes, guides & fact-checking',
     bio:
-      'Plan content, verify facts with primary sources (council, operators, venue signage) and maintain cornerstone guides.',
+      'Plans content, verifies facts with primary sources (council, operators, venue signage) and maintains cornerstone guides like Parking, Walks and Salts Mill.',
     photo: {
       src: '/images/salts-mill.png',
       alt: 'Notebook and pen on a table',
@@ -91,13 +111,13 @@ const TEAM: Person[] = [
   },
   {
     id: 'photography',
-    name: 'Field & Photography',
-    role: 'Routes, photos & accessibility checks',
+    name: 'Field & photography',
+    role: 'Walks, photos & accessibility checks',
     bio:
       'Walks, step-free routes and venue exteriors are checked on foot. We annotate rough patches, gradients and seasonal conditions.',
     photo: {
       src: '/images/whats-on.png',
-      alt: 'Camera and map',
+      alt: 'Camera and map on a table',
       width: 600,
       height: 400,
     },
@@ -110,7 +130,7 @@ const TEAM: Person[] = [
       'Locals often know first when things change. We welcome polite corrections and tips via email—credited where useful.',
     photo: {
       src: '/images/roberts-park.png',
-      alt: 'People chatting outdoors',
+      alt: 'People chatting outdoors in a park',
       width: 600,
       height: 400,
     },
@@ -120,7 +140,7 @@ const TEAM: Person[] = [
 const SOURCES = [
   'On-site signage and operator notices',
   'Bradford Council and West Yorkshire Combined Authority materials',
-  'National Rail Enquiries / Northern for services affecting Saltaire',
+  'National Rail Enquiries / Northern for services affecting Saltaire & Shipley',
   'Venue websites and on-the-day social announcements',
   'Printed local history references for the village & UNESCO context',
 ]
@@ -148,7 +168,7 @@ const FAQS: Array<{ q: string; a: string }> = [
 
 function SectionHeading({ id, children }: { id: string; children: React.ReactNode }) {
   return (
-    <h2 id={id} className="text-2xl font-bold tracking-tight md:text-3xl anchor-offset">
+    <h2 id={id} className="anchor-offset text-2xl font-bold tracking-tight md:text-3xl">
       {children}
     </h2>
   )
@@ -158,7 +178,10 @@ function SectionHeading({ id, children }: { id: string; children: React.ReactNod
 
 function Breadcrumbs() {
   return (
-    <nav aria-label="Breadcrumb" className="container mx-auto px-4 py-3 text-sm text-gray-600">
+    <nav
+      aria-label="Breadcrumb"
+      className="container mx-auto px-4 py-3 text-sm text-gray-600"
+    >
       <ol className="breadcrumbs">
         <li>
           <Link className="underline underline-offset-4 hover:text-black" href="/">
@@ -176,22 +199,25 @@ function Breadcrumbs() {
 
 function IntroHero() {
   return (
-    <header className="bg-gradient-to-b from-white to-gray-50 border-b border-gray-200/70">
+    <header className="border-b border-gray-200/70 bg-gradient-to-b from-white to-gray-50">
       <div className="container mx-auto grid max-w-7xl items-center gap-8 px-4 py-10 md:grid-cols-2 md:py-14">
         <div>
-          <h1 className="text-3xl font-extrabold tracking-tight md:text-5xl">About Saltaire Guide</h1>
+          <h1 className="text-3xl font-extrabold tracking-tight md:text-5xl">
+            About Saltaire Guide
+          </h1>
           <p className="mt-4 max-w-prose text-lg text-gray-700">
-            We’re a small local team writing practical, independent guides to Saltaire — with original
-            photos, maps and accessibility notes. No pay-to-play listings. No fluff.
+            Saltaire Guide is a small, independent project based in Saltaire &amp; Shipley. The idea
+            is simple: practical guides with original photos, clear maps and accessibility notes,
+            so you can enjoy the area without ten open tabs and guesswork.
           </p>
           <ul className="mt-6 flex flex-wrap gap-3 text-sm text-gray-600">
-            <li className="badge">Local & independent</li>
+            <li className="badge">Local &amp; independent</li>
             <li className="badge">Original photography</li>
             <li className="badge">Accessibility first</li>
           </ul>
           <div className="mt-6 flex flex-wrap gap-3">
             <Link className="btn btn-primary" href="/walks">
-              Start with Walks
+              Start with walks
             </Link>
             <Link className="btn btn-outline" href="/salts-mill">
               Salts Mill guide
@@ -204,7 +230,7 @@ function IntroHero() {
         <div className="relative aspect-[4/3] overflow-hidden rounded-2xl shadow">
           <Image
             src="/images/walks-from-saltaire.png"
-            alt="Canal and stone buildings near Saltaire"
+            alt="Canal, towpath and stone buildings near Saltaire"
             fill
             sizes="(max-width: 768px) 100vw, 50vw"
             priority
@@ -217,7 +243,11 @@ function IntroHero() {
 
 function Values() {
   return (
-    <section id="values" aria-labelledby="values-title" className="container mx-auto max-w-7xl px-4 py-10">
+    <section
+      id="values"
+      aria-labelledby="values-title"
+      className="container mx-auto max-w-7xl px-4 py-10"
+    >
       <SectionHeading id="values-title">What we stand for</SectionHeading>
       <div className="mt-4 grid gap-6 md:grid-cols-2">
         {VALUES.map((v) => (
@@ -235,35 +265,71 @@ function Values() {
 
 function Team() {
   return (
-    <section id="team" aria-labelledby="team-title" className="container mx-auto max-w-7xl px-4 py-10">
+    <section
+      id="team"
+      aria-labelledby="team-title"
+      className="container mx-auto max-w-7xl px-4 py-10"
+    >
       <SectionHeading id="team-title">Who writes Saltaire Guide</SectionHeading>
       <p className="mt-2 max-w-prose text-gray-700">
-        We’re locals who walk, photograph and fact-check the routes and venues we cover. For now we publish
-        under the site masthead and sign pieces individually when needed.
+        Saltaire Guide is run day-to-day by {FOUNDER.name}, based in Saltaire &amp; Shipley.
+        Most guides are researched, walked and photographed locally. We also rely on corrections
+        and tips from people who use these routes every week.
       </p>
 
       <div className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {TEAM.map((p) => (
           <article key={p.id} className="card">
-            <div className="card-body">
+            <div
+              className={
+                `card-body ${
+                  p.id === 'founder' ? 'flex flex-col items-center text-center' : ''
+                }`
+              }
+            >
               {p.photo ? (
-                <div className="relative mb-3 aspect-[4/3] overflow-hidden rounded-xl">
-                  <Image
-                    src={p.photo.src}
-                    alt={p.photo.alt}
-                    fill
-                    sizes="(max-width: 768px) 100vw, 33vw"
-                  />
-                </div>
+                p.id === 'founder' ? (
+                  <div className="mx-auto mb-3 h-24 w-24 overflow-hidden rounded-full shadow md:h-28 md:w-28">
+                    <div className="relative h-full w-full">
+                      <Image
+                        src={p.photo.src}
+                        alt={p.photo.alt}
+                        fill
+                        sizes="96px"
+                        className="object-cover scale-110"
+                        priority
+                      />
+                    </div>
+                  </div>
+                ) : (
+                  <div className="relative mb-3 aspect-[4/3] overflow-hidden rounded-xl">
+                    <Image
+                      src={p.photo.src}
+                      alt={p.photo.alt}
+                      fill
+                      sizes="(max-width: 768px) 100vw, 33vw"
+                      className="object-cover"
+                    />
+                  </div>
+                )
               ) : null}
               <h3 className="text-lg font-semibold">{p.name}</h3>
               <p className="text-sm text-gray-600">{p.role}</p>
               <p className="mt-2 text-sm text-gray-700">{p.bio}</p>
               {p.links?.length ? (
-                <ul className="mt-3 flex flex-wrap gap-2 text-xs">
+                <ul
+                  className={`mt-3 flex flex-wrap gap-2 text-xs ${
+                    p.id === 'founder' ? 'justify-center' : ''
+                  }`}
+                >
                   {p.links.map((l) => (
                     <li key={l.href}>
-                      <a className="badge underline underline-offset-4" href={l.href as any}>
+                      <a
+                        className="badge underline underline-offset-4"
+                        href={l.href as any}
+                        target={l.href.startsWith('http') ? '_blank' : undefined}
+                        rel={l.href.startsWith('http') ? 'noreferrer' : undefined}
+                      >
                         {l.label}
                       </a>
                     </li>
@@ -280,7 +346,11 @@ function Team() {
 
 function Method() {
   return (
-    <section id="method" aria-labelledby="method-title" className="container mx-auto max-w-7xl px-4 py-10">
+    <section
+      id="method"
+      aria-labelledby="method-title"
+      className="container mx-auto max-w-7xl px-4 py-10"
+    >
       <SectionHeading id="method-title">How we work</SectionHeading>
       <div className="mt-4 grid gap-6 md:grid-cols-2">
         <div className="callout">
@@ -294,8 +364,8 @@ function Method() {
         <div className="callout callout-warn">
           <h3 className="text-lg font-semibold">Updates & uncertainty</h3>
           <p className="mt-2 text-gray-700">
-            When details are fluid (festival schedules, seasonal toilets), we say so and point to official notices.
-            We will remove or revise info that becomes inaccurate.
+            When details are fluid (festival schedules, seasonal toilets), we say so and point to
+            official notices. We will remove or revise info that becomes inaccurate.
           </p>
         </div>
       </div>
@@ -303,16 +373,22 @@ function Method() {
       <div className="mt-6 rounded-2xl border border-gray-200 bg-white p-4">
         <p className="text-sm text-gray-700">
           See also our{' '}
-          <Link className="underline underline-offset-4" href="/legal/editorial-policy">
+          <Link
+            className="underline underline-offset-4"
+            href="/legal/editorial-policy"
+          >
             editorial policy
           </Link>{' '}
           and{' '}
-          <Link className="underline underline-offset-4" href="/legal/corrections">
+          <Link
+            className="underline underline-offset-4"
+            href="/legal/corrections"
+          >
             corrections page
           </Link>
           . We publish a small{' '}
           <Link className="underline underline-offset-4" href="/legal/masthead">
-            masthead & imprint
+            masthead &amp; imprint
           </Link>{' '}
           for transparency.
         </p>
@@ -323,15 +399,19 @@ function Method() {
 
 function Monetisation() {
   return (
-    <section id="monetisation" aria-labelledby="mon-title" className="container mx-auto max-w-7xl px-4 py-10">
+    <section
+      id="monetisation"
+      aria-labelledby="mon-title"
+      className="container mx-auto max-w-7xl px-4 py-10"
+    >
       <SectionHeading id="mon-title">Advertising & monetisation</SectionHeading>
       <div className="mt-4 grid gap-6 md:grid-cols-2">
         <div className="card">
           <div className="card-body">
             <h3 className="text-lg font-semibold">No paid placements</h3>
             <p className="mt-2 text-gray-700">
-              We do not sell spots in guides. If we accept ads or relevant affiliate links in the future, they will be
-              clearly labelled and separated from editorial decisions.
+              We do not sell spots in guides. If we accept ads or relevant affiliate links in the
+              future, they will be clearly labelled and kept separate from editorial decisions.
             </p>
           </div>
         </div>
@@ -339,7 +419,8 @@ function Monetisation() {
           <div className="card-body">
             <h3 className="text-lg font-semibold">Conflicts of interest</h3>
             <p className="mt-2 text-gray-700">
-              If any contributor has a material connection to a business we cover, we disclose it on the page or avoid the assignment.
+              If any contributor has a material connection to a business we cover, we disclose it
+              on the page or avoid the assignment altogether.
             </p>
           </div>
         </div>
@@ -350,15 +431,24 @@ function Monetisation() {
 
 function Contact() {
   return (
-    <section id="contact" aria-labelledby="contact-title" className="container mx-auto max-w-7xl px-4 py-10">
-      <SectionHeading id="contact-title">Contact, imprint & press</SectionHeading>
+    <section
+      id="contact"
+      aria-labelledby="contact-title"
+      className="container mx-auto max-w-7xl px-4 py-10"
+    >
+      <SectionHeading id="contact-title">
+        Contact, imprint &amp; press
+      </SectionHeading>
       <div className="mt-4 grid gap-6 md:grid-cols-2">
         <div className="card">
           <div className="card-body">
-            <h3 className="text-lg font-semibold">General & corrections</h3>
+            <h3 className="text-lg font-semibold">General &amp; corrections</h3>
             <p className="mt-2 text-gray-700">
               Email:{' '}
-              <a className="underline underline-offset-4" href={`mailto:${site.email}`}>
+              <a
+                className="underline underline-offset-4"
+                href={`mailto:${site.email}`}
+              >
                 {site.email}
               </a>
             </p>
@@ -369,9 +459,10 @@ function Contact() {
         </div>
         <div className="card">
           <div className="card-body">
-            <h3 className="text-lg font-semibold">Media & re-use</h3>
+            <h3 className="text-lg font-semibold">Media, re-use &amp; local businesses</h3>
             <p className="mt-2 text-gray-700">
-              For press enquiries or to request use of images/maps, email us with subject “Press”. We usually allow
+              For press enquiries, image use or if you run a Saltaire or Shipley business and would
+              like to work together, email us with subject “Press” or “Business”. We usually allow
               non-commercial re-use with credit and a link.
             </p>
           </div>
@@ -381,22 +472,34 @@ function Contact() {
       <div className="mt-6 rounded-2xl border border-gray-200 bg-white p-4">
         <ul className="flex flex-wrap items-center gap-3 text-sm text-gray-700">
           <li>
-            <Link className="underline underline-offset-4" href="/legal/masthead">
-              Masthead & imprint
+            <Link
+              className="underline underline-offset-4"
+              href="/legal/masthead"
+            >
+              Masthead &amp; imprint
             </Link>
           </li>
           <li>
-            <Link className="underline underline-offset-4" href="/legal/editorial-policy">
+            <Link
+              className="underline underline-offset-4"
+              href="/legal/editorial-policy"
+            >
               Editorial policy
             </Link>
           </li>
           <li>
-            <Link className="underline underline-offset-4" href="/legal/corrections">
+            <Link
+              className="underline underline-offset-4"
+              href="/legal/corrections"
+            >
               Corrections
             </Link>
           </li>
           <li>
-            <Link className="underline underline-offset-4" href="/legal/privacy">
+            <Link
+              className="underline underline-offset-4"
+              href="/legal/privacy"
+            >
               Privacy
             </Link>
           </li>
@@ -408,7 +511,11 @@ function Contact() {
 
 function FAQ() {
   return (
-    <section id="faqs" aria-labelledby="faq-title" className="container mx-auto max-w-7xl px-4 py-10">
+    <section
+      id="faqs"
+      aria-labelledby="faq-title"
+      className="container mx-auto max-w-7xl px-4 py-10"
+    >
       <SectionHeading id="faq-title">Quick answers</SectionHeading>
       <div className="mt-4 divide-y divide-gray-200 rounded-2xl border border-gray-200 bg-white">
         {FAQS.map((it, i) => (
@@ -424,6 +531,7 @@ function FAQ() {
       {/* FAQ JSON-LD */}
       <script
         type="application/ld+json"
+        // eslint-disable-next-line react/no-danger
         dangerouslySetInnerHTML={{
           __html: JSON.stringify({
             '@context': 'https://schema.org',
@@ -442,19 +550,33 @@ function FAQ() {
 
 function CTA() {
   return (
-    <section aria-label="Explore guides" className="border-t border-b border-gray-200 bg-gradient-to-b from-white to-gray-50">
+    <section
+      aria-label="Explore guides"
+      className="border-t border-b border-gray-200 bg-gradient-to-b from-white to-gray-50"
+    >
       <div className="container mx-auto max-w-7xl px-4 py-10 md:py-14">
         <div className="grid items-center gap-8 md:grid-cols-2">
           <div>
-            <h2 className="text-2xl font-bold md:text-3xl">Explore the essential guides</h2>
+            <h2 className="text-2xl font-bold md:text-3xl">
+              Explore the essential guides
+            </h2>
             <p className="mt-2 max-w-prose text-gray-700">
-              Start with parking or a classic towpath walk, browse cafés and pubs, or plan your day around Salts Mill.
+              Start with parking or a classic towpath walk, browse cafés and pubs, or plan your day
+              around Salts Mill.
             </p>
             <div className="mt-4 flex flex-wrap gap-3">
-              <Link href="/parking" className="btn btn-primary">Parking</Link>
-              <Link href="/walks" className="btn btn-outline">Walks</Link>
-              <Link href="/salts-mill" className="btn btn-ghost">Salts Mill</Link>
-              <Link href="/food-drink" className="btn btn-muted">Eat &amp; Drink</Link>
+              <Link href="/parking" className="btn btn-primary">
+                Parking
+              </Link>
+              <Link href="/walks" className="btn btn-outline">
+                Walks
+              </Link>
+              <Link href="/salts-mill" className="btn btn-ghost">
+                Salts Mill
+              </Link>
+              <Link href="/food-drink" className="btn btn-muted">
+                Eat &amp; drink
+              </Link>
             </div>
           </div>
           <div className="relative aspect-[4/3] overflow-hidden rounded-2xl shadow">
@@ -479,8 +601,8 @@ function JsonLd() {
   const twitter = site.twitter?.startsWith('@')
     ? `https://twitter.com/${site.twitter.slice(1)}`
     : site.twitter?.startsWith('http')
-      ? site.twitter
-      : undefined
+    ? site.twitter
+    : undefined
 
   const aboutPage = {
     '@context': 'https://schema.org',
@@ -488,7 +610,7 @@ function JsonLd() {
     name: 'About Saltaire Guide',
     url: `${base}/about`,
     description:
-      'Who we are, how we work and our editorial standards: independent, local and practical guides to Saltaire.',
+      'Who we are, how we work and our editorial standards: independent, local and practical guides to Saltaire & Shipley.',
     isPartOf: { '@type': 'WebSite', name: site.name, url: base },
     breadcrumb: {
       '@type': 'BreadcrumbList',
@@ -512,15 +634,16 @@ function JsonLd() {
     logo: `${base}/favicons/apple-touch-icon.png`,
     sameAs: twitter ? [twitter] : undefined,
     foundingDate: `${year}`,
-    areaServed: 'GB',
+    areaServed: ['Saltaire', 'Shipley', 'GB'],
     knowsAbout: [
       'Saltaire history',
       'Salts Mill',
       'Roberts Park',
       'Leeds–Liverpool Canal (Aire Valley)',
       'Walks from Saltaire',
+      'Walks around Shipley',
       'Parking in Saltaire',
-      'Cafés, pubs & restaurants in Saltaire',
+      'Cafés, pubs & restaurants in Saltaire & Shipley',
       'Events & festivals in Saltaire',
     ],
     contactPoint: [
@@ -549,9 +672,18 @@ function JsonLd() {
   // eslint-disable-next-line react/no-danger
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(aboutPage) }} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(org) }} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbs) }} />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(aboutPage) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(org) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbs) }}
+      />
     </>
   )
 }

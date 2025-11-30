@@ -1,4 +1,4 @@
-// src/app/layout.tsx (v9 – dark vintage Saltaire styling, a touch brighter)
+// src/app/layout.tsx (v10 – Saltaire & Shipley, upgraded footer)
 import './globals.css'
 import type { Metadata, Viewport } from 'next'
 import Link from 'next/link'
@@ -10,6 +10,7 @@ import { SpeedInsights } from '@vercel/speed-insights/next'
 import AnnouncementBar from '@/components/AnnouncementBar'
 import Header from '@/components/Header'
 import WhatsappPopup from '@/components/WhatsappPopup'
+import CookieConsent from '@/components/CookieConsent'
 
 // Font configured in src/lib/fonts
 
@@ -87,14 +88,65 @@ function Footer() {
                 Saltaire Guide
               </div>
               <p className="mt-3 max-w-prose text-xs leading-relaxed text-amber-50/95 md:text-sm">
-                Independent local site for Saltaire. Practical guides with original
-                photos, maps and accessibility notes. Updated regularly.
+                Independent local site for Saltaire &amp; Shipley. Practical guides with
+                original photos, maps and accessibility notes. Updated regularly by
+                people who actually walk these streets.
+              </p>
+              <p className="mt-3 max-w-prose text-[11px] leading-relaxed text-amber-100/80 md:text-xs">
+                If you spot something that&apos;s out of date, or you run a local
+                business we should include, please let us know.
               </p>
             </div>
 
             {/* Nav links */}
             <nav aria-label="Footer" className="text-sm">
               <div className="text-[0.7rem] font-semibold uppercase tracking-[0.18em] text-amber-200/95">
+                Explore
+              </div>
+              <ul className="mt-3 grid grid-cols-2 gap-x-4 gap-y-2 text-xs text-amber-50/95 md:text-sm">
+                <li>
+                  <Link
+                    className="underline decoration-transparent underline-offset-4 transition hover:decoration-amber-400"
+                    href="/walks"
+                  >
+                    Walks
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    className="underline decoration-transparent underline-offset-4 transition hover:decoration-amber-400"
+                    href="/food-drink"
+                  >
+                    Cafés &amp; pubs
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    className="underline decoration-transparent underline-offset-4 transition hover:decoration-amber-400"
+                    href="/parking"
+                  >
+                    Parking
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    className="underline decoration-transparent underline-offset-4 transition hover:decoration-amber-400"
+                    href="/events"
+                  >
+                    What&apos;s on
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    className="underline decoration-transparent underline-offset-4 transition hover:decoration-amber-400"
+                    href="/plan"
+                  >
+                    Plan your visit
+                  </Link>
+                </li>
+              </ul>
+
+              <div className="mt-6 text-[0.7rem] font-semibold uppercase tracking-[0.18em] text-amber-200/95">
                 Site links
               </div>
               <ul className="mt-3 grid grid-cols-2 gap-x-4 gap-y-2 text-xs text-amber-50/95 md:text-sm">
@@ -152,36 +204,50 @@ function Footer() {
             {/* Contact / credit */}
             <div className="text-sm text-amber-50/95">
               <div className="text-[0.7rem] font-semibold uppercase tracking-[0.18em] text-amber-200/95">
-                Contact
+                Contact &amp; community
               </div>
               <p className="mt-2 text-xs md:text-sm">
-                  WhatsApp:{' '}
-                  <a
-                    className="underline underline-offset-4 decoration-amber-300/90 hover:decoration-amber-100"
-                    href="https://wa.me/447424208127"
-                  >
-                    +44 7424 208127
-                  </a>
+                WhatsApp:{' '}
+                <a
+                  className="underline decoration-amber-300/90 underline-offset-4 hover:decoration-amber-100"
+                  href="https://wa.me/447424208127"
+                >
+                  +44 7424 208127
+                </a>
               </p>
-                <p className="mt-2 text-xs md:text-sm">
-                  Instagram:{' '}
-                  <a
-                    href="https://www.instagram.com/saltaireguide.uk"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="underline underline-offset-4 decoration-amber-300/90 hover:decoration-amber-100"
-                  >
-                    @saltaireguide.uk
-                  </a>
-                </p>
+              <p className="mt-1 text-xs md:text-sm">
+                Saltaire WhatsApp group:{' '}
+                <a
+                  href="https://chat.whatsapp.com/Iv6KTDzUSwX87LfzWN1ZkR"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="underline decoration-amber-300/90 underline-offset-4 hover:decoration-amber-100"
+                >
+                  join the chat →
+                </a>
+              </p>
+              <p className="mt-2 text-xs md:text-sm">
+                Instagram:{' '}
+                <a
+                  href="https://www.instagram.com/saltaireguide.uk"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="underline decoration-amber-300/90 underline-offset-4 hover:decoration-amber-100"
+                >
+                  @saltaireguide.uk
+                </a>
+              </p>
               <p className="mt-3 text-xs md:text-sm">
                 <Link
                   href="https://alveriano.com"
                   target="_blank"
-                  className="underline underline-offset-4 decoration-amber-300/90 hover:decoration-amber-100"
+                  className="underline decoration-amber-300/90 underline-offset-4 hover:decoration-amber-100"
                 >
-                  This site was created by and is managed by: alveriano.com
+                  This site was created and is managed by alveriano.com
                 </Link>
+              </p>
+              <p className="mt-2 text-[11px] text-amber-100/75 md:text-xs">
+                Based in Saltaire &amp; Shipley, West Yorkshire.
               </p>
             </div>
           </div>
@@ -201,7 +267,8 @@ function JsonLd() {
   const orgLd = {
     ...ld.organization(site),
     '@type': 'Organization',
-    sameAs: [],
+    sameAs: ['https://www.instagram.com/saltaireguide.uk'],
+    areaServed: ['Saltaire', 'Shipley', 'GB'],
     contactPoint: [
       {
         '@type': 'ContactPoint',
@@ -244,7 +311,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en-GB" dir="ltr">
       <head>
         {/* Fonts are bundled via next/font; no external preconnect needed */}
-        <link rel="preconnect" href="https://cdn.jsdelivr.net" crossOrigin="anonymous" />
+        <link
+          rel="preconnect"
+          href="https://cdn.jsdelivr.net"
+          crossOrigin="anonymous"
+        />
       </head>
       <body
         className={`${inter.className} ${playfair.variable} ${crimson.variable} min-h-screen bg-[radial-gradient(circle_at_top,_#433024,_#1c130d)] text-stone-50 antialiased`}
@@ -256,6 +327,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           {children}
         </main>
         <WhatsappPopup />
+        <WhatsappPopup />
+        <CookieConsent initialConsent={null} />
         <Footer />
         <JsonLd />
         <Ga4 />

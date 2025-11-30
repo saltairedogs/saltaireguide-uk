@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import React from "react";
 import { createPortal } from "react-dom";
 
@@ -14,15 +15,14 @@ type NavItem = {
 
 /**
  * Single source of truth for navigation.
- * You can add future pages (WW1, Archives etc.) here even before
- * the content is written.
+ * Focused navigation: key "money" pages + Site menu.
+ * URLs can stay Saltaire-focused while labels reflect Saltaire & Shipley.
  */
-// Focused navigation: 4 key "money" pages + Site menu
 const NAV_ITEMS: NavItem[] = [
-  { name: "Visit Saltaire", href: "/visit-saltaire" },
+  { name: "Visit", href: "/visit-saltaire" },
   { name: "Parking", href: "/parking" },
   { name: "Food & Drink", href: "/food-drink" },
-  { name: "Walks", href: "/walks" },
+  { name: "Walks & routes", href: "/walks" },
   { name: "Site menu", href: "/site-menu" },
 ];
 
@@ -113,24 +113,48 @@ export default function Header() {
       style={{ top: "var(--banner-h, 0px)" }}
     >
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3">
+        {/* Brand: logo + wordmark */}
         <Link
           href="/"
-          className="text-base font-semibold tracking-tight md:text-lg"
-          aria-label="Home"
+          className="flex items-center gap-2"
+          aria-label="Saltaire Guide home"
         >
-          Saltaire Guide
+          <div className="relative h-8 w-8 overflow-hidden rounded-full border border-stone-200 bg-stone-100 md:h-9 md:w-9">
+            <Image
+              src="/images/saltaireguide-logo.jpg"
+              alt="Saltaire Guide logo"
+              fill
+              sizes="36px"
+              className="object-cover"
+              priority
+            />
+          </div>
+          <div className="flex flex-col leading-tight">
+            <span className="text-base font-semibold tracking-tight text-stone-900 md:text-lg">
+              Saltaire Guide
+            </span>
+            <span className="hidden text-[11px] text-stone-600 sm:inline md:text-xs">
+              Saltaire &amp; Shipley
+            </span>
+          </div>
         </Link>
 
         {/* Mobile hamburger */}
         <button
           type="button"
-          aria-label="Open main menu"
+          aria-label={open ? "Close main menu" : "Open main menu"}
           aria-haspopup="dialog"
           aria-expanded={open}
           onClick={() => setOpen(true)}
           className="inline-flex items-center justify-center rounded px-2.5 py-2 text-gray-900 hover:bg-gray-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black md:hidden"
         >
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            aria-hidden="true"
+          >
             <path
               d="M4 7h16M4 12h16M4 17h16"
               stroke="currentColor"
@@ -145,7 +169,7 @@ export default function Header() {
           aria-label="Primary"
           itemScope
           itemType="https://schema.org/SiteNavigationElement"
-          className="hidden md:flex items-center gap-4"
+          className="hidden items-center gap-4 md:flex"
         >
           <ul className="flex flex-wrap items-center gap-4 text-sm text-gray-800">
             {NAV_ITEMS.map((item) => {
@@ -168,7 +192,7 @@ export default function Header() {
                 );
               }
 
-              // Desktop dropdown (e.g. History, Visit)
+              // Desktop dropdown (e.g. future multi-level sections)
               return (
                 <li
                   key={item.name}
@@ -261,6 +285,7 @@ export default function Header() {
             className="inline-flex items-center gap-1 rounded-full border border-gray-300 px-3 py-1.5 text-xs font-medium text-gray-900 hover:bg-gray-50"
           >
             <span>Instagram</span>
+            <span className="hidden sm:inline">@saltaireguide.uk</span>
           </a>
         </nav>
       </div>
@@ -268,14 +293,22 @@ export default function Header() {
       {/* Mobile menu in a portal so it sits above everything else */}
       <MobileMenuPortal open={open} onClose={() => setOpen(false)}>
         <div className="relative border-b border-stone-300 px-4 py-3">
-          <div className="text-base font-semibold text-stone-900">Menu</div>
+          <div className="text-base font-semibold text-stone-900">
+            Menu
+          </div>
           <button
             type="button"
             className="absolute right-2.5 top-2.5 rounded p-2 hover:bg-stone-300/60 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
             aria-label="Close menu"
             onClick={() => setOpen(false)}
           >
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              aria-hidden="true"
+            >
               <path
                 d="M6 6l12 12M18 6L6 18"
                 stroke="currentColor"
@@ -358,7 +391,7 @@ export default function Header() {
               );
             })}
           </ul>
-          <div className="mt-3 border-t border-stone-300 pt-2 px-2 pb-3">
+          <div className="mt-3 border-t border-stone-300 px-2 pb-3 pt-2">
             <a
               href="https://www.instagram.com/saltaireguide.uk"
               target="_blank"
@@ -366,6 +399,7 @@ export default function Header() {
               className="inline-flex items-center gap-1 rounded-full border border-stone-400 px-3 py-1.5 text-xs font-medium text-stone-900 hover:bg-stone-300/60"
             >
               <span>Instagram</span>
+              <span className="hidden xs:inline">@saltaireguide.uk</span>
             </a>
           </div>
         </nav>

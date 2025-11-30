@@ -35,24 +35,10 @@ export default function AnnouncementBar({ href = WHATSAPP_LINK }: { href?: strin
   return (
     <div
       ref={rootRef}
-      role="button"
-      aria-label="Join our Saltaire WhatsApp group"
-      className="banner-enter sticky top-0 z-50 cursor-pointer border-b border-stone-200/80 text-stone-900 shadow-[0_1px_0_rgba(15,23,42,0.04)]"
-      style={{
-        background:
-          "linear-gradient(to right, hsl(36 40% 96%), hsl(34 38% 95%), hsl(36 40% 96%))",
-      }}
-      onClick={() => window.open(href, "_blank", "noreferrer")}
-      onKeyDown={(e) => {
-        if (e.key === "Enter" || e.key === " ") {
-          e.preventDefault();
-          window.open(href, "_blank", "noreferrer");
-        }
-      }}
-      tabIndex={0}
+      className="banner-enter sticky top-0 z-50 border-b border-stone-200/80 bg-amber-50/80 text-stone-900 backdrop-blur supports-[backdrop-filter]:bg-amber-50/70"
     >
-      <div className="mx-auto flex max-w-7xl items-center gap-3 px-3 py-1.5 sm:px-4 sm:py-2">
-        {/* Icon (fixed) */}
+      <div className="mx-auto flex max-w-7xl items-center gap-3 px-3 py-1.5 text-xs sm:px-4 sm:py-2 sm:text-sm">
+        {/* Icon */}
         <span
           aria-hidden="true"
           className="hidden h-7 w-7 items-center justify-center rounded-full bg-stone-100 text-[13px] text-amber-900 ring-1 ring-stone-300 sm:flex"
@@ -60,57 +46,32 @@ export default function AnnouncementBar({ href = WHATSAPP_LINK }: { href?: strin
           💬
         </span>
 
-        {/* Desktop marquee */}
-        <div className="relative hidden flex-1 overflow-hidden sm:block">
-          <div className="marquee flex min-w-full flex-nowrap items-center gap-8">
-            {[0, 1, 2].map((i) => (
-              <span
-                key={i}
-                className="inline-flex items-center gap-2 text-xs font-medium text-stone-900 sm:text-sm"
-              >
-                <span className="rounded-full bg-amber-900/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.18em] text-amber-900">
-                  Saltaire WhatsApp
-                </span>
-                <span>Join our group to talk about walks, daily life and more.</span>
-              </span>
-            ))}
-          </div>
-        </div>
-
-        {/* Desktop side CTA to visually balance right edge */}
-        <div className="hidden items-center sm:flex">
-          <span className="inline-flex items-center justify-center rounded-full border border-amber-900/80 bg-amber-50 px-3 py-1.5 text-[11px] font-semibold text-amber-950 shadow-sm">
-            Join WhatsApp
+        {/* Copy */}
+        <p className="flex-1 truncate text-[11px] text-stone-800 sm:text-xs">
+          <span className="font-semibold tracking-[0.18em] text-amber-900 uppercase mr-2">
+            Saltaire WhatsApp
           </span>
-        </div>
-
-        {/* Mobile simple CTA */}
-        <div className="flex flex-1 items-center justify-between gap-3 sm:hidden">
-          <div className="min-w-0">
-            <p className="truncate text-[10px] font-semibold uppercase tracking-[0.18em] text-amber-900">
-              Saltaire WhatsApp
-            </p>
-            <p className="mt-0.5 text-xs text-stone-800">
-              Join our group to talk about walks, daily life and more.
-            </p>
-          </div>
-          <span className="inline-flex items-center justify-center rounded-full border border-amber-900/80 bg-amber-50 px-3 py-1.5 text-[11px] font-semibold text-amber-950 shadow-sm">
-            Join
+          <span className="text-stone-800">
+            We have a small WhatsApp group for locals &amp; regulars who like talking about walks, cafés and daily life.
           </span>
-        </div>
+        </p>
+
+        {/* CTA */}
+        <a
+          href={href}
+          target="_blank"
+          rel="noreferrer"
+          className="whitespace-nowrap rounded-full border border-amber-900/80 bg-amber-50 px-3 py-1.5 text-[11px] font-semibold text-amber-950 shadow-sm transition hover:bg-amber-900 hover:text-amber-50"
+        >
+          Join WhatsApp →
+        </a>
       </div>
 
       <style jsx>{`
         .banner-enter {
-          animation: banner-enter 220ms ease-out;
+          animation: banner-enter 200ms ease-out;
         }
         :global(html[data-reduced-motion='1']) .banner-enter {
-          animation: none;
-        }
-        .marquee {
-          animation: marquee-scroll 26s linear infinite;
-        }
-        :global(html[data-reduced-motion='1']) .marquee {
           animation: none;
         }
         @keyframes banner-enter {
@@ -121,14 +82,6 @@ export default function AnnouncementBar({ href = WHATSAPP_LINK }: { href?: strin
           to {
             opacity: 1;
             transform: translateY(0);
-          }
-        }
-        @keyframes marquee-scroll {
-          0% {
-            transform: translateX(0);
-          }
-          100% {
-            transform: translateX(-33.333%);
           }
         }
       `}</style>
