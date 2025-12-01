@@ -14,23 +14,10 @@ export default function WhatsappPopup() {
   const honeypotRef = useRef<HTMLInputElement | null>(null);
 
   useEffect(() => {
-    // Show only AFTER user chooses a cookie option, then wait 10s
-    let scheduled = false;
-    function onConsent(_e: Event) {
-      if (scheduled) return;
-      scheduled = true;
-      const delayMs = 10_000;
-      const timer = setTimeout(() => setOpen(true), delayMs);
-      // Store timer id on window to clear if needed
-      (window as any).__sg_wp_timer = timer;
-    }
-
-    window.addEventListener('sg:consent-chosen', onConsent);
-    return () => {
-      window.removeEventListener('sg:consent-chosen', onConsent);
-      const t = (window as any).__sg_wp_timer as number | undefined;
-      if (t) clearTimeout(t);
-    };
+    // Show automatically after a short delay; longer delay on mobile
+    const delayMs = typeof window !== 'undefined' && window.innerWidth < 768 ? 30000 : 10000;
+    const timer = setTimeout(() => setOpen(true), delayMs);
+    return () => clearTimeout(timer);
   }, []);
 
   useEffect(() => {

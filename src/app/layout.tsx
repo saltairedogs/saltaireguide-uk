@@ -10,7 +10,7 @@ import { SpeedInsights } from '@vercel/speed-insights/next'
 import AnnouncementBar from '@/components/AnnouncementBar'
 import Header from '@/components/Header'
 import WhatsappPopup from '@/components/WhatsappPopup'
-import CookieConsent from '@/components/CookieConsent'
+ 
 
 // Font configured in src/lib/fonts
 
@@ -327,8 +327,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           {children}
         </main>
         <WhatsappPopup />
-        <WhatsappPopup />
-        <CookieConsent initialConsent={null} />
         <Footer />
         <JsonLd />
         <Ga4 />
