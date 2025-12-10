@@ -1,10 +1,10 @@
 // src/app/about/page.tsx
 // About — Saltaire Guide (static, CWV-focused, E-E-A-T heavy)
 // - Server-rendered only (no client components)
-// - Strong trust signals: who we are, how we work, sources, corrections, editorial independence
-// - Clear contact/imprint + transparency on monetisation & data
+// - Trust signals: who we are, how we work, directory + news, monetisation & independence
+// - Clear contact/imprint + transparency on ads, featured listings, affiliates & services
 // - JSON-LD: AboutPage + Organization (+ ContactPoint, publishingPrinciples, correctionsPolicy, verificationFactCheckingPolicy) + BreadcrumbList + FAQPage
-// - Internal links to all cornerstones to reinforce topical authority
+// - Internal links to cornerstones + local services + news
 
 import type { Metadata } from 'next'
 import Image from 'next/image'
@@ -17,26 +17,26 @@ export const dynamic = 'error'
 
 export const metadata: Metadata = {
   title:
-    'About Saltaire Guide — who we are, how we work, and our editorial standards',
+    'About Saltaire Guide — local guides, directory & news for Saltaire and Shipley',
   description:
-    'We’re a small local team in Saltaire & Shipley creating practical, independent guides. Learn how we verify info, update pages, handle corrections and keep content accessible.',
+    'Saltaire Guide is a small independent project based in Saltaire & Shipley. We publish practical guides, a local services directory and hyperlocal news — with clear standards for verification, corrections and monetisation.',
   alternates: { canonical: `${site.url}/about` },
   openGraph: {
     title: 'About Saltaire Guide',
     description:
-      'Local, practical, independent. Read our editorial policy, corrections process and how we verify information for Saltaire & Shipley.',
+      'Local, practical, independent. Guides, local services directory and hyperlocal news for Saltaire & Shipley — with transparent monetisation and strong editorial standards.',
     url: `${site.url}/about`,
     type: 'website',
     images: [
       {
-        url: `${site.url}/images/parking-saltaire.png`,
-        width: 180,
-        height: 180,
-        alt: 'Saltaire Guide',
+        url: `${site.url}/images/walks-from-saltaire.png`,
+        width: 1200,
+        height: 800,
+        alt: 'View over Saltaire and the canal near the village',
       },
     ],
   },
-  twitter: { card: 'summary' },
+  twitter: { card: 'summary_large_image' },
 }
 
 /* --------------------------------- Types ---------------------------------- */
@@ -55,33 +55,33 @@ type Person = {
 
 const VALUES: Value[] = [
   {
-    label: 'Local, practical, independent',
+    label: 'Hyperlocal & on the ground',
     body:
-      'We live in Saltaire & Shipley and walk these paths weekly. No pay-to-play listings, no fluff—just the details visitors and locals actually need.',
+      'We live in Saltaire & Shipley and walk these streets weekly. Guides, directory entries and news updates are rooted in what is actually happening here, not press releases from afar.',
   },
   {
-    label: 'Accuracy over hype',
+    label: 'Reader-first, not click-first',
     body:
-      'Opening hours change. Paths flood. Prices go up. We re-check high-traffic pages, note uncertainty, and remove outdated tips fast.',
+      'No infinite pop-up ads, no mystery paywalls, no rage-bait. We aim for clear, practical pages you can actually use on your phone while you are out.',
   },
   {
-    label: 'Accessible by default',
+    label: 'Transparent about money',
     body:
-      'We include step-free notes, surfaces and pinch-points wherever possible. We welcome feedback from wheelchair users and parents with prams.',
+      'Some businesses pay for featured or priority slots, and some product links are affiliate (for example, to Amazon). We label commercial content clearly and never sell positive coverage.',
   },
   {
-    label: 'Original photos & maps',
+    label: 'Accessible & inclusive by default',
     body:
-      'We prioritise our own imagery and route checks. Stock is used only as temporary filler while we shoot fresh coverage.',
+      'Where we can, we include step-free notes, surfaces, gradients and pinch-points. We welcome feedback from wheelchair users, parents with prams and anyone who knows the routes better than we do.',
   },
 ]
 
 const FOUNDER: Person = {
   id: 'founder',
   name: 'Giuseppe',
-  role: 'Founder & editor',
+  role: 'Founder, editor & developer',
   bio:
-    'Started Saltaire Guide to make it easier for visitors and locals to actually enjoy this area without trawling ten different tabs. Walks, cafés, parks and practical details are checked on foot and kept as honest as possible.',
+    'Started Saltaire Guide to make it easier for visitors and locals to enjoy Saltaire & Shipley without trawling ten different tabs. The site now combines guides, a local services directory and hyperlocal news, built and updated from here — not a distant newsroom.',
   photo: {
     src: '/images/giuseppe.jpg', // replace with your actual photo path
     alt: 'Giuseppe, who runs Saltaire Guide, in Saltaire or Shipley',
@@ -89,8 +89,9 @@ const FOUNDER: Person = {
     height: 800,
   },
   links: [
-    { label: 'Instagram (i post food videos here)', href: 'https://www.instagram.com/ggg002g' },
+    { label: 'Instagram (food & local bits)', href: 'https://www.instagram.com/ggg002g' },
     { label: 'Studio: alveriano.com', href: 'https://alveriano.com' },
+    { label: 'Saltaire Dogs + Pets', href: 'https://www.saltairedogs.co.uk' },
   ],
 }
 
@@ -99,12 +100,12 @@ const TEAM: Person[] = [
   {
     id: 'editor',
     name: 'Editorial & research',
-    role: 'Routes, guides & fact-checking',
+    role: 'Routes, guides, news & fact-checking',
     bio:
-      'Plans content, verifies facts with primary sources (council, operators, venue signage) and maintains cornerstone guides like Parking, Walks and Salts Mill.',
+      'Plans coverage, checks facts with primary sources (council, operators, venue signage) and maintains cornerstone guides like Parking, Walks and Salts Mill, plus monthly local news roundups.',
     photo: {
       src: '/images/salts-mill.png',
-      alt: 'Notebook and pen on a table',
+      alt: 'Notebook and pen on a table near Salts Mill',
       width: 600,
       height: 400,
     },
@@ -114,7 +115,7 @@ const TEAM: Person[] = [
     name: 'Field & photography',
     role: 'Walks, photos & accessibility checks',
     bio:
-      'Walks, step-free routes and venue exteriors are checked on foot. We annotate rough patches, gradients and seasonal conditions.',
+      'Walks routes, photographs streets and venues, and notes step-free options and awkward surfaces so we can flag them in guides and access notes.',
     photo: {
       src: '/images/whats-on.png',
       alt: 'Camera and map on a table',
@@ -124,13 +125,13 @@ const TEAM: Person[] = [
   },
   {
     id: 'community',
-    name: 'Community',
-    role: 'Corrections, tips & local leads',
+    name: 'Community & tips',
+    role: 'Corrections, leads & local knowledge',
     bio:
-      'Locals often know first when things change. We welcome polite corrections and tips via email—credited where useful.',
+      'Locals usually spot changes first. We rely on polite corrections, tips and photos from people who live, work or spend time here — credited where useful.',
     photo: {
       src: '/images/roberts-park.png',
-      alt: 'People chatting outdoors in a park',
+      alt: 'People chatting outdoors in Roberts Park',
       width: 600,
       height: 400,
     },
@@ -139,28 +140,33 @@ const TEAM: Person[] = [
 
 const SOURCES = [
   'On-site signage and operator notices',
-  'Bradford Council and West Yorkshire Combined Authority materials',
-  'National Rail Enquiries / Northern for services affecting Saltaire & Shipley',
-  'Venue websites and on-the-day social announcements',
-  'Printed local history references for the village & UNESCO context',
+  'Bradford Council, planning and West Yorkshire Combined Authority materials',
+  'National Rail Enquiries / Northern and local transport operators',
+  'Venue websites, socials and on-the-day announcements',
+  'Community noticeboards, local groups and resident tips (verified where possible)',
+  'Printed local history and UNESCO-related references for context',
 ]
 
 const FAQS: Array<{ q: string; a: string }> = [
   {
-    q: 'How often do you update pages?',
-    a: 'Cornerstones (Parking, Walks, Salts Mill, Plan) are reviewed regularly, with extra checks around holidays and festival dates. Minor notes are patched as soon as we spot them.',
+    q: 'Are you a news site or just a blog?',
+    a: 'We are a small independent project. We publish practical guides, a local services directory and hyperlocal news and roundups for Saltaire & Shipley. We are not a full newsroom, but we do our best to report local changes clearly and correct mistakes quickly.',
   },
   {
-    q: 'Do businesses pay to be listed?',
-    a: 'No. We do not sell placements. We may accept relevant ads or affiliate links in future, and will label them clearly if we do.',
+    q: 'Do businesses pay to be listed or featured?',
+    a: 'Basic local directory listings are free for genuine Saltaire & Shipley businesses. Some businesses pay for clearly labelled featured or priority placements. Those commercial products do not buy positive editorial coverage or reviews.',
   },
   {
-    q: 'Can I send a correction or tip?',
-    a: `Yes, please email ${site.email}. Include date/time, what changed, and a photo or source link if possible.`,
+    q: 'Do you earn from affiliate links?',
+    a: 'Some product links (for example, to Amazon) are affiliate links. If you buy through them, we may earn a small commission at no extra cost to you. We label affiliate recommendations and only suggest things we think fit the guide.',
+  },
+  {
+    q: 'Can I send a correction, tip or news lead?',
+    a: `Yes, please email ${site.email}. Include date/time, what changed, and a photo or source link if you have one. You can also see our Corrections page for more detail.`,
   },
   {
     q: 'Can I use your photos or maps?',
-    a: 'Ask first. We usually allow non-commercial reuse with credit and a link. Commercial use requires permission.',
+    a: 'Ask first. We usually allow non-commercial reuse with credit and a link. Commercial use or press reproduction should be agreed in advance.',
   },
 ]
 
@@ -206,38 +212,114 @@ function IntroHero() {
             About Saltaire Guide
           </h1>
           <p className="mt-4 max-w-prose text-lg text-gray-700">
-            Saltaire Guide is a small, independent project based in Saltaire &amp; Shipley. The idea
-            is simple: practical guides with original photos, clear maps and accessibility notes,
-            so you can enjoy the area without ten open tabs and guesswork.
+            Saltaire Guide is a small, independent project based in Saltaire &amp; Shipley. We
+            publish practical guides, a local services directory and hyperlocal news so you can
+            understand what&apos;s happening here without fighting spammy ads or distant coverage.
           </p>
           <ul className="mt-6 flex flex-wrap gap-3 text-sm text-gray-600">
             <li className="badge">Local &amp; independent</li>
-            <li className="badge">Original photography</li>
-            <li className="badge">Accessibility first</li>
+            <li className="badge">Guides · Directory · News</li>
+            <li className="badge">Bradford district focus</li>
           </ul>
           <div className="mt-6 flex flex-wrap gap-3">
             <Link className="btn btn-primary" href="/walks">
               Start with walks
             </Link>
-            <Link className="btn btn-outline" href="/salts-mill">
-              Salts Mill guide
+            <Link className="btn btn-outline" href="/local-services">
+              Local services directory
             </Link>
-            <Link className="btn btn-ghost" href="/parking">
-              Parking
+            <Link className="btn btn-ghost" href="/news">
+              Latest news &amp; roundups
             </Link>
           </div>
         </div>
         <div className="relative aspect-[4/3] overflow-hidden rounded-2xl shadow">
           <Image
             src="/images/walks-from-saltaire.png"
-            alt="Canal, towpath and stone buildings near Saltaire"
+            alt="Towpath and canal bridge near Saltaire"
             fill
             sizes="(max-width: 768px) 100vw, 50vw"
             priority
+            className="object-cover"
           />
         </div>
       </div>
     </header>
+  )
+}
+
+function WhatWeDo() {
+  return (
+    <section
+      id="whatwedo"
+      aria-labelledby="whatwedo-title"
+      className="container mx-auto max-w-7xl px-4 py-10"
+    >
+      <SectionHeading id="whatwedo-title">What you&apos;ll find on Saltaire Guide</SectionHeading>
+      <div className="mt-4 grid gap-6 md:grid-cols-3">
+        <div className="card">
+          <div className="card-body">
+            <h3 className="text-lg font-semibold">Guides &amp; walk ideas</h3>
+            <p className="mt-2 text-gray-700">
+              Practical guides for Salts Mill, Roberts Park, parking, cafés and walks in and around
+              Saltaire &amp; Shipley. We emphasise realistic timings, access notes and clear
+              expectations over hype.
+            </p>
+            <ul className="mt-3 flex flex-wrap gap-3 text-sm">
+              <li>
+                <Link className="underline underline-offset-4" href="/parking">
+                  Parking in Saltaire
+                </Link>
+              </li>
+              <li>
+                <Link className="underline underline-offset-4" href="/walks">
+                  Walks from Saltaire
+                </Link>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div className="card">
+          <div className="card-body">
+            <h3 className="text-lg font-semibold">Local services directory</h3>
+            <p className="mt-2 text-gray-700">
+              A directory of trades, pet care, health, kids&apos; activities, taxis and more serving
+              Saltaire &amp; Shipley. Basic listings are free for genuine local providers, with
+              clearly labelled featured options for those who want more visibility.
+            </p>
+            <ul className="mt-3 flex flex-wrap gap-3 text-sm">
+              <li>
+                <Link className="underline underline-offset-4" href="/local-services">
+                  Local services hub
+                </Link>
+              </li>
+              <li>
+                <Link className="underline underline-offset-4" href="/for-business/free-listing">
+                  Free listing for businesses
+                </Link>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div className="card">
+          <div className="card-body">
+            <h3 className="text-lg font-semibold">Hyperlocal news &amp; roundups</h3>
+            <p className="mt-2 text-gray-700">
+              Short, focused coverage of what affects people here: transport changes, planning
+              decisions, event updates and monthly “what&apos;s happened” roundups for Saltaire &amp;
+              Shipley — without the click-chasing layout of bigger outlets.
+            </p>
+            <ul className="mt-3 flex flex-wrap gap-3 text-sm">
+              <li>
+                <Link className="underline underline-offset-4" href="/news">
+                  News &amp; updates
+                </Link>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
   )
 }
 
@@ -270,11 +352,11 @@ function Team() {
       aria-labelledby="team-title"
       className="container mx-auto max-w-7xl px-4 py-10"
     >
-      <SectionHeading id="team-title">Who writes Saltaire Guide</SectionHeading>
+      <SectionHeading id="team-title">Who runs Saltaire Guide</SectionHeading>
       <p className="mt-2 max-w-prose text-gray-700">
-        Saltaire Guide is run day-to-day by {FOUNDER.name}, based in Saltaire &amp; Shipley.
-        Most guides are researched, walked and photographed locally. We also rely on corrections
-        and tips from people who use these routes every week.
+        Day to day, Saltaire Guide is run by {FOUNDER.name} from Saltaire &amp; Shipley. Most guides,
+        directories and news posts are researched, walked and photographed locally. Corrections and
+        tips from residents and visitors are a key part of keeping things accurate.
       </p>
 
       <div className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -354,44 +436,105 @@ function Method() {
       <SectionHeading id="method-title">How we work</SectionHeading>
       <div className="mt-4 grid gap-6 md:grid-cols-2">
         <div className="callout">
-          <h3 className="text-lg font-semibold">Verification & sources</h3>
+          <h3 className="text-lg font-semibold">Verification &amp; sources</h3>
           <ul className="mt-2 list-disc pl-5 text-gray-700">
             {SOURCES.map((s) => (
               <li key={s}>{s}</li>
             ))}
           </ul>
+          <p className="mt-2 text-sm text-gray-600">
+            Where something is uncertain (for example, seasonal hours or planned works), we say so
+            and link to official sources where possible.
+          </p>
         </div>
         <div className="callout callout-warn">
-          <h3 className="text-lg font-semibold">Updates & uncertainty</h3>
+          <h3 className="text-lg font-semibold">Updates, corrections &amp; AI</h3>
           <p className="mt-2 text-gray-700">
-            When details are fluid (festival schedules, seasonal toilets), we say so and point to
-            official notices. We will remove or revise info that becomes inaccurate.
+            Cornerstone pages like Parking, Walks and Local Services are reviewed regularly, with
+            extra checks around busy periods. We use AI tools to help with formatting, structure and
+            checklists, but all published content is planned, edited and verified by humans. Mistakes
+            are corrected as soon as we&apos;re aware of them.
+          </p>
+          <p className="mt-2 text-sm text-gray-600">
+            See our{' '}
+            <Link
+              className="underline underline-offset-4"
+              href="/legal/editorial-policy"
+            >
+              editorial policy
+            </Link>{' '}
+            and{' '}
+            <Link
+              className="underline underline-offset-4"
+              href="/legal/corrections"
+            >
+              corrections page
+            </Link>{' '}
+            for the full detail.
           </p>
         </div>
       </div>
+    </section>
+  )
+}
 
-      <div className="mt-6 rounded-2xl border border-gray-200 bg-white p-4">
-        <p className="text-sm text-gray-700">
-          See also our{' '}
-          <Link
-            className="underline underline-offset-4"
-            href="/legal/editorial-policy"
-          >
-            editorial policy
-          </Link>{' '}
-          and{' '}
-          <Link
-            className="underline underline-offset-4"
-            href="/legal/corrections"
-          >
-            corrections page
-          </Link>
-          . We publish a small{' '}
-          <Link className="underline underline-offset-4" href="/legal/masthead">
-            masthead &amp; imprint
-          </Link>{' '}
-          for transparency.
-        </p>
+function Businesses() {
+  return (
+    <section
+      id="businesses"
+      aria-labelledby="businesses-title"
+      className="border-y border-gray-200 bg-gradient-to-b from-white to-gray-50"
+    >
+      <div className="container mx-auto max-w-7xl px-4 py-10 md:py-14">
+        <SectionHeading id="businesses-title">For local businesses &amp; community groups</SectionHeading>
+        <div className="mt-4 grid gap-6 md:grid-cols-3">
+          <div className="card">
+            <div className="card-body">
+              <h3 className="text-lg font-semibold">Free basic listings</h3>
+              <p className="mt-2 text-gray-700">
+                If you run a genuine Saltaire or Shipley business or community group, you can request
+                a free entry in the local services directory. We keep it simple: name, basic
+                description and contact details.
+              </p>
+              <div className="mt-3">
+                <Link
+                  href="/for-business/free-listing"
+                  className="btn btn-primary btn-sm"
+                >
+                  Claim a free listing
+                </Link>
+              </div>
+            </div>
+          </div>
+          <div className="card card-muted">
+            <div className="card-body">
+              <h3 className="text-lg font-semibold">Featured &amp; priority slots</h3>
+              <p className="mt-2 text-gray-700">
+                Some businesses choose to pay for clearly labelled featured or priority placements in
+                relevant categories. These spots help cover running costs but do not buy positive
+                reviews or editorial coverage.
+              </p>
+              <p className="mt-2 text-sm text-gray-600">
+                Prices and options are explained on the business pages, with Stripe-powered checkout
+                and no long contracts.
+              </p>
+            </div>
+          </div>
+          <div className="card">
+            <div className="card-body">
+              <h3 className="text-lg font-semibold">Websites, audits &amp; campaigns</h3>
+              <p className="mt-2 text-gray-700">
+                We also work with a small number of local clients on websites, content and simple
+                audits of existing sites. These services are separate from editorial coverage and are
+                always disclosed where relevant.
+              </p>
+              <p className="mt-2 text-sm text-gray-600">
+                To talk about a project, email us with subject “Business” via the contact details
+                below.
+              </p>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   )
@@ -404,27 +547,39 @@ function Monetisation() {
       aria-labelledby="mon-title"
       className="container mx-auto max-w-7xl px-4 py-10"
     >
-      <SectionHeading id="mon-title">Advertising & monetisation</SectionHeading>
+      <SectionHeading id="mon-title">How Saltaire Guide makes money</SectionHeading>
+      <p className="mt-2 max-w-prose text-gray-700">
+        Running a useful, fast site takes time and hosting. We try to cover costs without turning
+        every page into an advert wall. Here&apos;s how we monetise things and where that shows up.
+      </p>
       <div className="mt-4 grid gap-6 md:grid-cols-2">
         <div className="card">
           <div className="card-body">
-            <h3 className="text-lg font-semibold">No paid placements</h3>
+            <h3 className="text-lg font-semibold">Directory products</h3>
             <p className="mt-2 text-gray-700">
-              We do not sell spots in guides. If we accept ads or relevant affiliate links in the
-              future, they will be clearly labelled and kept separate from editorial decisions.
+              Basic listings in the local services directory are free. We offer optional paid
+              products such as featured placements and priority positions on relevant pages. These are
+              fixed-fee products, not commission-based, and they are labelled as “Featured” or
+              similar in the interface.
             </p>
           </div>
         </div>
         <div className="card card-muted">
           <div className="card-body">
-            <h3 className="text-lg font-semibold">Conflicts of interest</h3>
+            <h3 className="text-lg font-semibold">Affiliate links &amp; recommendations</h3>
             <p className="mt-2 text-gray-700">
-              If any contributor has a material connection to a business we cover, we disclose it
-              on the page or avoid the assignment altogether.
+              Some gear or preparation guides include affiliate links (for example, to Amazon). If
+              you buy through these, we may earn a small commission at no extra cost. We do not
+              promote products we think are actively bad fits, and we always aim to keep affiliate
+              blocks short and clearly marked.
             </p>
           </div>
         </div>
       </div>
+      <p className="mt-4 text-sm text-gray-600">
+        We do not sell “pay-to-play” positive write-ups. Commercial relationships are disclosed on
+        relevant pages and do not override our basic responsibility to be fair and accurate.
+      </p>
     </section>
   )
 }
@@ -442,7 +597,7 @@ function Contact() {
       <div className="mt-4 grid gap-6 md:grid-cols-2">
         <div className="card">
           <div className="card-body">
-            <h3 className="text-lg font-semibold">General &amp; corrections</h3>
+            <h3 className="text-lg font-semibold">General, corrections &amp; tips</h3>
             <p className="mt-2 text-gray-700">
               Email:{' '}
               <a
@@ -453,17 +608,19 @@ function Contact() {
               </a>
             </p>
             <p className="mt-2 text-sm text-gray-600">
-              Please include date/time seen, a short description, and any evidence (photo or link).
+              For corrections or updates, include date/time seen, a short description and any
+              evidence (photo or link). This helps us fix things quickly and transparently.
             </p>
           </div>
         </div>
         <div className="card">
           <div className="card-body">
-            <h3 className="text-lg font-semibold">Media, re-use &amp; local businesses</h3>
+            <h3 className="text-lg font-semibold">Media, re-use &amp; local partners</h3>
             <p className="mt-2 text-gray-700">
               For press enquiries, image use or if you run a Saltaire or Shipley business and would
-              like to work together, email us with subject “Press” or “Business”. We usually allow
-              non-commercial re-use with credit and a link.
+              like to collaborate, email with subject “Press” or “Business”. We usually allow
+              non-commercial re-use of images with credit and a link; commercial use needs a quick
+              written agreement.
             </p>
           </div>
         </div>
@@ -558,11 +715,11 @@ function CTA() {
         <div className="grid items-center gap-8 md:grid-cols-2">
           <div>
             <h2 className="text-2xl font-bold md:text-3xl">
-              Explore the essential guides
+              Explore the core guides &amp; hubs
             </h2>
             <p className="mt-2 max-w-prose text-gray-700">
-              Start with parking or a classic towpath walk, browse cafés and pubs, or plan your day
-              around Salts Mill.
+              Start with parking or a classic towpath walk, browse cafés and pubs, or check the
+              latest Saltaire &amp; Shipley news and local services.
             </p>
             <div className="mt-4 flex flex-wrap gap-3">
               <Link href="/parking" className="btn btn-primary">
@@ -571,20 +728,21 @@ function CTA() {
               <Link href="/walks" className="btn btn-outline">
                 Walks
               </Link>
-              <Link href="/salts-mill" className="btn btn-ghost">
-                Salts Mill
+              <Link href="/local-services" className="btn btn-ghost">
+                Local services
               </Link>
-              <Link href="/food-drink" className="btn btn-muted">
-                Eat &amp; drink
+              <Link href="/news" className="btn btn-muted">
+                News &amp; roundups
               </Link>
             </div>
           </div>
           <div className="relative aspect-[4/3] overflow-hidden rounded-2xl shadow">
             <Image
-              src="/images/walks-from-saltaire.png"
-              alt="Towpath and canal bridge near Saltaire"
+              src="/images/roberts-park.png"
+              alt="Roberts Park and the surrounding village"
               fill
               sizes="(max-width: 768px) 100vw, 50vw"
+              className="object-cover"
             />
           </div>
         </div>
@@ -610,7 +768,7 @@ function JsonLd() {
     name: 'About Saltaire Guide',
     url: `${base}/about`,
     description:
-      'Who we are, how we work and our editorial standards: independent, local and practical guides to Saltaire & Shipley.',
+      'Who runs Saltaire Guide, how we work and how we make money. Practical guides, a local services directory and hyperlocal news for Saltaire & Shipley.',
     isPartOf: { '@type': 'WebSite', name: site.name, url: base },
     breadcrumb: {
       '@type': 'BreadcrumbList',
@@ -634,7 +792,7 @@ function JsonLd() {
     logo: `${base}/favicons/apple-touch-icon.png`,
     sameAs: twitter ? [twitter] : undefined,
     foundingDate: `${year}`,
-    areaServed: ['Saltaire', 'Shipley', 'GB'],
+    areaServed: ['Saltaire', 'Shipley', 'Bradford district', 'GB'],
     knowsAbout: [
       'Saltaire history',
       'Salts Mill',
@@ -645,6 +803,8 @@ function JsonLd() {
       'Parking in Saltaire',
       'Cafés, pubs & restaurants in Saltaire & Shipley',
       'Events & festivals in Saltaire',
+      'Local services in Saltaire & Shipley',
+      'Hyperlocal news in Saltaire & Shipley',
     ],
     contactPoint: [
       {
@@ -695,9 +855,11 @@ export default function AboutPage() {
     <>
       <Breadcrumbs />
       <IntroHero />
+      <WhatWeDo />
       <Values />
       <Team />
       <Method />
+      <Businesses />
       <Monetisation />
       <Contact />
       <FAQ />

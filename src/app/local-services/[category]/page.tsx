@@ -1,19 +1,20 @@
 // src/app/local-services/[category]/page.tsx
-// Production-ready dynamic Server Component for category directory pages.
-// Paste this file at src/app/local-services/[category]/page.tsx
-// It dynamically imports data from src/data/local-services/<category>.ts (must export `listings` and optional `categoryMetadata`).
+// Dynamic category directory page for local services.
+// Reads data from src/data/local-services/<category>.ts
 
-import React from "react";
+import type { Metadata } from "next";
+import Link from "next/link";
+import { site } from "@/config/site";
 
 type Listing = {
   slug: string;
   name: string;
   phoneLocal?: string;
-  phoneTel?: string;
+  phoneTel?: string; // e.g. "tel:+4474..."
   email?: string;
   website?: string;
   excerpt?: string;
-  priceFrom?: string;
+  priceFrom?: string; // e.g. "£12"
   areaServed?: string[];
   featured?: boolean;
   verified?: boolean;
@@ -30,41 +31,7 @@ type ListingsModule = {
   };
 };
 
-export async function generateMetadata({ params }: { params: Promise<{ category: string }> }) {
-  const { category } = await params;
-  try {
-    // dynamic import - expects a file at src/data/local-services/<category>.ts exporting `listings` and optionally `categoryMetadata`
-    // @ts-ignore
-    const mod: ListingsModule = await import(`@/data/local-services/${category}`);
-    const meta = mod?.categoryMetadata;
-    const title = meta?.title ?? `${displayName(category)} — Local Services in Saltaire & Shipley`;
-    const description =
-      meta?.description ??
-      `Find trusted ${displayName(category)} serving Saltaire & Shipley. Featured providers are verified and prioritized.`;
-    return {
-      title,
-      description,
-      openGraph: {
-        title,
-        description,
-        url: `https://saltaireguide.uk/local-services/${category}`,
-        images: meta?.image ? [meta.image] : undefined,
-      },
-    };
-  } catch (e) {
-    const title = `${displayName(category)} — Local Services in Saltaire & Shipley`;
-    const description = `Find trusted ${displayName(category)} serving Saltaire & Shipley. Featured providers are verified and prioritized.`;
-    return {
-      title,
-      description,
-      openGraph: {
-        title,
-        description,
-        url: `https://saltaireguide.uk/local-services/${category}`,
-      },
-    };
-  }
-}
+const WA_NUMBER = "447424208127";
 
 function displayName(slug: string) {
   if (!slug) return slug;
@@ -83,44 +50,120 @@ function JsonLd({ obj }: { obj: any }) {
   );
 }
 
-export default async function CategoryPage({ params }: { params: Promise<{ category: string }> }) {
+/* ----------------------------- generateMetadata ---------------------------- */
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ category: string }>;
+}): Promise<Metadata> {
   const { category } = await params;
+  const display = displayName(category);
+
+  try {
+    // @ts-ignore – resolved at build if file exists
+    const mod: ListingsModule = await import(
+      `@/data/local-services/${category}`
+    );
+    const meta = mod?.categoryMetadata;
+
+    const title =
+      meta?.title ?? `${display} in Saltaire & Shipley — local services`;
+    const description =
+      meta?.description ??
+      `Find trusted ${display.toLowerCase()} serving Saltaire & Shipley. Featured providers are highlighted and verified when possible.`;
+
+    return {
+      title,
+      description,
+      openGraph: {
+        title,
+        description,
+        url: `${site.url}/local-services/${category}`,
+        images: meta?.image ? [meta.image] : undefined,
+      },
+      alternates: {
+        canonical: `${site.url}/local-services/${category}`,
+      },
+    };
+  } catch {
+    const title = `${display} in Saltaire & Shipley — local services`;
+    const description = `Find trusted ${display.toLowerCase()} serving Saltaire & Shipley. Featured providers are highlighted and verified when possible.`;
+
+    return {
+      title,
+      description,
+      openGraph: {
+        title,
+        description,
+        url: `${site.url}/local-services/${category}`,
+      },
+      alternates: {
+        canonical: `${site.url}/local-services/${category}`,
+      },
+    };
+  }
+}
+
+/* --------------------------------- Page ----------------------------------- */
+
+export default async function CategoryPage({
+  params,
+}: {
+  params: Promise<{ category: string }>;
+}) {
+  const { category } = await params;
+  const display = displayName(category);
+
   let mod: ListingsModule | null = null;
   let listings: Listing[] = [];
 
   try {
-    // @ts-ignore
-    mod = (await import(`@/data/local-services/${category}`)) as ListingsModule;
+    // @ts-ignore – resolved at build if file exists
+    mod = (await import(
+      `@/data/local-services/${category}`
+    )) as ListingsModule;
     listings = Array.isArray(mod?.listings) ? mod!.listings : [];
-  } catch (err) {
-    listings = [];
+  } catch {
     mod = null;
+    listings = [];
   }
 
-  // order featured first
-  const featured = listings.filter((l) => l.featured).slice(0, 3);
+  const featured = listings.filter((l) => l.featured);
   const others = listings.filter((l) => !l.featured);
 
-  // ItemList JSON-LD
+  const pageTitle =
+    mod?.categoryMetadata?.title ??
+    `${display} in Saltaire & Shipley — local services`;
+  const pageDescription =
+    mod?.categoryMetadata?.description ??
+    `Find trusted ${display.toLowerCase()} serving Saltaire & Shipley. Featured providers are listed first and may show verification badges where proof has been provided.`;
+
+  const baseUrl = site.url;
+  const categoryUrl = `${baseUrl}/local-services/${category}`;
+
+  /* ------------------------------- JSON-LD -------------------------------- */
+
   const itemListLd = {
     "@context": "https://schema.org",
     "@type": "ItemList",
+    name: `${display} in Saltaire & Shipley`,
+    url: categoryUrl,
     itemListElement: listings.map((l, idx) => ({
       "@type": "ListItem",
       position: idx + 1,
-      url: l.website ? l.website : `https://saltaireguide.uk/local-services/${category}#${l.slug}`,
+      url: l.website || `${categoryUrl}#${l.slug}`,
       name: l.name,
       description: l.excerpt,
     })),
   };
 
-  // LocalBusiness objects for featured listings
   const featuredLd = featured.map((f) => ({
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
     name: f.name,
     image: f.image,
-    url: f.website || `https://saltaireguide.uk/local-services/${category}#${f.slug}`,
+    url: f.website || `${categoryUrl}#${f.slug}`,
     telephone: f.phoneTel,
     email: f.email,
     priceRange: f.priceFrom,
@@ -131,23 +174,44 @@ export default async function CategoryPage({ params }: { params: Promise<{ categ
       postalCode: "BD18",
       addressCountry: "GB",
     },
-    areaServed: (f.areaServed || ["Saltaire", "Shipley"]).map((a) => ({ "@type": "Place", name: a })),
+    areaServed: (f.areaServed || ["Saltaire", "Shipley"]).map((a) => ({
+      "@type": "Place",
+      name: a,
+    })),
     description: f.excerpt,
-    "@id": f.website || `https://saltaireguide.uk/local-services/${category}#${f.slug}`,
+    "@id": f.website || `${categoryUrl}#${f.slug}`,
   }));
 
-  // Mailto fallback for business sign-ups
-  const listSubject = encodeURIComponent(`List my ${category.replace("-", " ")} service on Saltaire Guide`);
-  const listBody = encodeURIComponent(
-    `Hi,\n\nI'd like to list my ${category.replace("-", " ")} service on Saltaire Guide.\n\nBusiness name:\nContact name:\nPhone:\nEmail:\nWebsite:\nService types:\nShort description:\nWould you like a featured listing trial? (yes/no):\n\nThanks!`
-  );
-  const listMailto = `mailto:hello@saltaireguide.uk?subject=${listSubject}&body=${listBody}`;
+  const faqs = buildFaq(display, category);
+  const faqLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faqs.map((f) => ({
+      "@type": "Question",
+      name: f.q,
+      acceptedAnswer: { "@type": "Answer", text: f.a },
+    })),
+  };
 
-  const display = displayName(category);
-  const pageTitle = mod?.categoryMetadata?.title ?? `${display} in Saltaire & Shipley`;
-  const pageDescription =
-    mod?.categoryMetadata?.description ??
-    `Find trusted ${display} serving Saltaire and Shipley. Featured providers are verified and prioritized in results.`;
+  /* --------------------------- Business owner CTAs ------------------------ */
+
+  const queryCategory = encodeURIComponent(display);
+  const freeListingUrl = `/for-business/free-audit-free-listing?category=${queryCategory}`;
+
+  const waText = encodeURIComponent(
+    [
+      `Hi Giuseppe, I run a ${display.toLowerCase()} service in Saltaire/Shipley.`,
+      "",
+      "I saw the SaltaireGuide local services page and would like to:",
+      "- Get a free basic listing, and",
+      "- Hear about featured placement / website options.",
+      "",
+      "Business name:",
+      "Based in:",
+      "Website / Instagram:",
+    ].join("\n"),
+  );
+  const waLink = `https://wa.me/${WA_NUMBER}?text=${waText}`;
 
   return (
     <>
@@ -155,275 +219,507 @@ export default async function CategoryPage({ params }: { params: Promise<{ categ
       {featuredLd.map((f, i) => (
         <JsonLd obj={f} key={`featured-ld-${i}`} />
       ))}
+      <JsonLd obj={faqLd} />
 
-      <main className="max-w-7xl mx-auto px-4 py-12">
+      <main className="mx-auto max-w-5xl px-4 py-10 md:max-w-6xl">
+        {/* Breadcrumbs */}
+        <nav
+          aria-label="Breadcrumb"
+          className="mb-4 text-sm text-neutral-600"
+        >
+          <ol className="flex flex-wrap items-center gap-2">
+            <li>
+              <Link
+                href="/"
+                className="underline underline-offset-4 hover:text-neutral-900"
+              >
+                Home
+              </Link>
+            </li>
+            <li aria-hidden="true">›</li>
+            <li>
+              <Link
+                href="/local-services"
+                className="underline underline-offset-4 hover:text-neutral-900"
+              >
+                Local services
+              </Link>
+            </li>
+            <li aria-hidden="true">›</li>
+            <li aria-current="page" className="text-neutral-900">
+              {display}
+            </li>
+          </ol>
+        </nav>
+
         {/* Hero */}
-        <section className="bg-white rounded-lg shadow p-8 mb-8">
-          <div className="max-w-5xl mx-auto">
-            <h1 className="text-3xl sm:text-4xl font-extrabold">{pageTitle}</h1>
-            <p className="mt-3 text-lg text-slate-700">{pageDescription}</p>
+        <section className="mb-8 rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm md:p-8">
+          <p className="inline-flex items-center rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-emerald-700">
+            Saltaire &amp; Shipley
+          </p>
+          <h1 className="mt-3 text-3xl font-extrabold tracking-tight text-neutral-900 md:text-4xl">
+            {pageTitle}
+          </h1>
+          <p className="mt-3 max-w-2xl text-base text-neutral-700">
+            {pageDescription}
+          </p>
 
-            <div className="mt-6 flex flex-wrap gap-3">
-              {featured[0]?.phoneTel ? (
-                <a href={featured[0].phoneTel} className="inline-block rounded-md px-4 py-2 bg-sky-600 text-white text-sm hover:bg-sky-700">
-                  Call {featured[0].name}
-                </a>
-              ) : (
-                <a href={listMailto} className="inline-block rounded-md px-4 py-2 bg-sky-600 text-white text-sm hover:bg-sky-700">
-                  Request a Featured Listing
-                </a>
-              )}
-
-              <a href={listMailto} className="inline-block rounded-md px-4 py-2 border text-sm">
-                List your business
-              </a>
-
-              <a href="/local-services" className="inline-block rounded-md px-4 py-2 text-sm border bg-slate-50">
-                All local services
-              </a>
-            </div>
-
-            <p className="mt-4 text-xs text-slate-500">
-              Featured providers are highlighted and given verification badges. Businesses can request a trial via the 'List your business' link.
-            </p>
+          <div className="mt-5 flex flex-wrap gap-3">
+            <a href="#providers" className="btn btn-primary">
+              Browse {display.toLowerCase()} providers
+            </a>
+            <Link href={freeListingUrl} className="btn btn-outline">
+              List your {display.toLowerCase()} business (free)
+            </Link>
+            <Link href="/local-services" className="btn btn-ghost">
+              Back to all services
+            </Link>
           </div>
+          <p className="mt-3 text-xs text-neutral-500">
+            Featured providers appear first and may show a{" "}
+            <span className="font-semibold">“Verified documents”</span> badge
+            where we&apos;ve checked insurance/DBS. Basic listings are always
+            free.
+          </p>
         </section>
 
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-          {/* Filters + TOC */}
-          <aside className="lg:col-span-1 sticky top-28 self-start">
-            <div className="bg-white border rounded-md p-4 mb-6">
-              <h3 className="text-sm font-semibold">Quick filters</h3>
-              <label className="block text-xs text-slate-600 mt-3">Service</label>
-              <select className="w-full border rounded-md p-2 text-sm">
-                <option>All</option>
-                <option>{display}</option>
-                <option>Featured</option>
-              </select>
-
-              <label className="block text-xs text-slate-600 mt-3">Sort</label>
-              <select className="w-full border rounded-md p-2 text-sm">
-                <option>Featured</option>
-                <option>Price: low → high</option>
-                <option>Price: high → low</option>
-              </select>
-
-              <div className="mt-4 text-xs text-slate-500">
-                Filters are static on this server-rendered page. For client-side filtering, convert this component into a Client Component and fetch the listings JSON.
-              </div>
+        {/* Providers */}
+        <section id="providers" className="space-y-10">
+          {/* Featured providers */}
+          <section aria-labelledby="featured-title">
+            <div className="flex items-baseline justify-between gap-3">
+              <h2
+                id="featured-title"
+                className="text-2xl font-bold tracking-tight text-neutral-900"
+              >
+                Featured {display}
+              </h2>
+              <p className="text-xs text-neutral-500">
+                Paid placements from genuine local providers. We aim to check
+                key documents where possible.
+              </p>
             </div>
 
-            <nav className="bg-white border rounded-md p-4 text-sm">
-              <h4 className="font-semibold mb-2">Contents</h4>
-              <ul className="space-y-2">
-                <li><a href="#featured" className="hover:underline">Featured providers</a></li>
-                <li><a href="#listings" className="hover:underline">All listings</a></li>
-                <li><a href="#map" className="hover:underline">Map</a></li>
-                <li><a href="#faq" className="hover:underline">FAQ</a></li>
-                <li><a href="#signup" className="hover:underline">List your business</a></li>
-              </ul>
-            </nav>
-          </aside>
-
-          {/* Main content */}
-          <section className="lg:col-span-3 space-y-8">
-            {/* Featured */}
-            <section id="featured" className="space-y-4">
-              <h2 className="text-2xl font-semibold">Featured {display}</h2>
-
-              {featured.length === 0 ? (
-                <div className="bg-slate-50 border rounded-md p-4 text-sm text-slate-600">
-                  No featured providers yet. Businesses can request featured placement via the "List your business" link.
-                </div>
-              ) : (
-                <div className="grid gap-4">
-                  {featured.map((f) => (
-                    <article key={f.slug} className="bg-white border rounded-md p-4 shadow-sm">
-                      <div className="md:flex md:gap-6">
-                        <div className="md:flex-shrink-0">
-                          <div
-                            className="w-40 h-28 bg-cover bg-center rounded-md border overflow-hidden flex items-center justify-center text-xs text-slate-400"
-                            style={{ backgroundImage: `url(${f.image || "/images/placeholder.png"})` }}
-                          >
-                            {f.name}
-                          </div>
-                        </div>
-
-                        <div className="flex-1">
-                          <div className="flex items-start justify-between">
-                            <div>
-                              <h3 className="text-xl font-semibold">{f.name}</h3>
-                              <p className="text-sm text-slate-600 mt-1">{f.excerpt}</p>
-                            </div>
-
-                            <div className="text-right">
-                              <div className="text-sm text-slate-500">From</div>
-                              <div className="text-xl font-bold">{f.priceFrom ?? "On request"}</div>
-                              {f.verified ? (
-                                <div className="mt-1 text-xs text-green-700 font-medium">Verified</div>
-                              ) : (
-                                <div className="mt-1 text-xs text-slate-400">Unverified</div>
-                              )}
-                            </div>
-                          </div>
-
-                          <dl className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-4 text-sm">
-                            <div>
-                              <dt className="text-xs text-slate-500">Area</dt>
-                              <dd className="mt-1 text-slate-700">{(f.areaServed || ["Saltaire"]).join(", ")}</dd>
-                            </div>
-                            <div>
-                              <dt className="text-xs text-slate-500">Contact</dt>
-                              <dd className="mt-1 text-slate-700">
-                                {f.phoneTel ? <a href={f.phoneTel} className="underline">{f.phoneLocal ?? f.phoneTel}</a> : <span className="text-slate-500">No number</span>}
-                                <br />
-                                {f.email ? <a href={`mailto:${f.email}`} className="underline">{f.email}</a> : null}
-                              </dd>
-                            </div>
-                            <div>
-                              <dt className="text-xs text-slate-500">Tags</dt>
-                              <dd className="mt-1 text-slate-700">{(f.tags || []).join(", ") || "—"}</dd>
-                            </div>
-                          </dl>
-
-                          <div className="mt-4 flex gap-3">
-                            {f.phoneTel ? <a href={f.phoneTel} className="rounded-md px-4 py-2 bg-sky-600 text-white text-sm">Call</a> : null}
-                            {f.email ? <a href={`mailto:${f.email}`} className="rounded-md px-4 py-2 border text-sm">Email</a> : null}
-                            {f.website ? <a href={f.website} target="_blank" rel="noopener noreferrer" className="rounded-md px-4 py-2 border text-sm">Visit site</a> : null}
-                          </div>
-                        </div>
-                      </div>
-                    </article>
-                  ))}
-                </div>
-              )}
-            </section>
-
-            {/* All listings */}
-            <section id="listings" className="space-y-4">
-              <h2 className="text-2xl font-semibold">All listings</h2>
-
-              {listings.length === 0 ? (
-                <div className="bg-slate-50 border rounded-md p-4 text-sm text-slate-600">
-                  There are currently no listings for this category. Business owners can request to be listed via email:
-                  <a href={listMailto} className="underline ml-1">Request a listing</a>.
-                </div>
-              ) : (
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {listings.map((l, idx) => {
-                    const isFeatured = !!l.featured;
-                    return (
-                      <article key={l.slug || idx} className={`${isFeatured ? "bg-white border shadow-sm" : "bg-slate-50 border"} rounded-md p-4`}>
-                        <div className="flex items-start gap-4">
-                          <div className="w-20 h-14 bg-cover bg-center rounded-sm flex items-center justify-center text-xs text-slate-400" style={{ backgroundImage: `url(${l.image || "/images/placeholder.png"})` }}>
-                            {l.name}
-                          </div>
-                          <div className="flex-1">
-                            <div className="flex items-start justify-between">
-                              <div>
-                                <h3 className="text-lg font-medium">{idx + 1}. {l.name}</h3>
-                                <p className="text-sm text-slate-600 mt-1">{l.excerpt}</p>
-                              </div>
-                              <div className="text-right">
-                                <div className="text-sm text-slate-500">From</div>
-                                <div className="text-lg font-semibold">{l.priceFrom ?? "On request"}</div>
-                              </div>
-                            </div>
-
-                            <div className="mt-3 flex gap-2">
-                              {l.website ? <a href={l.website} className="inline-block rounded px-3 py-1 text-xs border bg-white" target="_blank" rel="noopener noreferrer">Visit</a> : null}
-                              {l.phoneTel ? <a href={l.phoneTel} className="inline-block rounded px-3 py-1 text-xs border bg-white">Call</a> : <span className="inline-block rounded px-3 py-1 text-xs border bg-white text-slate-400">No phone</span>}
-                              {l.email ? <a href={`mailto:${l.email}`} className="inline-block rounded px-3 py-1 text-xs border bg-white">Email</a> : null}
-                            </div>
-                          </div>
-                        </div>
-                      </article>
-                    );
-                  })}
-                </div>
-              )}
-            </section>
-
-            {/* Map */}
-            <section id="map" className="bg-white border rounded-md p-6">
-              <h3 className="text-lg font-semibold mb-3">Map</h3>
-              <div role="img" aria-label="Map placeholder" className="w-full h-64 rounded-md border-2 border-dashed flex items-center justify-center text-slate-400">
-                Interactive map placeholder — integrate Leaflet or Mapbox and load pins from src/data/local-services/{category}.ts
+            {featured.length === 0 ? (
+              <div className="mt-4 rounded-2xl border border-dashed border-neutral-300 bg-neutral-50 p-4 text-sm text-neutral-700">
+                No featured providers yet. If you run a{" "}
+                {display.toLowerCase()} service in Saltaire or Shipley, you can{" "}
+                <Link
+                  href={freeListingUrl}
+                  className="font-semibold underline underline-offset-4"
+                >
+                  get a free listing
+                </Link>{" "}
+                and ask about featured placement and website help.
               </div>
-            </section>
-
-            {/* Benefits */}
-            <section id="benefits" className="bg-white border rounded-md p-6">
-              <h3 className="text-lg font-semibold mb-3">Why list or feature your business here?</h3>
-              <ul className="list-disc pl-5 text-sm space-y-2 text-slate-700">
-                <li>Featured placement drives higher click-through and phone calls.</li>
-                <li>Verification badges for DBS / insurance improve trust & conversions.</li>
-                <li>Structured data (LocalBusiness JSON-LD) improves Google understanding.</li>
-                <li>Simple onboarding: request a trial featured placement via email.</li>
-              </ul>
-            </section>
-
-            {/* FAQ */}
-            <section id="faq" className="bg-white border rounded-md p-6">
-              <h3 className="text-lg font-semibold mb-3">Frequently asked questions</h3>
-              <div className="space-y-4">
-                {FAQ_BLOCK(category)}
+            ) : (
+              <div className="mt-5 space-y-4">
+                {featured.map((f) => (
+                  <FeaturedListingCard key={f.slug} listing={f} />
+                ))}
               </div>
-            </section>
-
-            {/* Signup */}
-            <section id="signup" className="bg-slate-50 border rounded-md p-6">
-              <h3 className="text-lg font-semibold mb-3">List your business</h3>
-              <p className="text-sm text-slate-700">
-                Basic listing is free. Featured listings include a verification badge, priority placement and better conversion. Request a listing or featured trial by emailing us — we typically reply within 48 hours.
-              </p>
-
-              <div className="mt-4 flex gap-3">
-                <a href={listMailto} className="rounded-md px-4 py-2 bg-indigo-600 text-white">Request listing via email</a>
-                <a href="#benefits" className="rounded-md px-4 py-2 border">Why feature?</a>
-              </div>
-            </section>
+            )}
           </section>
-        </div>
+
+          {/* All listings */}
+          <section aria-labelledby="all-title">
+            <div className="flex items-baseline justify-between gap-3">
+              <h2
+                id="all-title"
+                className="text-2xl font-bold tracking-tight text-neutral-900"
+              >
+                All {display.toLowerCase()} listings
+              </h2>
+              <p className="text-xs text-neutral-500">
+                Human-curated order. No star ratings, no fake reviews — just
+                clear info.
+              </p>
+            </div>
+
+            {listings.length === 0 ? (
+              <div className="mt-4 rounded-2xl border border-neutral-200 bg-white p-4 text-sm text-neutral-700">
+                We don&apos;t have any {display.toLowerCase()} listed yet for
+                Saltaire &amp; Shipley.
+                <br />
+                <span className="mt-1 inline-block">
+                  Own a local business?{" "}
+                  <Link
+                    href={freeListingUrl}
+                    className="font-semibold underline underline-offset-4"
+                  >
+                    Get your free listing
+                  </Link>{" "}
+                  and we&apos;ll add you here.
+                </span>
+              </div>
+            ) : (
+              <div className="mt-5 grid grid-cols-1 gap-4 md:grid-cols-2">
+                {(others.length > 0 ? others : listings).map((l, idx) => (
+                  <ListingCard
+                    key={l.slug || idx}
+                    listing={l}
+                    index={idx + 1}
+                  />
+                ))}
+              </div>
+            )}
+          </section>
+
+          {/* How we list & verify */}
+          <section className="rounded-2xl border border-neutral-200 bg-white p-6 text-sm text-neutral-700 shadow-sm">
+            <h2 className="text-lg font-semibold text-neutral-900">
+              How we list &amp; verify {display.toLowerCase()}
+            </h2>
+            <ul className="mt-2 list-disc pl-5">
+              <li>
+                Basic listings are free for genuine providers serving Saltaire
+                &amp; Shipley.
+              </li>
+              <li>
+                Featured spots are fixed-fee ad products — no commission taken
+                from jobs.
+              </li>
+              <li>
+                Where providers share proof (e.g. insurance, DBS), we display a{" "}
+                <span className="font-semibold">“Verified documents”</span>{" "}
+                badge. Always do your own checks.
+              </li>
+              <li>
+                For full details, see the{" "}
+                <Link
+                  href="/local-services#verify"
+                  className="underline underline-offset-4"
+                >
+                  verification & ranking policy
+                </Link>
+                .
+              </li>
+            </ul>
+          </section>
+
+          {/* Business owner CTA */}
+          <section className="rounded-2xl border border-neutral-200 bg-emerald-50/60 p-6 text-sm text-neutral-800">
+            <h2 className="text-lg font-semibold text-neutral-900">
+              Run a {display.toLowerCase()} business in Saltaire or Shipley?
+            </h2>
+            <p className="mt-2 max-w-prose">
+              You can get a free basic listing plus a quick look over your
+              website. If you want extra visibility, we offer simple paid
+              options:
+            </p>
+            <ul className="mt-2 list-disc pl-5">
+              <li>5-page website build for £40.</li>
+              <li>50-page website build for £300 for multi-service businesses.</li>
+              <li>Website audit video for £30.</li>
+              <li>Priority featured ad slots from £30 / month.</li>
+            </ul>
+            <div className="mt-4 flex flex-wrap gap-3">
+              <Link href={freeListingUrl} className="btn btn-primary">
+                Get free listing &amp; website check
+              </Link>
+              <Link
+                href="/for-business/free-audit-free-listing#extras"
+                className="btn btn-outline"
+              >
+                See full pricing &amp; pay online
+              </Link>
+              <a href={waLink} className="btn btn-ghost" target="_blank">
+                Ask a question via WhatsApp
+              </a>
+            </div>
+          </section>
+
+          {/* FAQ */}
+          <section
+            id="faqs"
+            className="rounded-2xl border border-neutral-200 bg-white p-6 text-sm text-neutral-800 shadow-sm"
+          >
+            <h2 className="text-lg font-semibold text-neutral-900">
+              {display} — quick questions
+            </h2>
+            <div className="mt-3 space-y-3">
+              {faqs.map((f) => (
+                <details
+                  key={f.q}
+                  className="group rounded-xl border border-neutral-200 bg-neutral-50 p-4 open:bg-neutral-50"
+                >
+                  <summary className="cursor-pointer list-none text-sm font-medium text-neutral-900">
+                    {f.q}
+                  </summary>
+                  <p className="mt-2 text-sm text-neutral-700">{f.a}</p>
+                </details>
+              ))}
+            </div>
+          </section>
+        </section>
       </main>
     </>
   );
 }
 
-// FAQ helper
-function FAQ_BLOCK(category: string) {
-  const commonFaqs = [
-    {
-      q: "How much does a typical job cost?",
-      a: "Costs vary by service — many listings show starting prices. Contact providers to get a bespoke quote.",
-    },
-    {
-      q: "Are featured providers vetted?",
-      a: "Featured providers are encouraged to provide verification such as DBS checks and insurance. We display verification badges where providers have submitted proof.",
-    },
-    {
-      q: "How do I request a featured listing?",
-      a: "Use the 'List your business' link on this page to email us. We'll provisionally add a basic listing and discuss featured options and pricing.",
-    },
-    {
-      q: "How do you decide ordering?",
-      a: "Featured providers are placed at the top. Others are displayed in the order provided in the data file. In future we'll support sorting by rating, price, and distance.",
-    },
-  ];
+/* ----------------------------- Presentational ----------------------------- */
+
+function FeaturedListingCard({ listing }: { listing: Listing }) {
+  const {
+    slug,
+    name,
+    excerpt,
+    priceFrom,
+    phoneLocal,
+    phoneTel,
+    email,
+    website,
+    areaServed,
+    verified,
+    tags,
+    image,
+  } = listing;
+
+  const priceLabel = priceFrom ? `From ${priceFrom}` : "Price on enquiry";
+
+  return (
+    <article
+      id={slug}
+      className="rounded-2xl border border-emerald-200 bg-white p-5 shadow-sm"
+    >
+      <div className="flex flex-col gap-4 md:flex-row">
+        <div className="md:w-36">
+          <div
+            className="flex h-24 w-full items-center justify-center overflow-hidden rounded-xl bg-neutral-100 text-center text-[11px] text-neutral-500"
+            style={
+              image
+                ? {
+                    backgroundImage: `url(${image})`,
+                    backgroundSize: "cover",
+                    backgroundPosition: "center",
+                  }
+                : undefined
+            }
+          >
+            {!image && <span>{name}</span>}
+          </div>
+        </div>
+        <div className="flex-1">
+          <div className="flex flex-wrap items-start justify-between gap-2">
+            <div>
+              <h3 className="text-lg font-semibold text-neutral-900">
+                {name}
+              </h3>
+              <div className="mt-1 flex flex-wrap gap-2 text-[11px]">
+                <span className="badge bg-emerald-100 text-emerald-800">
+                  Featured
+                </span>
+                {verified && (
+                  <span className="badge bg-emerald-600 text-white">
+                    Verified documents
+                  </span>
+                )}
+                <span className="badge">Saltaire &amp; Shipley</span>
+              </div>
+            </div>
+            <div className="text-right">
+              <div className="text-xs text-neutral-500">Guide price</div>
+              <div className="text-base font-semibold text-neutral-900">
+                {priceLabel}
+              </div>
+            </div>
+          </div>
+
+          <p className="mt-2 text-sm text-neutral-700">{excerpt}</p>
+
+          <dl className="mt-3 grid gap-3 text-xs text-neutral-600 sm:grid-cols-3">
+            <div>
+              <dt className="font-semibold text-neutral-700">Area covered</dt>
+              <dd>{(areaServed || ["Saltaire", "Shipley"]).join(", ")}</dd>
+            </div>
+            <div>
+              <dt className="font-semibold text-neutral-700">Contact</dt>
+              <dd className="space-y-1">
+                {phoneTel && (
+                  <div>
+                    <a
+                      href={phoneTel}
+                      className="underline underline-offset-2"
+                    >
+                      {phoneLocal || phoneTel.replace("tel:", "")}
+                    </a>
+                  </div>
+                )}
+                {email && (
+                  <div>
+                    <a
+                      href={`mailto:${email}`}
+                      className="underline underline-offset-2"
+                    >
+                      {email}
+                    </a>
+                  </div>
+                )}
+              </dd>
+            </div>
+            <div>
+              <dt className="font-semibold text-neutral-700">Tags</dt>
+              <dd>{tags?.join(", ") || "—"}</dd>
+            </div>
+          </dl>
+
+          <div className="mt-4 flex flex-wrap gap-3">
+            {phoneTel && (
+              <a href={phoneTel} className="btn btn-primary">
+                Call
+              </a>
+            )}
+            {email && (
+              <a href={`mailto:${email}`} className="btn btn-outline">
+                Email
+              </a>
+            )}
+            {website && (
+              <a
+                href={website}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn btn-ghost"
+              >
+                Visit website
+              </a>
+            )}
+          </div>
+        </div>
+      </div>
+    </article>
+  );
+}
+
+function ListingCard({
+  listing,
+  index,
+}: {
+  listing: Listing;
+  index: number;
+}) {
+  const {
+    slug,
+    name,
+    excerpt,
+    priceFrom,
+    phoneLocal,
+    phoneTel,
+    email,
+    website,
+    image,
+  } = listing;
+
+  const priceLabel = priceFrom ? `From ${priceFrom}` : "Price on enquiry";
+
+  return (
+    <article
+      id={slug}
+      className="flex h-full flex-col rounded-2xl border border-neutral-200 bg-white p-4 text-sm text-neutral-800 shadow-sm"
+    >
+      <div className="flex gap-3">
+        <div className="h-16 w-20 flex-shrink-0 overflow-hidden rounded-lg bg-neutral-100 text-[11px] text-neutral-500">
+          <div
+            className="h-full w-full"
+            style={
+              image
+                ? {
+                    backgroundImage: `url(${image})`,
+                    backgroundSize: "cover",
+                    backgroundPosition: "center",
+                  }
+                : {
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }
+            }
+          >
+            {!image && <span className="block p-2">{name}</span>}
+          </div>
+        </div>
+        <div className="flex-1">
+          <div className="flex items-start justify-between gap-2">
+            <h3 className="text-sm font-semibold text-neutral-900">
+              {index}. {name}
+            </h3>
+            <div className="text-right text-xs text-neutral-600">
+              <div className="font-semibold text-neutral-900">
+                {priceLabel}
+              </div>
+            </div>
+          </div>
+          <p className="mt-1 line-clamp-3 text-xs text-neutral-700">
+            {excerpt}
+          </p>
+        </div>
+      </div>
+
+      <div className="mt-3 flex flex-wrap gap-2">
+        {website && (
+          <a
+            href={website}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="badge"
+          >
+            Visit site
+          </a>
+        )}
+        {phoneTel ? (
+          <a href={phoneTel} className="badge">
+            Call {phoneLocal || phoneTel.replace("tel:", "")}
+          </a>
+        ) : (
+          <span className="badge text-neutral-400">No phone listed</span>
+        )}
+        {email && (
+          <a href={`mailto:${email}`} className="badge">
+            Email
+          </a>
+        )}
+      </div>
+    </article>
+  );
+}
+
+/* ----------------------------- FAQ helper --------------------------------- */
+
+function buildFaq(
+  display: string,
+  slug: string,
+): Array<{ q: string; a: string }> {
+  const base = display.toLowerCase();
 
   const categorySpecific = [
     {
-      q: `What types of ${category.replace("-", " ")} are listed?`,
-      a: `We include a range of ${category.replace("-", " ")} providers — local businesses, sole traders and agencies that serve Saltaire & Shipley.`,
+      q: `What kinds of ${base} are listed here?`,
+      a: `We list genuine ${base} providers who serve Saltaire & Shipley — including independent traders, small businesses and local agencies.`,
+    },
+    {
+      q: `Are all ${base} on this page vetted?`,
+      a: "Not automatically. Some providers share proof of insurance/DBS and we show a 'Verified documents' badge when checks are up to date. You should still do your own checks before booking.",
     },
   ];
 
-  const faqs = [...categorySpecific, ...commonFaqs];
+  const common = [
+    {
+      q: "How much does a typical job cost?",
+      a: "Costs vary by provider and job. Many listings include a 'from' price. The quickest way to get an accurate figure is to contact two or three local providers for quotes.",
+    },
+    {
+      q: "How do I get my business listed?",
+      a: "If you run a local service, you can get a free basic listing plus a quick look over your website via the 'Get free listing & website check' button above.",
+    },
+    {
+      q: "How do featured listings work?",
+      a: "Featured listings are fixed-fee ad spots that appear above standard listings. They may also include verification checks and extra visibility across SaltaireGuide.uk. We never take commission on jobs.",
+    },
+    {
+      q: "Can I suggest a new provider?",
+      a: "Yes. You can suggest a provider or correction from the main Local services hub, or message Giuseppe on WhatsApp using the contact link in the site header.",
+    },
+  ];
 
-  return faqs.map((f, i) => (
-    <details key={i} className="group border rounded-md p-4">
-      <summary className="cursor-pointer font-medium">{f.q}</summary>
-      <div className="mt-2 text-sm text-slate-700">{f.a}</div>
-    </details>
-  ));
+  return [...categorySpecific, ...common];
 }

@@ -1,15 +1,9 @@
 // src/app/parking/page.tsx
-// Parking in Saltaire — cornerstone v5 (server-only, CWV-first, local images, deep internal links)
+// Parking for Saltaire & Shipley — cornerstone v6 (server-only, CWV-first, local images, deep internal links)
 //
 // Goals
-// - Be the definitive parking hub for all “Saltaire parking” queries.
-// - Act as parent for child pages: /parking/caroline-street, /parking/exhibition      // src/app/parking/page.tsx
-// Parking in Saltaire — cornerstone v5 (server-only, CWV-first, local images, deep internal links)
-//
-// Goals
-// - Be the definitive parking hub for all "Saltaire parking" queries.
-// - Act as parent for child pages: /parking/caroline-street, /parking/exhibition-road, /parking/free
-
+// - Be the definitive parking hub for all “Saltaire parking” and “park for Saltaire from Shipley” queries.
+// - Act as parent for child pages: /parking/caroline-street, /parking/exhibition-road, /parking/free.
 // - Vintage aesthetic preserved (btn / badge / card / table utilities).
 // - Local images only (no remote). Strong internal linking web across Walks, Plan, Events.
 // - SEO: WebPage + BreadcrumbList + ItemList(ParkingFacility) + multiple HowTo + FAQ + Speakable.
@@ -29,22 +23,22 @@ import Image from 'next/image'
 import type { Metadata } from 'next'
 import { site } from '@/config/site'
 import RelatedLinks from '@/components/RelatedLinks'
-// Note: Interactive maps are intentionally NOT mounted on this page to keep it server-only
-// for Core Web Vitals. See discussion; maps live on other pages (e.g., Food & Drink) for now.
 
+// server-only
 export const dynamic = 'error'
 
 /* ------------------------------ Metadata ---------------------------------- */
 
 export const metadata: Metadata = {
-  title: 'Parking in Saltaire (2025): maps, step-free routes, Caroline St, Exhibition Rd & “free” options nearby',
+  title:
+    'Parking for Saltaire & Shipley (2025): maps, car parks, step-free routes, “free” options & park-from-Shipley tips',
   description:
-    'Definitive parking hub for Saltaire: Caroline Street, Exhibition Road, Salts Mill vicinity and careful guidance on nearby free/limited street bays. Step-free notes, busy-day playbooks, signage decoder, EV & coaches, FAQs.',
+    'Definitive hub for parking when visiting Saltaire and nearby Shipley. Caroline Street, Exhibition Road, Salts Mill vicinity plus careful guidance on street bays, “free” options and parking in Shipley with a short train/walk into Saltaire.',
   alternates: { canonical: `${site.url}/parking` },
   openGraph: {
-    title: 'Parking in Saltaire — the practical local hub',
+    title: 'Parking for Saltaire & Shipley — the practical local hub',
     description:
-      'Where to park near Salts Mill and Roberts Park, with step-free micro-routes, signage decoding, festival-day tactics and stress-free alternatives.',
+      'Where to park for Salts Mill, Roberts Park and Shipley: car parks, step-free micro-routes, signage decoding, park-in-Shipley strategies and busy-day playbooks.',
     url: `${site.url}/parking`,
     type: 'article',
     images: [{ url: `${site.url}/images/parking-saltaire.png`, width: 1600, height: 1066 }],
@@ -56,31 +50,55 @@ export const metadata: Metadata = {
 
 const UPDATED = '2025-10-14'
 
-type CarPark =
-  | {
-      slug: 'caroline-street' | 'exhibition-road' | 'salts-mill' | 'street-near-park'
-      name: string
-      near: string
-      satnav: string // broad locator only (e.g., "BD18")
-      hours: string
-      height?: string
-      payment: string
-      costNote: string
-      stepFree: boolean
-      walkingNote: string
-      childHref?: string
-      tags?: string[]
-      notes: string[]
-    }
+type CarPark = {
+  slug: 'caroline-street' | 'exhibition-road' | 'salts-mill' | 'street-near-park'
+  name: string
+  near: string
+  satnav: string // broad locator only (e.g., "BD18")
+  hours: string
+  height?: string
+  payment: string
+  costNote: string
+  stepFree: boolean
+  walkingNote: string
+  childHref?: string
+  tags?: string[]
+  notes: string[]
+}
 
 type QuickLink = { href: string; label: string; sub: string; badge?: string }
 
 const IMG = {
-  hero: { src: '/images/parking-saltaire.png', alt: 'Saltaire parking sign and stone terraces', w: 1600, h: 1066 },
-  plan: { src: '/images/plan-your-visit.png', alt: 'Train arriving at Saltaire station platform', w: 1200, h: 800 },
-  canal: { src: '/images/saltaire-canal.png', alt: 'Canal beside Salts Mill at golden hour', w: 1600, h: 1066 },
-  mill: { src: '/images/salts-mill.png', alt: 'Salts Mill tower and facade', w: 1200, h: 800 },
-  park: { src: '/images/roberts-park.png', alt: 'Roberts Park lawns and bandstand', w: 1200, h: 800 },
+  hero: {
+    src: '/images/parking-saltaire.png',
+    alt: 'Saltaire parking sign and stone terraces',
+    w: 1600,
+    h: 1066,
+  },
+  plan: {
+    src: '/images/plan-your-visit.png',
+    alt: 'Train arriving at Saltaire station platform',
+    w: 1200,
+    h: 800,
+  },
+  canal: {
+    src: '/images/saltaire-canal.png',
+    alt: 'Canal beside Salts Mill at golden hour',
+    w: 1600,
+    h: 1066,
+  },
+  mill: {
+    src: '/images/salts-mill.png',
+    alt: 'Salts Mill tower and facade',
+    w: 1200,
+    h: 800,
+  },
+  park: {
+    src: '/images/roberts-park.png',
+    alt: 'Roberts Park lawns and bandstand',
+    w: 1200,
+    h: 800,
+  },
 }
 
 function mapsLink(name: string, satnav: string) {
@@ -167,9 +185,18 @@ const CHECKLIST = [
 ]
 
 const MYTHS = [
-  { myth: 'Evenings are always free', fact: 'Not guaranteed. Plates can restrict evenings and Sundays.' },
-  { myth: 'Two tickets = double time', fact: 'Max stay usually caps total time regardless of repaying.' },
-  { myth: 'Blue Badge works the same everywhere', fact: 'Concessions & time vary by bay/council; read the plate.' },
+  {
+    myth: 'Evenings are always free',
+    fact: 'Not guaranteed. Plates can restrict evenings and Sundays.',
+  },
+  {
+    myth: 'Two tickets = double time',
+    fact: 'Max stay usually caps total time regardless of repaying.',
+  },
+  {
+    myth: 'Blue Badge works the same everywhere',
+    fact: 'Concessions & time vary by bay/council; read the plate.',
+  },
 ]
 
 const ACCESS_TIPS = [
@@ -181,7 +208,11 @@ const ACCESS_TIPS = [
 /* ------------------------------- UI helpers ------------------------------- */
 
 function SectionHeading({ id, children }: { id: string; children: React.ReactNode }) {
-  return <h2 id={id} className="text-2xl font-bold tracking-tight md:text-3xl anchor-offset">{children}</h2>
+  return (
+    <h2 id={id} className="anchor-offset text-2xl font-bold tracking-tight md:text-3xl">
+      {children}
+    </h2>
+  )
 }
 
 function Small({ children }: { children: React.ReactNode }) {
@@ -194,9 +225,15 @@ function Breadcrumbs() {
   return (
     <nav aria-label="Breadcrumb" className="container mx-auto px-4 py-3 text-sm text-gray-600">
       <ol className="breadcrumbs">
-        <li><Link href="/" className="underline underline-offset-4 hover:text-black">Home</Link></li>
+        <li>
+          <Link href="/" className="underline underline-offset-4 hover:text-black">
+            Home
+          </Link>
+        </li>
         <span className="sep">›</span>
-        <li aria-current="page" className="text-gray-800">Parking</li>
+        <li aria-current="page" className="text-gray-800">
+          Parking
+        </li>
       </ol>
     </nav>
   )
@@ -204,23 +241,31 @@ function Breadcrumbs() {
 
 function IntroHero() {
   return (
-    <header className="bg-gradient-to-b from-white to-gray-50 border-b border-gray-200/70">
+    <header className="border-b border-gray-200/70 bg-gradient-to-b from-white to-gray-50">
       <div className="container mx-auto grid max-w-7xl items-center gap-8 px-4 py-10 md:grid-cols-2 md:py-14">
         <div>
-          <h1 className="text-3xl font-extrabold tracking-tight md:text-5xl">Parking in Saltaire</h1>
+          <h1 className="text-3xl font-extrabold tracking-tight md:text-5xl">
+            Parking for Saltaire &amp; Shipley
+          </h1>
           <p className="mt-4 max-w-prose text-lg text-gray-700">
-            Local, practical guidance for the model village, Salts Mill and Roberts Park — without tickets or hassle.
-            We cover the best car parks, step-free notes, busy-day playbooks, signage decoding and realistic alternatives.
+            Local, practical guidance for visiting Saltaire&apos;s model village, Salts Mill and Roberts Park — plus how
+            to use nearby <strong>Shipley</strong> for parking and hop in by train or a short canal-side walk.
           </p>
           <ul className="mt-6 flex flex-wrap gap-3 text-sm text-gray-600">
             <li className="badge">Updated {UPDATED}</li>
             <li className="badge">Step-free routes</li>
-            <li className="badge">Festival-day tactics</li>
+            <li className="badge">Shipley park-&amp;-train tips</li>
           </ul>
           <div className="mt-6 flex flex-wrap gap-3">
-            <Link href="/parking/caroline-street" className="btn btn-primary">Caroline Street</Link>
-            <Link href="/parking/exhibition-road" className="btn btn-outline">Exhibition Road</Link>
-            <Link href="/parking/free" className="btn btn-ghost">Free options nearby</Link>
+            <Link href="/parking/caroline-street" className="btn btn-primary">
+              Saltaire: Caroline Street
+            </Link>
+            <Link href="/parking/exhibition-road" className="btn btn-outline">
+              Saltaire: Exhibition Road
+            </Link>
+            <Link href="/plan/getting-here" className="btn btn-ghost">
+              Shipley &amp; trains to Saltaire
+            </Link>
           </div>
         </div>
         <div className="relative aspect-[4/3] overflow-hidden rounded-2xl shadow">
@@ -243,13 +288,19 @@ function QuickLinksRail() {
     <section aria-label="Quick links" className="container mx-auto max-w-7xl px-4 pt-6">
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
         {QUICK_LINKS.map((q) => (
-          <Link key={q.href} href={q.href} className="group rounded-2xl border border-gray-200 bg-white p-4 shadow-sm transition hover:shadow-md">
+          <Link
+            key={q.href}
+            href={q.href}
+            className="group rounded-2xl border border-gray-200 bg-white p-4 shadow-sm transition hover:shadow-md"
+          >
             <div className="flex items-center justify-between">
               <h3 className="text-base font-semibold tracking-tight">{q.label}</h3>
               {q.badge && <span className="badge">{q.badge}</span>}
             </div>
             <p className="mt-1 text-sm text-gray-700">{q.sub}</p>
-            <span className="mt-2 inline-block text-sm underline decoration-gray-300 underline-offset-4 group-hover:decoration-black">Open →</span>
+            <span className="mt-2 inline-block text-sm underline decoration-gray-300 underline-offset-4 group-hover:decoration-black">
+              Open →
+            </span>
           </Link>
         ))}
       </div>
@@ -260,8 +311,9 @@ function QuickLinksRail() {
 function PageTOC() {
   const items = [
     { href: '#map', label: 'Quick map' },
-    { href: '#best', label: 'Best options' },
-    { href: '#compare', label: 'Compare car parks' },
+    { href: '#best', label: 'Best options in Saltaire' },
+    { href: '#compare', label: 'Compare Saltaire car parks' },
+    { href: '#shipley', label: 'Parking in Shipley & trains' },
     { href: '#routes', label: 'Step-free micro-routes' },
     { href: '#checklist', label: 'On-arrival checklist' },
     { href: '#signage', label: 'Signage decoder' },
@@ -269,7 +321,7 @@ function PageTOC() {
     { href: '#blue-badge', label: 'Blue Badge notes' },
     { href: '#ev-coach', label: 'EV, motorbikes & coaches' },
     { href: '#busy', label: 'Busy-day playbooks' },
-    { href: '#itins', label: 'Micro-itineraries (by car park)' },
+    { href: '#itins', label: 'Micro-itineraries' },
     { href: '#faqs', label: 'FAQs' },
   ]
   return (
@@ -279,7 +331,10 @@ function PageTOC() {
         <ul className="mt-2 grid grid-cols-1 gap-2 sm:grid-cols-2 md:grid-cols-3">
           {items.map((i) => (
             <li key={i.href}>
-              <a className="underline decoration-gray-300 underline-offset-4 hover:decoration-black" href={i.href}>
+              <a
+                className="underline decoration-gray-300 underline-offset-4 hover:decoration-black"
+                href={i.href}
+              >
                 {i.label}
               </a>
             </li>
@@ -297,8 +352,9 @@ function QuickMap() {
     <section id="map" aria-labelledby="map-title" className="container mx-auto max-w-7xl px-4 py-10">
       <SectionHeading id="map-title">Quick map & orientation</SectionHeading>
       <p className="mt-2 max-w-prose text-gray-700">
-        Saltaire is compact: the Mill, canal and Roberts Park sit within a few minutes. The car parks below are all
-        within ~10 minutes of the village core. For speed we show a static preview — use each card’s “Open in Maps”.
+        Saltaire is compact: the Mill, canal and Roberts Park sit within a few minutes of each other. Core car parks are
+        within ~10 minutes of the village. If everything is saturated, it can be easier to park in{' '}
+        <strong>Shipley</strong> and arrive by a 2–3 minute train hop or a canal-side walk.
       </p>
       <div className="mt-6 overflow-hidden rounded-2xl border border-gray-200">
         <Image
@@ -309,7 +365,7 @@ function QuickMap() {
           className="object-cover"
         />
       </div>
-      <Small>Illustrative only — for live directions, open your chosen car park in Maps.</Small>
+      <Small>Illustrative only — for live directions, open your chosen car park or Shipley station in Maps.</Small>
     </section>
   )
 }
@@ -317,15 +373,17 @@ function QuickMap() {
 function BestOptions() {
   return (
     <section id="best" aria-labelledby="best-title" className="container mx-auto max-w-7xl px-4 py-10">
-      <SectionHeading id="best-title">Best options at a glance</SectionHeading>
+      <SectionHeading id="best-title">Best options in Saltaire at a glance</SectionHeading>
 
       <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         <article className="card card-hover">
           <div className="card-body">
             <h3 className="text-lg font-semibold">Closest for Salts Mill</h3>
             <p className="mt-1 text-gray-700">
-              <Link href="#salts-mill" className="underline underline-offset-4">Salts Mill / Victoria Road</Link> has
-              the shortest walk. Rules vary by bay — check signage carefully.
+              <a href="#salts-mill" className="underline underline-offset-4">
+                Salts Mill / Victoria Road
+              </a>{' '}
+              has the shortest walk. Rules vary by bay — check signage carefully.
             </p>
           </div>
         </article>
@@ -333,8 +391,10 @@ function BestOptions() {
           <div className="card-body">
             <h3 className="text-lg font-semibold">Reliable all-rounder</h3>
             <p className="mt-1 text-gray-700">
-              <Link href="#caroline-street" className="underline underline-offset-4">Caroline Street</Link> balances
-              capacity and location with an easy, almost-flat route into the village.
+              <a href="#caroline-street" className="underline underline-offset-4">
+                Caroline Street
+              </a>{' '}
+              balances capacity and location with an easy, almost-flat route into the village.
             </p>
           </div>
         </article>
@@ -342,8 +402,14 @@ function BestOptions() {
           <div className="card-body">
             <h3 className="text-lg font-semibold">When it’s rammed</h3>
             <p className="mt-1 text-gray-700">
-              <Link href="#exhibition-road" className="underline underline-offset-4">Exhibition Road</Link> often has
-              spaces when the centre is full. Expect a gentle uphill on return.
+              <a href="#exhibition-road" className="underline underline-offset-4">
+                Exhibition Road
+              </a>{' '}
+              often has spaces when the centre is full. If even that&apos;s full, see{' '}
+              <a href="#shipley" className="underline underline-offset-4">
+                parking in Shipley
+              </a>
+              .
             </p>
           </div>
         </article>
@@ -351,7 +417,11 @@ function BestOptions() {
 
       <div className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {CAR_PARKS.map((p) => (
-          <article key={p.slug} id={p.slug} className="group overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm transition hover:shadow-md">
+          <article
+            key={p.slug}
+            id={p.slug}
+            className="group overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm transition hover:shadow-md"
+          >
             <div className="p-5">
               <div className="flex items-center justify-between gap-3">
                 <h3 className="text-lg font-semibold tracking-tight">{p.name}</h3>
@@ -359,7 +429,11 @@ function BestOptions() {
               </div>
               <p className="mt-2 text-sm text-gray-700">{p.near}</p>
               <ul className="mt-3 flex flex-wrap items-center gap-2 text-xs text-gray-700">
-                {p.tags?.map((t) => <li key={t} className="badge">{t}</li>)}
+                {p.tags?.map((t) => (
+                  <li key={t} className="badge">
+                    {t}
+                  </li>
+                ))}
                 {p.height && <li className="badge">Height: {p.height}</li>}
                 <li className="badge">Hours: {p.hours}</li>
                 <li className="badge">{p.stepFree ? 'Step-free route' : 'Route varies'}</li>
@@ -369,12 +443,31 @@ function BestOptions() {
               </p>
               <p className="mt-2 text-sm text-gray-700">{p.walkingNote}</p>
               <ul className="mt-2 list-disc pl-5 text-sm text-gray-700">
-                {p.notes.map((n) => <li key={n}>{n}</li>)}
+                {p.notes.map((n) => (
+                  <li key={n}>{n}</li>
+                ))}
               </ul>
               <div className="mt-4 flex flex-wrap gap-3">
-                <a href={mapsLink(p.name, p.satnav)} target="_blank" rel="noopener" className="btn btn-primary btn-sm">Open in Maps</a>
-                {p.childHref && <Link href={p.childHref} className="btn btn-outline btn-sm">Detail page</Link>}
-                <a href={`#${p.slug}`} className="btn btn-ghost btn-sm" aria-label={`Anchor link to ${p.name}`}>Link to section</a>
+                <a
+                  href={mapsLink(p.name, p.satnav)}
+                  target="_blank"
+                  rel="noopener"
+                  className="btn btn-primary btn-sm"
+                >
+                  Open in Maps
+                </a>
+                {p.childHref && (
+                  <Link href={p.childHref} className="btn btn-outline btn-sm">
+                    Detail page
+                  </Link>
+                )}
+                <a
+                  href={`#${p.slug}`}
+                  className="btn btn-ghost btn-sm"
+                  aria-label={`Anchor link to ${p.name}`}
+                >
+                  Link to section
+                </a>
               </div>
             </div>
           </article>
@@ -383,7 +476,11 @@ function BestOptions() {
 
       <p className="mt-4 text-sm text-gray-600">
         With wheels or buggies, favour <strong>Caroline Street</strong> or the <strong>Salts Mill</strong> vicinity for
-        minimal gradients. See <Link className="underline underline-offset-4" href="/plan/accessibility">step-free basics</Link>.
+        minimal gradients. See{' '}
+        <Link className="underline underline-offset-4" href="/plan/accessibility">
+          step-free basics
+        </Link>
+        .
       </p>
     </section>
   )
@@ -392,9 +489,14 @@ function BestOptions() {
 function CompareTable() {
   return (
     <section id="compare" aria-labelledby="compare-title" className="container mx-auto max-w-7xl px-4 py-10">
-      <SectionHeading id="compare-title">Compare car parks</SectionHeading>
+      <SectionHeading id="compare-title">Compare Saltaire car parks</SectionHeading>
       <p className="mt-2 max-w-prose text-gray-700">
-        Pricing and rules change. Treat this as a practical overview and always read the plate beside your bay.
+        Pricing and rules change. Treat this as a practical overview and always read the plate beside your bay. For
+        Shipley town-centre and station parking, see{' '}
+        <a href="#shipley" className="underline underline-offset-4">
+          parking in Shipley
+        </a>
+        .
       </p>
       <div className="mt-4 overflow-x-auto">
         <table className="table min-w-[860px]">
@@ -416,24 +518,39 @@ function CompareTable() {
               <tr key={p.slug}>
                 <td className="font-medium">
                   {p.childHref ? (
-                    <Link href={p.childHref} className="underline underline-offset-4">{p.name}</Link>
+                    <Link href={p.childHref} className="underline underline-offset-4">
+                      {p.name}
+                    </Link>
                   ) : (
-                    <a className="underline underline-offset-4" href={`#${p.slug}`}>{p.name}</a>
+                    <a className="underline underline-offset-4" href={`#${p.slug}`}>
+                      {p.name}
+                    </a>
                   )}
                 </td>
                 <td>{p.near}</td>
-                <td><span className="whitespace-nowrap">{p.satnav}</span></td>
+                <td>
+                  <span className="whitespace-nowrap">{p.satnav}</span>
+                </td>
                 <td>{p.hours}</td>
                 <td>{p.height ?? '—'}</td>
                 <td>{p.payment}</td>
                 <td>
                   <ul className="list-disc pl-4">
-                    {p.notes.map((n) => <li key={n}>{n}</li>)}
+                    {p.notes.map((n) => (
+                      <li key={n}>{n}</li>
+                    ))}
                   </ul>
                 </td>
                 <td>{p.stepFree ? 'Yes' : 'Varies'}</td>
                 <td>
-                  <a className="underline underline-offset-4" target="_blank" rel="noopener" href={mapsLink(p.name, p.satnav)}>Open →</a>
+                  <a
+                    className="underline underline-offset-4"
+                    target="_blank"
+                    rel="noopener"
+                    href={mapsLink(p.name, p.satnav)}
+                  >
+                    Open →
+                  </a>
                 </td>
               </tr>
             ))}
@@ -441,6 +558,57 @@ function CompareTable() {
         </table>
       </div>
       <Small>Enforcement is active in the heritage core.</Small>
+    </section>
+  )
+}
+
+function ShipleyParking() {
+  return (
+    <section id="shipley" aria-labelledby="shipley-title" className="border-y border-gray-200 bg-gradient-to-b from-white to-gray-50">
+      <div className="container mx-auto max-w-7xl px-4 py-10">
+        <SectionHeading id="shipley-title">Parking in Shipley &amp; using the train</SectionHeading>
+        <p className="mt-2 max-w-prose text-gray-700">
+          If Saltaire feels gridlocked, a very low-stress option is to park in <strong>Shipley</strong> and treat
+          Saltaire as a short onward hop. Shipley has more town-centre car parks and a mainline station with regular
+          2–3 minute trains to Saltaire.
+        </p>
+        <div className="mt-4 grid gap-6 md:grid-cols-2">
+          <article className="rounded-2xl border border-gray-200 bg-white p-5 text-sm text-gray-700 shadow-sm">
+            <h3 className="text-lg font-semibold">Shipley town centre &amp; station</h3>
+            <ul className="mt-2 list-disc pl-5">
+              <li>Look for clearly signed public car parks near Shipley town centre and the station.</li>
+              <li>Follow on-street plates for max-stay, evenings and Sundays — rules can differ by bay.</li>
+              <li>
+                From Shipley station it&apos;s typically a{' '}
+                <span className="font-semibold">2–3 minute train ride</span> to Saltaire, with level access between
+                platforms.
+              </li>
+            </ul>
+            <p className="mt-2 text-xs text-gray-500">
+              Exact tariffs, operators and rules change — use council signage and your parking app on the day.
+            </p>
+          </article>
+          <article className="rounded-2xl border border-gray-200 bg-white p-5 text-sm text-gray-700 shadow-sm">
+            <h3 className="text-lg font-semibold">Walk or wheel from Shipley</h3>
+            <ul className="mt-2 list-disc pl-5">
+              <li>Between Shipley and Saltaire there are pavements and a popular canal-side route.</li>
+              <li>Allow roughly 20–25 minutes on foot at a steady pace; a little longer with small legs or wheels.</li>
+              <li>Use daylight for the canal; take care near bikes and narrow sections.</li>
+            </ul>
+            <p className="mt-2 text-xs text-gray-500">
+              For full route ideas see{' '}
+              <Link href="/plan/getting-here" className="underline underline-offset-4">
+                Getting here
+              </Link>{' '}
+              and{' '}
+              <Link href="/walks" className="underline underline-offset-4">
+                local walks
+              </Link>
+              .
+            </p>
+          </article>
+        </div>
+      </div>
     </section>
   )
 }
@@ -468,18 +636,28 @@ function StepFreeMicroRoutes() {
       surface: 'Gentle incline on return',
       notes: 'Quieter at peak; allow a little extra time going back.',
     },
+    {
+      from: 'Shipley station / town centre',
+      to: 'Saltaire station / village',
+      time: 'Train 2–3 min · walk ~20–25 min',
+      surface: 'Mixed pavements & canal towpath',
+      notes: 'If walking, favour the canal in daylight and be mindful of bikes at pinch points.',
+    },
   ]
   return (
     <section id="routes" aria-labelledby="routes-title" className="container mx-auto max-w-7xl px-4 py-10">
       <SectionHeading id="routes-title">Step-free micro-routes</SectionHeading>
       <p className="mt-2 max-w-prose text-gray-700">
-        Quick, realistic walking times with surface notes. Conditions can vary; slow down in wet/icy weather.
+        Quick, realistic walking times with surface notes. Conditions can vary; slow down in wet/icy weather and allow a
+        buffer for crowds at the footbridge and station.
       </p>
       <div className="mt-4 grid grid-cols-1 gap-4 md:grid-cols-2">
         {routes.map((r) => (
           <article key={r.from + r.to} className="card">
             <div className="card-body">
-              <h3 className="text-lg font-semibold">{r.from} → {r.to}</h3>
+              <h3 className="text-lg font-semibold">
+                {r.from} → {r.to}
+              </h3>
               <ul className="mt-2 text-sm text-gray-700">
                 <li>⏱ {r.time}</li>
                 <li>🛣 {r.surface}</li>
@@ -490,7 +668,11 @@ function StepFreeMicroRoutes() {
         ))}
       </div>
       <p className="mt-3 text-sm text-gray-600">
-        Want full accessibility detail? See <Link href="/plan/accessibility" className="underline underline-offset-4">step-free routes</Link>.
+        Want full accessibility detail? See{' '}
+        <Link href="/plan/accessibility" className="underline underline-offset-4">
+          step-free routes
+        </Link>
+        .
       </p>
     </section>
   )
@@ -498,20 +680,30 @@ function StepFreeMicroRoutes() {
 
 function OnArrivalChecklist() {
   return (
-    <section id="checklist" aria-labelledby="checklist-title" className="border-y border-gray-200 bg-gradient-to-b from-white to-gray-50">
+    <section
+      id="checklist"
+      aria-labelledby="checklist-title"
+      className="border-y border-gray-200 bg-gradient-to-b from-white to-gray-50"
+    >
       <div className="container mx-auto max-w-7xl px-4 py-10">
         <SectionHeading id="checklist-title">On-arrival checklist (ticket-proof basics)</SectionHeading>
         <div className="mt-4 grid gap-6 md:grid-cols-2">
           <article className="rounded-2xl border border-gray-200 bg-white p-5 text-sm text-gray-700 shadow-sm">
             <ul className="list-disc pl-5">
-              {CHECKLIST.map((c) => <li key={c}>{c}</li>)}
+              {CHECKLIST.map((c) => (
+                <li key={c}>{c}</li>
+              ))}
             </ul>
-            <p className="mt-2 text-xs text-gray-500">If a sign is unclear/damaged, pick another clearly signed bay.</p>
+            <p className="mt-2 text-xs text-gray-500">
+              If a sign is unclear/damaged, pick another clearly signed bay — in Saltaire or Shipley.
+            </p>
           </article>
           <article className="rounded-2xl border border-gray-200 bg-white p-5 text-sm text-gray-700 shadow-sm">
             <h3 className="font-semibold">Access pointers</h3>
             <ul className="mt-2 list-disc pl-5">
-              {ACCESS_TIPS.map((t) => <li key={t}>{t}</li>)}
+              {ACCESS_TIPS.map((t) => (
+                <li key={t}>{t}</li>
+              ))}
             </ul>
             <p className="mt-2 text-xs text-gray-500">This is practical guidance, not medical advice.</p>
           </article>
@@ -523,11 +715,26 @@ function OnArrivalChecklist() {
 
 function SignageDecoder() {
   const bullets = [
-    { k: 'Time limits', v: 'Max stay applies even if you pay again. Don’t assume evenings/Sundays are free.' },
-    { k: 'Blue Badge', v: 'Concessions/time limits vary by bay and council. Always read the plate beside your bay.' },
-    { k: 'Bay type', v: 'Short-stay, permit, loading and disabled bays sit side-by-side. Check the markings and the post.' },
-    { k: 'Machines', v: 'Note location/ID on the ticket/app; keep proof. If in doubt, move to a clearly signed bay.' },
-    { k: 'Lines & corners', v: 'Keep clear of junctions, driveways and dropped kerbs. Leave enough space to pass.' },
+    {
+      k: 'Time limits',
+      v: 'Max stay applies even if you pay again. Don’t assume evenings/Sundays are free.',
+    },
+    {
+      k: 'Blue Badge',
+      v: 'Concessions/time limits vary by bay and council. Always read the plate beside your bay.',
+    },
+    {
+      k: 'Bay type',
+      v: 'Short-stay, permit, loading and disabled bays sit side-by-side. Check the markings and the post.',
+    },
+    {
+      k: 'Machines',
+      v: 'Note location/ID on the ticket/app; keep proof. If in doubt, move to a clearly signed bay.',
+    },
+    {
+      k: 'Lines & corners',
+      v: 'Keep clear of junctions, driveways and dropped kerbs. Leave enough space to pass.',
+    },
   ]
   return (
     <section id="signage" aria-labelledby="signage-title" className="container mx-auto max-w-7xl px-4 py-10">
@@ -536,7 +743,11 @@ function SignageDecoder() {
         <article className="rounded-2xl border border-gray-200 bg-white p-5 text-sm text-gray-700 shadow-sm">
           <h3 className="font-semibold">Read before you pay</h3>
           <ul className="mt-2 list-disc pl-5">
-            {bullets.map((b) => <li key={b.k}><span className="font-medium">{b.k}:</span> {b.v}</li>)}
+            {bullets.map((b) => (
+              <li key={b.k}>
+                <span className="font-medium">{b.k}:</span> {b.v}
+              </li>
+            ))}
           </ul>
           <p className="mt-2 text-xs text-gray-500">If a sign looks odd or damaged, pick another clearly signed bay.</p>
         </article>
@@ -556,12 +767,17 @@ function SignageDecoder() {
 function Myths() {
   return (
     <section id="myths" aria-labelledby="myths-title" className="container mx-auto max-w-7xl px-4 py-10">
-      <SectionHeading id="myths-title">Myths & facts (quick reality check)</SectionHeading>
+      <SectionHeading id="myths-title">Myths &amp; facts (quick reality check)</SectionHeading>
       <div className="mt-4 grid grid-cols-1 gap-4 md:grid-cols-3">
         {MYTHS.map((m) => (
-          <article key={m.myth} className="rounded-2xl border border-gray-200 bg-white p-5 text-sm text-gray-700 shadow-sm">
+          <article
+            key={m.myth}
+            className="rounded-2xl border border-gray-200 bg-white p-5 text-sm text-gray-700 shadow-sm"
+          >
             <h3 className="font-semibold">Myth: {m.myth}</h3>
-            <p className="mt-1"><span className="font-medium">Fact:</span> {m.fact}</p>
+            <p className="mt-1">
+              <span className="font-medium">Fact:</span> {m.fact}
+            </p>
           </article>
         ))}
       </div>
@@ -572,16 +788,21 @@ function Myths() {
 
 function BlueBadge() {
   return (
-    <section id="blue-badge" aria-labelledby="bb-title" className="border-y border-gray-200 bg-gradient-to-b from-white to-gray-50">
+    <section
+      id="blue-badge"
+      aria-labelledby="bb-title"
+      className="border-y border-gray-200 bg-gradient-to-b from-white to-gray-50"
+    >
       <div className="container mx-auto max-w-7xl px-4 py-10">
-        <SectionHeading id="bb-title">Blue Badge & step-free notes</SectionHeading>
+        <SectionHeading id="bb-title">Blue Badge &amp; step-free notes</SectionHeading>
         <div className="mt-4 grid gap-6 md:grid-cols-2">
           <article className="card">
             <div className="card-body">
               <h3 className="text-lg font-semibold">Blue Badge — what varies</h3>
               <p className="mt-2 text-gray-700">
-                Concessions and time allowances differ by bay/council. Always read the plate by your exact bay; do not
-                assume free evenings or Sundays. If a plate is unclear, choose a different bay with crystal-clear rules.
+                Concessions and time allowances differ by bay/council in both Saltaire and Shipley. Always read the
+                plate by your exact bay; do not assume free evenings or Sundays. If a plate is unclear, choose a
+                different bay with crystal-clear rules.
               </p>
             </div>
           </article>
@@ -604,20 +825,21 @@ function BlueBadge() {
 function EvCoach() {
   return (
     <section id="ev-coach" aria-labelledby="ev-title" className="container mx-auto max-w-7xl px-4 py-10">
-      <SectionHeading id="ev-title">EV charging, motorbikes & coaches</SectionHeading>
+      <SectionHeading id="ev-title">EV charging, motorbikes &amp; coaches</SectionHeading>
       <div className="mt-4 grid gap-6 md:grid-cols-2">
         <article className="card">
           <div className="card-body">
             <h3 className="text-lg font-semibold">EV charging</h3>
             <p className="mt-2 text-gray-700">
-              Chargers move/change status. Check your app before travel and avoid relying on a single unit. Consider a
-              top-up before you arrive for flexibility. Do not use EV bays except while actively charging where permitted.
+              Chargers move/change status. Check your app before travel and avoid relying on a single unit — whether
+              you&apos;re aiming for Saltaire or Shipley. Consider a top-up before you arrive for flexibility. Do not
+              use EV bays except while actively charging where permitted.
             </p>
           </div>
         </article>
         <article className="card card-muted">
           <div className="card-body">
-            <h3 className="text-lg font-semibold">Motorbikes & coaches</h3>
+            <h3 className="text-lg font-semibold">Motorbikes &amp; coaches</h3>
             <p className="mt-2 text-gray-700">
               Motorcycle rules vary by bay. For coaches/minibuses, plan set-down away from narrow streets and follow any
               on-site instructions. If unsure, seek council guidance in advance.
@@ -637,10 +859,13 @@ function BusyDayPlaybooks() {
       steps: [
         'Arrive pre-10:00 or take the train to Saltaire station.',
         'Try Caroline Street; if full, pivot to Exhibition Road.',
+        'If Saltaire car parks are jammed, park in Shipley and use the 2–3 min train hop to Saltaire.',
         'Build in a 10-minute buffer for the walk with crowds.',
-        'Use the park footbridge for smoother flows.',
       ],
-      links: [{ label: 'Events hub', href: '/events' }, { label: 'Getting here (train)', href: '/plan/getting-here' }],
+      links: [
+        { label: 'Events hub', href: '/events' },
+        { label: 'Getting here (train)', href: '/plan/getting-here' },
+      ],
     },
     {
       id: 'sunny-weekend',
@@ -648,9 +873,13 @@ function BusyDayPlaybooks() {
       steps: [
         'Aim before 10:30 or after 15:00.',
         'Caroline Street first; Exhibition Road as fallback.',
+        'If both feel full, consider Shipley town centre parking plus a short train or walk into Saltaire.',
         'Bring water; plan shade/benches on your walking route.',
       ],
-      links: [{ label: 'Roberts Park', href: '/roberts-park' }, { label: 'Walks (short)', href: '/walks' }],
+      links: [
+        { label: 'Roberts Park', href: '/roberts-park' },
+        { label: 'Walks (short)', href: '/walks' },
+      ],
     },
     {
       id: 'rain',
@@ -660,7 +889,10 @@ function BusyDayPlaybooks() {
         'Coffee/brunch under a roof.',
         'Short towpath window if the weather breaks.',
       ],
-      links: [{ label: 'Salts Mill', href: '/salts-mill' }, { label: 'Brunch', href: '/brunch' }],
+      links: [
+        { label: 'Salts Mill', href: '/salts-mill' },
+        { label: 'Brunch', href: '/brunch' },
+      ],
     },
   ]
   return (
@@ -672,11 +904,17 @@ function BusyDayPlaybooks() {
             <div className="card-body">
               <h3 className="text-lg font-semibold">{p.name}</h3>
               <ol className="mt-2 list-decimal pl-5 text-gray-700">
-                {p.steps.map((s, i) => <li key={i}>{s}</li>)}
+                {p.steps.map((s, i) => (
+                  <li key={i}>{s}</li>
+                ))}
               </ol>
               <ul className="mt-3 flex flex-wrap gap-3 text-sm">
                 {p.links.map((l) => (
-                  <li key={l.href}><Link className="underline underline-offset-4" href={l.href as any}>{l.label}</Link></li>
+                  <li key={l.href}>
+                    <Link className="underline underline-offset-4" href={l.href as any}>
+                      {l.label}
+                    </Link>
+                  </li>
                 ))}
               </ul>
             </div>
@@ -684,7 +922,8 @@ function BusyDayPlaybooks() {
         ))}
       </div>
       <div className="mt-4 rounded-2xl border border-gray-200 bg-white p-4 text-sm text-gray-700">
-        Tip: consider the <strong>train to Saltaire</strong> on event days; it’s often faster door-to-door.
+        Tip: on peak days, consider the <strong>train to Saltaire</strong> from Shipley or further along the valley —
+        it&apos;s often faster door-to-door than hunting for a bay.
       </div>
     </section>
   )
@@ -700,7 +939,10 @@ function ItinsByCarPark() {
         'Short towpath leg towards Hirst Lock (30–45 min).',
         'Coffee/dessert in village (20–30 min).',
       ],
-      links: [{ label: 'Salts Mill', href: '/salts-mill' }, { label: 'Hirst Wood loop', href: '/walks/hirst-wood' }],
+      links: [
+        { label: 'Salts Mill', href: '/salts-mill' },
+        { label: 'Hirst Wood loop', href: '/walks/hirst-wood' },
+      ],
     },
     {
       title: 'Exhibition Road: overflow taster',
@@ -710,7 +952,10 @@ function ItinsByCarPark() {
         'Short canal out-and-back (20–30 min).',
         'Pub garden or café table (30–60 min).',
       ],
-      links: [{ label: 'Pubs', href: '/food-drink/pubs' }, { label: 'Coffee', href: '/food-drink/coffee' }],
+      links: [
+        { label: 'Pubs', href: '/food-drink/pubs' },
+        { label: 'Coffee', href: '/food-drink/coffee' },
+      ],
     },
     {
       title: '“Free nearby”: budget + steps',
@@ -720,7 +965,10 @@ function ItinsByCarPark() {
         'Picnic benches by river/park (30–45 min).',
         'Finish with Mill bookshop (30–45 min).',
       ],
-      links: [{ label: 'Free options (how-to)', href: '/parking/free' }, { label: 'Family tips', href: '/plan/family' }],
+      links: [
+        { label: 'Free options (how-to)', href: '/parking/free' },
+        { label: 'Family tips', href: '/plan/family' },
+      ],
     },
   ]
   return (
@@ -732,11 +980,17 @@ function ItinsByCarPark() {
             <div className="card-body">
               <h3 className="text-lg font-semibold">{it.title}</h3>
               <ul className="mt-2 list-disc pl-5 text-gray-700">
-                {it.bullets.map((b) => <li key={b}>{b}</li>)}
+                {it.bullets.map((b) => (
+                  <li key={b}>{b}</li>
+                ))}
               </ul>
               <ul className="mt-3 flex flex-wrap gap-3 text-sm">
                 {it.links.map((l) => (
-                  <li key={l.href}><Link className="underline underline-offset-4" href={l.href as any}>{l.label}</Link></li>
+                  <li key={l.href}>
+                    <Link className="underline underline-offset-4" href={l.href as any}>
+                      {l.label}
+                    </Link>
+                  </li>
                 ))}
               </ul>
             </div>
@@ -751,24 +1005,28 @@ function ItinsByCarPark() {
 
 const FAQS: Array<{ q: string; a: string }> = [
   {
-    q: 'Is there free parking in Saltaire?',
-    a: 'Limited street bays exist in the wider area with varying restrictions. For a smooth visit, use Caroline Street or Exhibition Road and walk in. Always read roadside plates.',
+    q: 'Is there free parking in or near Saltaire?',
+    a: 'Limited street bays exist in the wider area with varying restrictions. For a smooth visit, use Caroline Street or Exhibition Road and walk in, or park in Shipley and finish the journey by train or on foot. Always read roadside plates.',
+  },
+  {
+    q: 'Can I park in Shipley and visit Saltaire?',
+    a: 'Yes. Many visitors park in Shipley town centre or near the station, then take the 2–3 minute train hop to Saltaire or walk along the canal. It’s often less stressful than circling Saltaire on busy days.',
   },
   {
     q: 'Where should I park for Salts Mill?',
-    a: 'The closest is around Victoria Road by the Mill (mixed bays, check signs). Caroline Street is a reliable alternative with a short, nearly level walk.',
+    a: 'The closest is around Victoria Road by the Mill (mixed bays, check signs). Caroline Street is a reliable alternative with a short, nearly level walk. If those feel full, consider Shipley and arrive by train.',
   },
   {
     q: 'Is parking accessible?',
-    a: 'Step-free routes exist from Caroline Street and the Mill vicinity into the village and Roberts Park. Surfaces are generally good; some side streets have cobbles.',
+    a: 'Step-free routes exist from Caroline Street and the Mill vicinity into the village and Roberts Park. Surfaces are generally good; some side streets have cobbles. From Shipley, you can use level access trains between Shipley and Saltaire.',
   },
   {
     q: 'When is it busiest?',
-    a: 'Sunny weekends, school holidays and festival days. Arrive before 10:30 or after 15:00, or take the train to avoid parking entirely.',
+    a: 'Sunny weekends, school holidays and festival days. Arrive before 10:30 or after 15:00, or take the train from Shipley or further along the valley to avoid parking entirely.',
   },
   {
     q: 'Height limits or long vehicles?',
-    a: 'Most options are open-air without a barrier, but spaces are standard size and streets are tight. Check signage and avoid obstructing access.',
+    a: 'Most options in and around Saltaire are open-air without a barrier, but spaces are standard size and streets are tight. Check signage and avoid obstructing access.',
   },
 ]
 
@@ -780,7 +1038,8 @@ function FAQ() {
         {FAQS.map((it, i) => (
           <details key={it.q} className="group p-5 open:bg-gray-50">
             <summary className="cursor-pointer list-none text-lg font-medium">
-              <span className="mr-2 text-gray-400">Q{i + 1}.</span>{it.q}
+              <span className="mr-2 text-gray-400">Q{i + 1}.</span>
+              {it.q}
             </summary>
             <p className="mt-2 max-w-prose text-gray-700">{it.a}</p>
           </details>
@@ -810,18 +1069,28 @@ function FAQ() {
 
 function CTA() {
   return (
-    <section aria-label="Plan your visit" className="border-t border-b border-gray-200 bg-gradient-to-b from-white to-gray-50">
+    <section
+      aria-label="Plan your visit"
+      className="border-t border-b border-gray-200 bg-gradient-to-b from-white to-gray-50"
+    >
       <div className="container mx-auto max-w-7xl px-4 py-10 md:py-14">
         <div className="grid items-center gap-8 md:grid-cols-2">
           <div>
-            <h2 className="text-2xl font-bold md:text-3xl">Next: pick your exact car park</h2>
+            <h2 className="text-2xl font-bold md:text-3xl">Next: pick your exact plan</h2>
             <p className="mt-2 max-w-prose text-gray-700">
-              We’ve got photo-led detail pages with entrances, nearby landmarks and walking notes.
+              Choose a Saltaire car park or keep things simple by parking in Shipley and arriving by train. Either way,
+              you avoid circles around tight heritage streets.
             </p>
             <div className="mt-4 flex flex-wrap gap-3">
-              <Link href="/parking/caroline-street" className="btn btn-primary">Caroline Street</Link>
-              <Link href="/parking/exhibition-road" className="btn btn-outline">Exhibition Road</Link>
-              <Link href="/parking/free" className="btn btn-ghost">Free options nearby</Link>
+              <Link href="/parking/caroline-street" className="btn btn-primary">
+                Caroline Street (Saltaire)
+              </Link>
+              <Link href="/parking/exhibition-road" className="btn btn-outline">
+                Exhibition Road (Saltaire)
+              </Link>
+              <Link href="/plan/getting-here" className="btn btn-ghost">
+                Shipley parking &amp; trains
+              </Link>
             </div>
           </div>
           <div className="relative aspect-[4/3] overflow-hidden rounded-2xl shadow">
@@ -878,11 +1147,14 @@ function JsonLd() {
   const webpage = {
     '@context': 'https://schema.org',
     '@type': 'WebPage',
-    name: 'Parking in Saltaire',
+    name: 'Parking for Saltaire & Shipley',
     url: `${base}/parking`,
     description:
-      'Where to park in Saltaire: Caroline Street, Exhibition Road, Salts Mill vicinity, and careful free/limited options nearby. Step-free notes, busy-day tactics, signage decoding and checklists.',
-    speakable: { '@type': 'SpeakableSpecification', cssSelector: ['#best-title', '#compare-title', '#checklist-title'] },
+      'Where to park for visiting Saltaire and nearby Shipley: Caroline Street, Exhibition Road, Salts Mill vicinity, careful street-bay guidance and strategies for parking in Shipley with a short train or walk to Saltaire.',
+    speakable: {
+      '@type': 'SpeakableSpecification',
+      cssSelector: ['#best-title', '#compare-title', '#checklist-title'],
+    },
     isPartOf: { '@type': 'WebSite', url: base, name: site.name },
     breadcrumb: {
       '@type': 'BreadcrumbList',
@@ -897,13 +1169,25 @@ function JsonLd() {
   const howToNoTicket = {
     '@context': 'https://schema.org',
     '@type': 'HowTo',
-    name: 'How to park in Saltaire without a ticket',
+    name: 'How to park for Saltaire without a ticket',
     totalTime: 'PT10M',
     step: [
-      { '@type': 'HowToStep', text: 'Choose Caroline Street, Exhibition Road, or Salts Mill depending on your plan.' },
-      { '@type': 'HowToStep', text: 'Read the plate by your exact bay; rules can differ within the same car park.' },
-      { '@type': 'HowToStep', text: 'Pay/validate as required; keep proof and note any max-stay limits.' },
-      { '@type': 'HowToStep', text: 'Leave space at junctions and dropped kerbs; stay within markings.' },
+      {
+        '@type': 'HowToStep',
+        text: 'Choose Caroline Street, Exhibition Road or Salts Mill depending on your plan, or park in Shipley for more space.',
+      },
+      {
+        '@type': 'HowToStep',
+        text: 'Read the plate by your exact bay; rules can differ within the same car park or street.',
+      },
+      {
+        '@type': 'HowToStep',
+        text: 'Pay/validate as required; keep proof and note any max-stay limits.',
+      },
+      {
+        '@type': 'HowToStep',
+        text: 'Leave space at junctions and dropped kerbs; stay within markings.',
+      },
     ],
   }
 
@@ -915,9 +1199,15 @@ function JsonLd() {
     totalTime: 'PT15M',
     step: [
       { '@type': 'HowToStep', text: 'Arrive before 10:00 or go by train to Saltaire station.' },
-      { '@type': 'HowToStep', text: 'Try Caroline Street; pivot to Exhibition Road if full.' },
-      { '@type': 'HowToStep', text: 'Add 10 minutes buffer for walking in crowds.' },
-      { '@type': 'HowToStep', text: 'Use the park footbridge to distribute foot traffic.' },
+      { '@type': 'HowToStep', text: 'Try Caroline Street first; pivot to Exhibition Road if full.' },
+      {
+        '@type': 'HowToStep',
+        text: 'If both feel saturated, park in Shipley and take the short train hop to Saltaire.',
+      },
+      {
+        '@type': 'HowToStep',
+        text: 'Add 10 minutes buffer for walking in crowds between car and your first stop.',
+      },
     ],
   }
 
@@ -929,9 +1219,18 @@ function JsonLd() {
     totalTime: 'PT3M',
     step: [
       { '@type': 'HowToStep', text: 'Confirm the bay type (short-stay, resident, loading, disabled).' },
-      { '@type': 'HowToStep', text: 'Check day/time ranges and whether they differ on weekends/evenings.' },
-      { '@type': 'HowToStep', text: 'Look for a max-stay line — caps total duration regardless of additional payments.' },
-      { '@type': 'HowToStep', text: 'Note Blue Badge specifics; concessions and limits vary by bay.' },
+      {
+        '@type': 'HowToStep',
+        text: 'Check day/time ranges and whether they differ on weekends/evenings.',
+      },
+      {
+        '@type': 'HowToStep',
+        text: 'Look for a max-stay line — caps total duration regardless of additional payments.',
+      },
+      {
+        '@type': 'HowToStep',
+        text: 'Note Blue Badge specifics; concessions and limits vary by bay and council.',
+      },
     ],
   }
 
@@ -959,6 +1258,7 @@ export default function ParkingPage() {
       <QuickMap />
       <BestOptions />
       <CompareTable />
+      <ShipleyParking />
       <StepFreeMicroRoutes />
       <OnArrivalChecklist />
       <SignageDecoder />
@@ -968,7 +1268,7 @@ export default function ParkingPage() {
       <BusyDayPlaybooks />
       <ItinsByCarPark />
       <FAQ />
-  <RelatedLinks exclude={['/parking']} title="Related Saltaire guides" />
+      <RelatedLinks exclude={['/parking']} title="Related Saltaire guides" />
       <CTA />
       <JsonLd />
     </>
