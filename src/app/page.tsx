@@ -247,7 +247,7 @@ function Hero() {
           style={{ animationDelay: '.12s' }}
         >
           <Image
-            src="/images/saltaire-canal.png"
+            src="/images/homepage/saltaire-morning-view-canal-to-leeds.jpg"
             alt="Historic mill buildings and canal at Saltaire"
             fill
             sizes="(max-width: 768px) 100vw, 50vw"

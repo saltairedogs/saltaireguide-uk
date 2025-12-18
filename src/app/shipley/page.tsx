@@ -1,9 +1,10 @@
 // src/app/shipley/page.tsx
 // Shipley hub — saltaireguide.uk/shipley
-// Simple static hub for Shipley centre & station
+// Upgraded: Shipley-first positioning + stronger internal linking + business profiles CTA
 // - No client components (fast, CWV-friendly)
-// - Sections: intro, at a glance, getting here, around the centre, cafés & pubs, walk Shipley ↔ Saltaire, FAQ
-// - JSON-LD: WebPage + Place + BreadcrumbList
+// - Sections: intro, quick links, at a glance, things to do, getting here, around the centre,
+//            Shipley ↔ Saltaire walk, business profiles, FAQ
+// - JSON-LD: WebPage + Place + BreadcrumbList + ItemList + FAQPage
 
 import type { Metadata } from 'next'
 import Link from 'next/link'
@@ -12,19 +13,31 @@ import { site } from '@/config/site'
 
 export const dynamic = 'error'
 
+const UPDATED = '2025-12-18'
+const PATH = '/shipley'
+
 export const metadata: Metadata = {
-  title: 'Shipley centre & station — trains, buses, cafés and walk to Saltaire',
+  title: 'Visit Shipley (BD18) — station, town centre, walks, food & local tips',
   description:
-    'How to use Shipley as a base for visiting Saltaire: trains and buses, walking route between Shipley and Saltaire, cafés near the station and practical tips.',
-  alternates: { canonical: `${site.url}/shipley` },
+    'A practical local guide to Shipley (BD18): station basics, town centre, easy walks, cafés, and how to walk between Shipley and Saltaire along the canal.',
+  alternates: { canonical: `${site.url}${PATH}` },
   openGraph: {
-    title: 'Shipley centre & station — Saltaire & Shipley Guide',
+    title: 'Visit Shipley (BD18) — station, walks, cafés & local tips',
     description:
-      'Trains, buses, market square and cafés in Shipley, plus an easy canal walk to Saltaire.',
-    url: `${site.url}/shipley`,
-    type: 'article',
+      'Shipley guide: trains, town centre essentials, easy walks, cafés, and the canal route to Saltaire.',
+    url: `${site.url}${PATH}`,
+    type: 'website',
+    images: [
+      {
+        url: `${site.url}/images/walks-from-saltaire.png`,
+        width: 2400,
+        height: 1800,
+        alt: 'Canal and stone buildings between Shipley and Saltaire',
+      },
+    ],
   },
   twitter: { card: 'summary_large_image' },
+  robots: { index: true, follow: true, 'max-image-preview': 'large' },
 }
 
 /* ------------------------------ Helpers ----------------------------------- */
@@ -62,31 +75,55 @@ function IntroHero() {
     <header className="border-b border-gray-200/70 bg-gradient-to-b from-white to-gray-50">
       <div className="container mx-auto grid max-w-7xl items-center gap-8 px-4 py-10 md:grid-cols-2 md:py-14">
         <div>
+          <div className="mb-4 flex flex-wrap gap-2 text-xs text-gray-600">
+            <span className="rounded-full border border-gray-200 bg-white px-3 py-1">Updated: {UPDATED}</span>
+            <span className="rounded-full border border-gray-200 bg-white px-3 py-1">Shipley • BD18</span>
+            <span className="rounded-full border border-gray-200 bg-white px-3 py-1">Canal walks • station hub</span>
+          </div>
+
           <h1 className="text-3xl font-extrabold tracking-tight md:text-5xl">
-            Shipley centre &amp; station
+            Visit Shipley: centre &amp; station guide
           </h1>
+
           <p className="mt-4 max-w-prose text-lg text-gray-700">
-            Shipley is the small town that sits just above Saltaire. It has the main train and
-            bus connections, a busy junction station and a compact centre that&apos;s a few
-            minutes&apos; walk from the Leeds–Liverpool Canal and Saltaire.
+            Shipley is the practical, everyday town next to Saltaire — and the main transport hub for the area.
+            If you’re arriving by train, meeting someone, grabbing supplies, or starting a canal walk, this is the
+            page you want.
           </p>
+
           <ul className="mt-6 flex flex-wrap gap-3 text-sm text-gray-600">
             <li className="badge">Trains to Leeds, Bradford &amp; Skipton</li>
-            <li className="badge">10–20 mins walk to Saltaire</li>
-            <li className="badge">Cafés &amp; pubs near the station</li>
+            <li className="badge">Easy canal route to Saltaire</li>
+            <li className="badge">Quick coffee + food nearby</li>
           </ul>
+
+          {/* Neutral buttons (no blue backgrounds) */}
           <div className="mt-6 flex flex-wrap gap-3">
-            <Link href="/shipley/station" className="btn btn-primary">
-              Station basics
+            <a
+              href="#quick-links"
+              className="inline-flex items-center rounded-2xl border border-gray-300 bg-white px-5 py-3 text-sm font-semibold text-gray-900 hover:bg-gray-50"
+            >
+              Start here ↓
+            </a>
+            <Link
+              href="/shipley/station"
+              className="inline-flex items-center rounded-2xl border border-gray-300 bg-white px-5 py-3 text-sm font-semibold text-gray-900 hover:bg-gray-50"
+            >
+              Shipley station basics →
             </Link>
-            <Link href="/walks/shipley-saltaire" className="btn btn-outline">
-              Walk to Saltaire
-            </Link>
-            <Link href="/food-drink/coffee" className="btn btn-ghost">
-              Coffee nearby
+            <Link
+              href="/walks/shipley-saltaire"
+              className="inline-flex items-center rounded-2xl border border-gray-300 bg-white px-5 py-3 text-sm font-semibold text-gray-900 hover:bg-gray-50"
+            >
+              Walk Shipley ↔ Saltaire →
             </Link>
           </div>
+
+          <p className="mt-3 text-xs text-gray-600">
+            Shipley is not “touristy” — it’s useful. The goal: make your trip smoother and your route obvious.
+          </p>
         </div>
+
         <div className="relative aspect-[4/3] overflow-hidden rounded-2xl shadow">
           <Image
             src="/images/walks-from-saltaire.png"
@@ -102,27 +139,54 @@ function IntroHero() {
   )
 }
 
+function QuickLinks() {
+  const links = [
+    { label: 'Shipley at a glance', href: '#at-a-glance' },
+    { label: 'Things to do (simple ideas)', href: '#things-to-do' },
+    { label: 'Getting here (train/bus/car)', href: '#getting-here' },
+    { label: 'Around the centre', href: '#around' },
+    { label: 'Walk Shipley ↔ Saltaire', href: '#walk' },
+    { label: 'Business profiles', href: '#business-profiles' },
+    { label: 'FAQ', href: '#faqs' },
+  ] as const
+
+  return (
+    <section id="quick-links" className="container mx-auto max-w-7xl px-4 py-8">
+      <div className="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
+        <div className="mb-3 text-sm font-semibold text-gray-800">Quick links</div>
+        <div className="flex flex-wrap gap-2 text-sm">
+          {links.map((i) => (
+            <a
+              key={i.href}
+              href={i.href}
+              className="rounded-full border border-gray-200 bg-gray-50 px-3 py-1 font-medium text-gray-800 hover:bg-white"
+            >
+              {i.label}
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}
+
 function AtAGlance() {
   const items = [
-    { label: 'Trains', value: 'Leeds, Bradford Forster Sq & Interchange, Skipton & Carlisle line' },
-    { label: 'Walk to Saltaire', value: 'Around 15–20 minutes along the canal or main road' },
-    { label: 'Buses', value: 'Frequent services along the A657 / Otley Road & Saltaire Road' },
-    { label: 'Parking', value: 'Mixed on-street & small car parks – see Parking guide' },
-    { label: 'Good for', value: 'Meeting point, quick coffee, supermarket stop, onward travel' },
+    { label: 'Trains', value: 'Leeds • Bradford Forster Sq • Skipton/Ilkley lines (junction station)' },
+    { label: 'Walk to Saltaire', value: 'About 15–20 mins (canal towpath or main road)' },
+    { label: 'Buses', value: 'Frequent routes up/down the Aire Valley corridor' },
+    { label: 'Best for', value: 'Arriving by train, meet-ups, quick coffee, supplies, starting walks' },
+    { label: 'Vibe', value: 'Everyday town centre (practical, not polished)' },
   ]
 
   return (
-    <section
-      id="at-a-glance"
-      aria-labelledby="glance-title"
-      className="container mx-auto max-w-7xl px-4 py-10"
-    >
-      <SectionHeading id="glance-title">Shipley at a glance</SectionHeading>
+    <section id="at-a-glance" className="container mx-auto max-w-7xl px-4 py-10">
+      <SectionHeading id="at-a-glance-title">Shipley at a glance</SectionHeading>
       <p className="mt-2 max-w-prose text-gray-700">
-        Think of Shipley as the transport hub and everyday town that pairs with Saltaire&apos;s
-        Victorian model village. Lots of visitors arrive at Shipley station, grab a coffee, then
-        walk or bus down to Saltaire.
+        Shipley and Saltaire work as a pair. Many people arrive at Shipley, do the practical bits (train, coffee, supplies),
+        then walk down to the canal and into Saltaire.
       </p>
+
       <div className="mt-4 grid gap-4 rounded-2xl border border-gray-200 bg-white p-4 md:grid-cols-2">
         {items.map((item) => (
           <div key={item.label} className="flex gap-3 text-sm text-gray-700">
@@ -134,54 +198,108 @@ function AtAGlance() {
           </div>
         ))}
       </div>
+
       <p className="mt-3 text-sm text-gray-600">
-        For full parking details, see the{' '}
+        If you’re driving, you might also want the wider{' '}
         <Link href="/parking" className="underline underline-offset-4">
-          Saltaire parking guide
-        </Link>
-        .
+          parking guide
+        </Link>{' '}
+        (covers nearby options and typical visitor patterns).
       </p>
+    </section>
+  )
+}
+
+function ThingsToDo() {
+  const ideas = [
+    {
+      title: 'Do the canal walk (Shipley → Saltaire)',
+      desc: 'The easiest “good decision” here. Flat, calm, and feels like you escaped without needing a plan.',
+      href: '/walks/shipley-saltaire',
+    },
+    {
+      title: 'Use Shipley station as your meet-up point',
+      desc: 'If you’re coordinating with friends, Shipley is the simplest hub before you head anywhere else.',
+      href: '/shipley/station',
+    },
+    {
+      title: 'Quick coffee before your walk or train',
+      desc: 'Shipley is practical: grab something fast, then move. (We’ll keep tagging closer-to-Shipley spots.)',
+      href: '/food-drink/coffee',
+    },
+    {
+      title: 'Start a longer Aire Valley day',
+      desc: 'Shipley is a good base if you’re chaining transport + walking + food across the valley.',
+      href: '/walks',
+    },
+  ] as const
+
+  return (
+    <section id="things-to-do" className="container mx-auto max-w-7xl px-4 py-10">
+      <SectionHeading id="things-to-do-title">Simple things to do in Shipley</SectionHeading>
+      <p className="mt-2 max-w-prose text-gray-700">
+        This isn’t a “10 hidden gems” page. It’s the real stuff people actually do: arrive, orient, get moving, enjoy the walk.
+      </p>
+
+      <div className="mt-4 grid gap-4 md:grid-cols-2">
+        {ideas.map((i) => (
+          <div key={i.title} className="card">
+            <div className="card-body">
+              <h3 className="text-lg font-semibold">{i.title}</h3>
+              <p className="mt-2 text-gray-700">{i.desc}</p>
+              <div className="mt-3">
+                <Link href={i.href} className="underline underline-offset-4">
+                  Open →
+                </Link>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <div className="mt-4 rounded-2xl border border-gray-200 bg-gray-50 p-5">
+        <div className="text-sm font-semibold text-gray-800">Local tip</div>
+        <p className="mt-1 text-sm text-gray-700">
+          If you’re stressed, do the smallest version: 10 minutes on the towpath. Your brain treats it like a reset,
+          even if your calendar says it was “nothing”.
+        </p>
+      </div>
     </section>
   )
 }
 
 function GettingHere() {
   return (
-    <section
-      id="getting-here"
-      aria-labelledby="getting-title"
-      className="container mx-auto max-w-7xl px-4 py-10"
-    >
-      <SectionHeading id="getting-title">Getting to Shipley</SectionHeading>
+    <section id="getting-here" className="container mx-auto max-w-7xl px-4 py-10">
+      <SectionHeading id="getting-here-title">Getting to Shipley</SectionHeading>
+
       <div className="mt-4 grid gap-6 md:grid-cols-2">
         <div className="card">
           <div className="card-body">
             <h3 className="text-lg font-semibold">By train</h3>
             <p className="mt-2 text-gray-700">
-              Shipley has a busy junction station with direct services from Leeds, Bradford Forster
-              Square, Bradford Interchange (via short walk/connection) and towards Skipton, Ilkley
-              and Carlisle. From the station it&apos;s around 15–20 minutes&apos; walk to Saltaire
-              along the canal or main road.
+              Shipley is a junction station with direct services to Leeds, Bradford Forster Square, and up the Aire Valley towards
+              Ilkley/Skipton lines. From the station it’s a straightforward 15–20 minute walk to Saltaire depending on route and pace.
             </p>
             <p className="mt-2 text-sm text-gray-700">
-              Our upcoming{' '}
+              See the{' '}
               <Link href="/shipley/station" className="underline underline-offset-4">
                 Shipley station guide
               </Link>{' '}
-              will cover platforms, step-free access and toilets in more detail.
+              for step-free notes and basics.
             </p>
           </div>
         </div>
+
         <div className="card card-muted">
           <div className="card-body">
             <h3 className="text-lg font-semibold">By bus or car</h3>
             <p className="mt-2 text-gray-700">
-              Buses run along Saltaire Road and Otley Road between Shipley, Saltaire, Bradford and
-              Bingley. If you&apos;re driving, many visitors prefer to park near Saltaire itself and
-              walk up into Shipley when needed.
+              Buses run up/down the corridor between Shipley, Saltaire and nearby towns. If you’re driving, you’ll usually be choosing
+              between “park nearer the station for transport” vs “park nearer Saltaire for the village”.
             </p>
             <p className="mt-2 text-sm text-gray-700">
-              See{' '}
+              Use{' '}
               <Link href="/plan/getting-here" className="underline underline-offset-4">
                 Plan your visit
               </Link>{' '}
@@ -189,7 +307,7 @@ function GettingHere() {
               <Link href="/parking" className="underline underline-offset-4">
                 parking guide
               </Link>{' '}
-              for current options and any height limits.
+              for the wider area.
             </p>
           </div>
         </div>
@@ -200,42 +318,37 @@ function GettingHere() {
 
 function AroundCentre() {
   return (
-    <section
-      id="around"
-      aria-labelledby="around-title"
-      className="container mx-auto max-w-7xl px-4 py-10"
-    >
+    <section id="around" className="container mx-auto max-w-7xl px-4 py-10">
       <SectionHeading id="around-title">Around the centre</SectionHeading>
+
       <div className="mt-4 grid gap-6 md:grid-cols-2">
         <div className="callout">
-          <h3 className="text-lg font-semibold">Market square &amp; everyday shops</h3>
+          <h3 className="text-lg font-semibold">Town centre: useful, not fancy</h3>
           <p className="mt-2 text-gray-700">
-            Shipley has supermarkets, pharmacies, takeaways and a small market area – useful if you
-            need snacks, cash or last-minute bits before heading down to Saltaire or into the
-            valley for a walk.
+            Shipley is where you do the practical bits: supermarkets, pharmacies, cash, quick food, and meeting points.
+            If you’re visiting Saltaire, Shipley is often the “before and after” town.
           </p>
           <p className="mt-2 text-sm text-gray-700">
-            It&apos;s not a polished tourist centre, but it&apos;s practical. Think of it as your
-            supply stop.
+            That’s a feature, not a flaw: it makes your day easier.
           </p>
         </div>
+
         <div className="callout callout-success">
           <h3 className="text-lg font-semibold">Cafés &amp; pubs</h3>
           <p className="mt-2 text-gray-700">
-            There are a handful of cafés and pubs within a short walk of the station and market
-            square. Over time we&apos;ll highlight the ones that work well as meet-up spots or quick
-            pre/ post-train coffees.
+            There are solid options within walking distance of the station and centre. We’ll keep tagging the most “good meet-up”
+            spots as we build more Shipley-specific business pages.
           </p>
           <p className="mt-2 text-sm text-gray-700">
-            For now, browse our{' '}
+            Browse our{' '}
             <Link href="/food-drink/coffee" className="underline underline-offset-4">
               coffee &amp; cafés guide
             </Link>{' '}
             and{' '}
             <Link href="/food-drink/pubs" className="underline underline-offset-4">
               pubs list
-            </Link>{' '}
-            – we&apos;ll tag places that are closer to Shipley as we add them.
+            </Link>
+            .
           </p>
         </div>
       </div>
@@ -245,40 +358,36 @@ function AroundCentre() {
 
 function WalkToSaltaire() {
   return (
-    <section
-      id="walk"
-      aria-labelledby="walk-title"
-      className="container mx-auto max-w-7xl px-4 py-10"
-    >
+    <section id="walk" className="container mx-auto max-w-7xl px-4 py-10">
       <SectionHeading id="walk-title">Walking between Shipley &amp; Saltaire</SectionHeading>
+
       <div className="mt-4 grid gap-6 md:grid-cols-2">
         <div className="card">
           <div className="card-body">
             <h3 className="text-lg font-semibold">Canal towpath route</h3>
             <p className="mt-2 text-gray-700">
-              The nicest way to move between Shipley and Saltaire is along the Leeds–Liverpool
-              Canal. From the town centre it&apos;s a short drop down to the towpath, then a mostly
-              flat walk past mills and locks into the village.
+              The nicest way between Shipley and Saltaire is the Leeds–Liverpool Canal towpath: mostly flat, calmer than roads,
+              and it feels like you’ve “left the day” even though you’re still central.
             </p>
             <p className="mt-2 text-sm text-gray-700">
-              Our upcoming{' '}
+              Use the{' '}
               <Link href="/walks/shipley-saltaire" className="underline underline-offset-4">
-                Shipley ↔ Saltaire walk
+                Shipley ↔ Saltaire walk guide
               </Link>{' '}
-              will include simple step-by-step directions, GPX download and accessibility notes.
+              for step-by-step directions (and GPX when added).
             </p>
           </div>
         </div>
+
         <div className="card card-muted">
           <div className="card-body">
             <h3 className="text-lg font-semibold">Main road route</h3>
             <p className="mt-2 text-gray-700">
-              If you prefer street lighting or direct access to shops, you can walk along Saltaire
-              Road / Bingley Road. It&apos;s less scenic but straightforward and better if the
-              towpath is muddy or flooded.
+              Prefer street lighting and direct access to shops? The main road route is straightforward but less scenic.
+              It’s useful if the towpath is muddy, flooded, or you want the simplest “just get there” option.
             </p>
             <p className="mt-2 text-sm text-gray-700">
-              For longer ideas starting or ending in Shipley, see{' '}
+              For more start points, see{' '}
               <Link href="/walks" className="underline underline-offset-4">
                 all walks
               </Link>
@@ -291,29 +400,69 @@ function WalkToSaltaire() {
   )
 }
 
+function BusinessProfiles() {
+  return (
+    <section id="business-profiles" className="container mx-auto max-w-7xl px-4 py-10">
+      <SectionHeading id="business-profiles-title">Shipley business pages (free value → trust)</SectionHeading>
+
+      <p className="mt-2 max-w-prose text-gray-700">
+        We’re starting factual business pages so locals and visitors can quickly answer: “where is it, how do I get there,
+        what should I know, is it dog-friendly, is it accessible, what’s nearby?”
+      </p>
+
+      <div className="mt-4 rounded-2xl border border-gray-200 bg-white p-5">
+        <div className="text-sm font-semibold text-gray-800">What a business page includes</div>
+        <ul className="mt-3 list-disc pl-5 text-sm text-gray-700 space-y-1">
+          <li>Location + how to get there (train/walk/parking notes)</li>
+          <li>What it is (plain English, no fluff)</li>
+          <li>Accessibility and dog-friendly notes (if applicable)</li>
+          <li>Quick FAQs people actually ask</li>
+          <li>“Claim / update this page” for owners</li>
+        </ul>
+
+        <div className="mt-4 flex flex-wrap gap-3">
+          <Link
+            href="/contact"
+            className="inline-flex items-center rounded-2xl border border-gray-300 bg-white px-5 py-3 text-sm font-semibold text-gray-900 hover:bg-gray-50"
+          >
+            Request / claim a Shipley business page →
+          </Link>
+          <Link
+            href="/local-services"
+            className="inline-flex items-center rounded-2xl border border-gray-300 bg-white px-5 py-3 text-sm font-semibold text-gray-900 hover:bg-gray-50"
+          >
+            Browse local services →
+          </Link>
+        </div>
+
+        <p className="mt-3 text-xs text-gray-600">
+          We keep these pages clean: no fake reviews, no “best in Shipley” claims — just accurate info + updates.
+        </p>
+      </div>
+    </section>
+  )
+}
+
 function FAQ() {
   const faqs: Array<{ q: string; a: string }> = [
     {
       q: 'Is Shipley worth a visit on its own?',
-      a: 'Shipley is more of an everyday town and transport hub than a “day out” in itself. Most visitors pair it with Saltaire – arriving by train, grabbing supplies or a coffee in Shipley, then heading down to the village and Roberts Park.',
+      a: 'Shipley is more of an everyday town and transport hub than a “tourist day out”. Most visitors pair it with Saltaire — arriving by train, grabbing supplies or a coffee in Shipley, then walking down to the village and canal.',
     },
     {
       q: 'How long does it take to walk between Shipley and Saltaire?',
-      a: 'Roughly 15–20 minutes at a relaxed pace, either along the canal towpath or via Saltaire Road. Add extra time if you’re stopping for photos or travelling with kids.',
+      a: 'Roughly 15–20 minutes at a relaxed pace, either along the canal towpath or via the main road. Add time if you’re stopping for photos or travelling with kids.',
     },
     {
       q: 'Is the route between Shipley and Saltaire step-free?',
-      a: 'It can be. There are step-free options via the towpath and main roads, but surfaces and gradients vary and can be rough or muddy in places. Our dedicated walk guide will map the smoothest paths when it’s live.',
+      a: 'It can be, depending on your exact approach. There are step-free options via the towpath and main roads, but surfaces can be rough or muddy in places. Our walk guide is where we’ll keep the most practical route notes.',
     },
   ]
 
   return (
-    <section
-      id="faqs"
-      aria-labelledby="faq-title"
-      className="container mx-auto max-w-7xl px-4 py-10"
-    >
+    <section id="faqs" className="container mx-auto max-w-7xl px-4 py-10">
       <SectionHeading id="faq-title">Quick answers</SectionHeading>
+
       <div className="mt-4 divide-y divide-gray-200 rounded-2xl border border-gray-200 bg-white">
         {faqs.map((it, i) => (
           <details key={it.q} className="group p-5 open:bg-gray-50">
@@ -325,6 +474,7 @@ function FAQ() {
           </details>
         ))}
       </div>
+
       <script
         type="application/ld+json"
         // eslint-disable-next-line react/no-danger
@@ -352,10 +502,11 @@ function JsonLd() {
   const page = {
     '@context': 'https://schema.org',
     '@type': 'WebPage',
-    name: 'Shipley centre & station',
-    url: `${base}/shipley`,
-    description:
-      'How to use Shipley as a base for visiting Saltaire: trains and buses, walking route between Shipley and Saltaire, cafés near the station and practical tips.',
+    name: 'Visit Shipley (BD18) — centre & station guide',
+    url: `${base}${PATH}`,
+    description: metadata.description,
+    inLanguage: 'en-GB',
+    dateModified: UPDATED,
     isPartOf: { '@type': 'WebSite', name: site.name, url: base },
   }
 
@@ -369,9 +520,9 @@ function JsonLd() {
       addressRegion: 'West Yorkshire',
       addressCountry: 'GB',
     },
-    url: `${base}/shipley`,
+    url: `${base}${PATH}`,
     description:
-      'A small town in West Yorkshire, England, just north of Saltaire, with a junction railway station and buses serving the Aire Valley.',
+      'Shipley is a town in West Yorkshire near Saltaire, with a junction railway station and easy access to canal walks and the Aire Valley.',
   }
 
   const breadcrumbs = {
@@ -379,7 +530,22 @@ function JsonLd() {
     '@type': 'BreadcrumbList',
     itemListElement: [
       { '@type': 'ListItem', position: 1, name: 'Home', item: `${base}/` },
-      { '@type': 'ListItem', position: 2, name: 'Shipley', item: `${base}/shipley` },
+      { '@type': 'ListItem', position: 2, name: 'Shipley', item: `${base}${PATH}` },
+    ],
+  }
+
+  // Only include links that exist today (avoid broken internal linking)
+  const itemList = {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    name: 'Shipley guide links',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Shipley station', url: `${base}/shipley/station` },
+      { '@type': 'ListItem', position: 2, name: 'Shipley ↔ Saltaire walk', url: `${base}/walks/shipley-saltaire` },
+      { '@type': 'ListItem', position: 3, name: 'Coffee & cafés', url: `${base}/food-drink/coffee` },
+      { '@type': 'ListItem', position: 4, name: 'Pubs', url: `${base}/food-drink/pubs` },
+      { '@type': 'ListItem', position: 5, name: 'Walks & routes', url: `${base}/walks` },
+      { '@type': 'ListItem', position: 6, name: 'Visit Saltaire', url: `${base}/visit-saltaire` },
     ],
   }
 
@@ -388,10 +554,8 @@ function JsonLd() {
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(page) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(place) }} />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbs) }}
-      />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbs) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(itemList) }} />
     </>
   )
 }
@@ -403,10 +567,13 @@ export default function ShipleyPage() {
     <>
       <Breadcrumbs />
       <IntroHero />
+      <QuickLinks />
       <AtAGlance />
+      <ThingsToDo />
       <GettingHere />
       <AroundCentre />
       <WalkToSaltaire />
+      <BusinessProfiles />
       <FAQ />
       <JsonLd />
     </>

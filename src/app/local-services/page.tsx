@@ -46,8 +46,8 @@ const ICONS = {
     height: 64,
   },
   globe: {
-    src: "/images/local-services-1.png",
-    alt: "Saltaire streets and rooftops",
+    src: "/images/local-services/saltaire-river-saltaire-dogs-dog-walker-img.jpg",
+    alt: "Saltaire dog walker on a walk in saltaire near river",
     width: 64,
     height: 64,
   },
