@@ -359,7 +359,7 @@ const MORE_THINGS: Thing[] = [
   },
   {
     slug: 'brunch',
-    href: '/brunch',
+    href: '/food-drink/brunch',
     title: 'Brunch before the Mill',
     category: 'Food & Drink',
     estTime: '45–90 min',
@@ -618,7 +618,7 @@ function QuickPicks() {
       text: 'Mill galleries/shops → long coffee → quick canal window if it clears.',
       links: [
         { label: 'Salts Mill', href: '/salts-mill' },
-        { label: 'Brunch', href: '/brunch' },
+        { label: 'Brunch', href: '/food-drink/brunch' },
       ],
     },
   ]
@@ -833,7 +833,7 @@ function Itineraries() {
       ],
       links: [
         { label: 'Salts Mill', href: '/salts-mill' },
-        { label: 'Brunch', href: '/brunch' },
+        { label: 'Brunch', href: '/food-drink/brunch' },
         { label: 'Coffee', href: '/food-drink/coffee' },
       ],
     },

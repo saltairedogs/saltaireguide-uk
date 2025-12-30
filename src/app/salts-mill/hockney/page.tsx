@@ -257,7 +257,7 @@ function EatDrink() {
         or a pint. See our <Link href="/food-drink" className="underline underline-offset-4">Eat & Drink</Link> picks.
       </p>
       <ul className="mt-3 grid list-disc gap-2 pl-6 text-gray-700 md:grid-cols-2">
-        <li><Link href="/brunch" className="underline underline-offset-4">Brunch options</Link> on or near the mill.</li>
+        <li><Link href="/food-drink/brunch" className="underline underline-offset-4">Brunch options</Link> on or near the mill.</li>
         <li><Link href="/food-drink/coffee" className="underline underline-offset-4">Best coffee</Link> in walking distance.</li>
         <li><Link href="/food-drink/pubs" className="underline underline-offset-4">Pubs & beer gardens</Link> close by.</li>
       </ul>

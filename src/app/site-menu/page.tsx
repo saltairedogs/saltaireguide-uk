@@ -50,7 +50,7 @@ const sections: Section[] = [
     links: [
       { label: 'Food & drink hub', href: '/food-drink' },
       { label: 'Cafés', href: '/cafes' },
-      { label: 'Brunch', href: '/brunch' },
+      { label: 'Brunch', href: '/food-drink/brunch' },
       { label: 'Bakeries', href: '/food-drink/bakeries' },
       { label: 'Coffee', href: '/food-drink/coffee' },
       { label: 'Desserts & cake', href: '/food-drink/desserts' },

@@ -522,7 +522,7 @@ function EatDrink() {
       </p>
       <ul className="mt-3 grid list-disc gap-2 pl-6 text-gray-700 md:grid-cols-2">
         <li><Link className="underline underline-offset-4" href="/food-drink/coffee">Best coffee</Link> in walking distance.</li>
-        <li><Link className="underline underline-offset-4" href="/brunch">Brunch options</Link> for late starts.</li>
+        <li><Link className="underline underline-offset-4" href="/food-drink/brunch">Brunch options</Link> for late starts.</li>
         <li><Link className="underline underline-offset-4" href="/food-drink/pubs">Pubs & beer gardens</Link> near the park.</li>
         <li><Link className="underline underline-offset-4" href="/food-drink/desserts">Desserts & ice cream</Link> to finish the day.</li>
       </ul>

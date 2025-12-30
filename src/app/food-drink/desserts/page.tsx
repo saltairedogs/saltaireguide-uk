@@ -583,7 +583,7 @@ function CTA() {
               </Link>
             </li>
             <li>
-              <Link className="underline underline-offset-4" href="/brunch">
+              <Link className="underline underline-offset-4" href="/food-drink/brunch">
                 Brunch ideas
               </Link>
             </li>

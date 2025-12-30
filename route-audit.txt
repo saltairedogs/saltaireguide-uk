@@ -1,0 +1,14 @@
+NON-KEBAB DIRECTORIES:
+ - for-business/pay/[serviceId]
+ - local-services/[category]
+
+POTENTIAL DUPLICATES (same leaf name appears multiple times):
+ - brunch:
+     brunch
+     food-drink/brunch
+ - food-drink:
+     food-drink
+     shipley/food-drink
+ - dog-friendly:
+     food-drink/dog-friendly
+     walks/dog-friendly

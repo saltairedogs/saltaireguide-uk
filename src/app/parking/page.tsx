@@ -891,7 +891,7 @@ function BusyDayPlaybooks() {
       ],
       links: [
         { label: 'Salts Mill', href: '/salts-mill' },
-        { label: 'Brunch', href: '/brunch' },
+        { label: 'Brunch', href: '/food-drink/brunch' },
       ],
     },
   ]

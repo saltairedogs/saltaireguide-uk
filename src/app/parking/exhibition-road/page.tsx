@@ -169,7 +169,7 @@ const BUSYDAY_PLANS = [
     id: 'rain',
     name: 'Rainy day, short visit',
     steps: ['Mill first (indoors).', 'Coffee/brunch under a roof.', 'If the weather lifts, add a short towpath window.'],
-    links: [{ label: 'Salts Mill', href: '/salts-mill' }, { label: 'Brunch', href: '/brunch' }],
+    links: [{ label: 'Salts Mill', href: '/salts-mill' }, { label: 'Brunch', href: '/food-drink/brunch' }],
   },
 ]
 

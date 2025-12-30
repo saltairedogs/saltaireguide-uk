@@ -1,19 +1,17 @@
 // src/app/blog/page.tsx
 // Saltaire Guide — Complete Content Hub (Blog/Discovery Page)
-// 
+//
 // Purpose: Central discovery hub for ALL content on saltaireguide.uk
 // - Advanced search with fuzzy matching and instant filtering
 // - Complete catalog of all site pages with metadata
 // - Category-based organization
 // - SEO optimized for "saltaire guide", "saltaire blog", "things to do saltaire"
-// - Vintage aesthetic matching the site design
 //
-// SEO Strategy:
-// - Structured data: CollectionPage, SearchAction, BreadcrumbList, ItemList
-// - Rich metadata for featured snippets
-// - Internal linking to boost all pages
-// - Semantic HTML with proper headings hierarchy
-// - Target keywords: "saltaire", "saltaire village", "saltaire guide", "things to do saltaire"
+// Notes:
+// - Keep slugs unique. Duplicate slugs create duplicate cards and dilute internal linking.
+// - Category cards must link to real hubs (no "#").
+//
+// Structured data: CollectionPage, SearchAction, BreadcrumbList, ItemList
 
 import type { Metadata } from 'next'
 import Link from 'next/link'
@@ -62,20 +60,30 @@ export const metadata: Metadata = {
 /* --------------------------------- Data ----------------------------------- */
 
 const CONTENT_PAGES: ContentPage[] = [
-  // === VISIT & PLAN ===
+  // === VISIT & PLAN (PRINCIPLES / START HERE) ===
   {
     slug: '/visit-saltaire',
     title: 'Visit Saltaire: Complete UNESCO Village Guide',
-    description: 'Everything you need to visit Saltaire - parking, top attractions, itineraries, food, walks & practical tips. Independent local guide to BD18.',
+    description:
+      'Everything you need to visit Saltaire - parking, top attractions, itineraries, food, walks & practical tips. Independent local guide to BD18.',
     category: 'Practical',
-    keywords: ['visit saltaire', 'saltaire guide', 'unesco village', 'BD18', 'things to do saltaire', 'plan visit', 'tourist information'],
+    keywords: [
+      'visit saltaire',
+      'saltaire guide',
+      'unesco village',
+      'BD18',
+      'things to do saltaire',
+      'plan visit',
+      'tourist information',
+    ],
     image: '/images/salts-mill.png',
     icon: '🏛️',
   },
   {
     slug: '/saltaire-attractions',
     title: 'Top 10 Saltaire Attractions: Must-See UNESCO Sites',
-    description: 'Best attractions in Saltaire: Salts Mill, Hockney Gallery, Congregational Church, Roberts Park, canal walks. Free and paid options.',
+    description:
+      'Best attractions in Saltaire: Salts Mill, Hockney Gallery, Congregational Church, Roberts Park, canal walks. Free and paid options.',
     category: 'Practical',
     keywords: ['saltaire attractions', 'things to see saltaire', 'unesco sites', 'salts mill', 'hockney', 'roberts park', 'must see'],
     image: '/images/salts-mill.png',
@@ -84,7 +92,8 @@ const CONTENT_PAGES: ContentPage[] = [
   {
     slug: '/free-things-to-do-saltaire',
     title: 'Free Things to Do in Saltaire: Budget Guide',
-    description: '15+ free activities in Saltaire: Hockney Gallery, canal walks, Roberts Park, architecture tours, money-saving tips.',
+    description:
+      '15+ free activities in Saltaire: Hockney Gallery, canal walks, Roberts Park, architecture tours, money-saving tips.',
     category: 'Practical',
     keywords: ['free things to do', 'free saltaire', 'budget', 'free activities', 'no cost', 'cheap day out'],
     image: '/images/walks-from-saltaire.png',
@@ -93,7 +102,8 @@ const CONTENT_PAGES: ContentPage[] = [
   {
     slug: '/saltaire-weekend-guide',
     title: 'Weekend in Saltaire: Perfect 2-Day Itinerary',
-    description: 'Complete weekend guide to Saltaire: Saturday/Sunday itineraries, accommodation, best restaurants, top activities for two days.',
+    description:
+      'Complete weekend guide to Saltaire: Saturday/Sunday itineraries, accommodation, best restaurants, top activities for two days.',
     category: 'Practical',
     keywords: ['saltaire weekend', 'two days saltaire', 'weekend breaks', 'weekend itinerary', 'saturday sunday'],
     image: '/images/salts-mill.png',
@@ -102,7 +112,8 @@ const CONTENT_PAGES: ContentPage[] = [
   {
     slug: '/saltaire-christmas',
     title: 'Christmas in Saltaire: Festive Village Guide',
-    description: 'Celebrate Christmas in Saltaire: festive events, markets, winter walks, cozy cafes, December activities and practical tips.',
+    description:
+      'Celebrate Christmas in Saltaire: festive events, markets, winter walks, cozy cafes, December activities and practical tips.',
     category: 'Seasonal',
     keywords: ['christmas saltaire', 'festive saltaire', 'christmas market', 'december', 'winter activities', 'seasonal'],
     image: '/images/salts-mill.png',
@@ -111,16 +122,19 @@ const CONTENT_PAGES: ContentPage[] = [
   {
     slug: '/bradford-to-saltaire',
     title: 'Bradford to Saltaire: Train, Bus & Drive Guide',
-    description: 'How to get from Bradford to Saltaire: 10-min train journey, bus routes, driving directions, parking and day trip planning.',
+    description:
+      'How to get from Bradford to Saltaire: 10-min train journey, bus routes, driving directions, parking and day trip planning.',
     category: 'Practical',
     keywords: ['bradford to saltaire', 'train to saltaire', 'bus saltaire', 'how to get', 'travel guide', 'day trip'],
     image: '/images/salts-mill.png',
     icon: '🚆',
   },
+  // Keep ONE /plan entry (duplicate removed)
   {
     slug: '/plan',
     title: 'Plan Your Visit to Saltaire',
-    description: 'Everything you need to plan a day in Saltaire: getting here, accessibility, family tips, school visits and more.',
+    description:
+      'Everything you need to plan a day in Saltaire: getting here, accessibility, family tips, school visits and more.',
     category: 'Practical',
     keywords: ['plan', 'visit', 'getting here', 'accessibility', 'family', 'school visits'],
     image: '/images/plan-your-visit.png',
@@ -131,7 +145,8 @@ const CONTENT_PAGES: ContentPage[] = [
   {
     slug: '/parking',
     title: 'Parking in Saltaire',
-    description: 'Complete parking guide: Caroline Street, Exhibition Road, free options, step-free routes, busy-day tactics and EV charging.',
+    description:
+      'Complete parking guide: Caroline Street, Exhibition Road, free options, step-free routes, busy-day tactics and EV charging.',
     category: 'Practical',
     keywords: ['parking', 'car park', 'caroline street', 'exhibition road', 'free parking', 'disabled parking', 'ev charging'],
     image: '/images/parking-saltaire.png',
@@ -140,7 +155,8 @@ const CONTENT_PAGES: ContentPage[] = [
   {
     slug: '/parking/caroline-street',
     title: 'Caroline Street Car Park',
-    description: 'The main car park for Saltaire: 150 spaces, pay & display, step-free access to Victoria Road and the village.',
+    description:
+      'The main car park for Saltaire: 150 spaces, pay & display, step-free access to Victoria Road and the village.',
     category: 'Practical',
     keywords: ['caroline street', 'car park', 'parking', 'pay and display', 'step-free'],
     image: '/images/parking-saltaire.png',
@@ -169,7 +185,8 @@ const CONTENT_PAGES: ContentPage[] = [
   {
     slug: '/walks',
     title: 'Walks from Saltaire',
-    description: 'Best walks from Saltaire: canal towpath to Bingley Five-Rise, Shipley Glen, Hirst Wood and family routes with maps.',
+    description:
+      'Best walks from Saltaire: canal towpath to Bingley Five-Rise, Shipley Glen, Hirst Wood and family routes with maps.',
     category: 'Outdoors',
     keywords: ['walks', 'walking', 'hiking', 'canal', 'towpath', 'five rise', 'shipley glen', 'hirst wood', 'family walks', 'dog friendly'],
     image: '/images/walks-from-saltaire.png',
@@ -178,7 +195,8 @@ const CONTENT_PAGES: ContentPage[] = [
   {
     slug: '/walks/five-rise',
     title: 'Canal Walk to Five-Rise Locks',
-    description: 'Flat, easy canal towpath walk from Saltaire to the famous Bingley Five-Rise staircase locks (5km, 1 hour each way).',
+    description:
+      'Flat, easy canal towpath walk from Saltaire to the famous Bingley Five-Rise staircase locks (5km, 1 hour each way).',
     category: 'Outdoors',
     keywords: ['five rise', 'canal walk', 'towpath', 'bingley', 'locks', 'easy walk', 'flat walk', 'family'],
     image: '/images/saltaire-canal.png',
@@ -196,7 +214,8 @@ const CONTENT_PAGES: ContentPage[] = [
   {
     slug: '/walks/hirst-wood',
     title: 'Hirst Wood Nature Reserve',
-    description: 'Short woodland loop perfect for families: bluebells in spring, River Aire views, easy paths (2km, 45 minutes).',
+    description:
+      'Short woodland loop perfect for families: bluebells in spring, River Aire views, easy paths (2km, 45 minutes).',
     category: 'Outdoors',
     keywords: ['hirst wood', 'nature reserve', 'woodland', 'family walk', 'bluebells', 'river aire', 'short walk'],
     image: '/images/walks-from-saltaire.png',
@@ -222,12 +241,13 @@ const CONTENT_PAGES: ContentPage[] = [
     image: '/images/cafe-pubs-restaurants.png',
     icon: '☕',
   },
+  // Keep ONE /food-drink/brunch entry (duplicate removed)
   {
-    slug: '/brunch',
+    slug: '/food-drink/brunch',
     title: 'Brunch in Saltaire',
-    description: 'The ultimate brunch guide: best spots for weekend breakfast, full English, avocado toast and coffee.',
+    description: 'The ultimate brunch guide: best spots for weekend breakfast, full English, veggie/vegan, pancakes and coffee.',
     category: 'Food & Drink',
-    keywords: ['brunch', 'breakfast', 'weekend', 'morning', 'eggs', 'pancakes', 'coffee'],
+    keywords: ['brunch', 'breakfast', 'weekend', 'morning', 'eggs', 'pancakes', 'coffee', 'full english', 'vegan'],
     image: '/images/cafe-pubs-restaurants.png',
     icon: '🥞',
   },
@@ -239,15 +259,6 @@ const CONTENT_PAGES: ContentPage[] = [
     keywords: ['coffee', 'cafes', 'espresso', 'specialty coffee', 'barista', 'latte'],
     image: '/images/cafe-pubs-restaurants.png',
     icon: '☕',
-  },
-  {
-    slug: '/food-drink/brunch',
-    title: 'Brunch Spots',
-    description: 'Weekend brunch in Saltaire: full English, avocado toast, pancakes and all-day breakfast options.',
-    category: 'Food & Drink',
-    keywords: ['brunch', 'breakfast', 'weekend', 'full english', 'pancakes', 'eggs'],
-    image: '/images/cafe-pubs-restaurants.png',
-    icon: '🥞',
   },
   {
     slug: '/food-drink/pubs',
@@ -299,7 +310,8 @@ const CONTENT_PAGES: ContentPage[] = [
   {
     slug: '/history',
     title: 'History of Saltaire & UNESCO',
-    description: 'Why Saltaire is a UNESCO World Heritage Site: Titus Salt, the model village, Italianate architecture and timeline.',
+    description:
+      'Why Saltaire is a UNESCO World Heritage Site: Titus Salt, the model village, Italianate architecture and timeline.',
     category: 'History',
     keywords: ['history', 'unesco', 'world heritage', 'titus salt', 'victorian', 'architecture', 'model village', 'mill'],
     image: '/images/history-unesco.png',
@@ -326,7 +338,8 @@ const CONTENT_PAGES: ContentPage[] = [
   {
     slug: '/history/architecture',
     title: 'Saltaire Architecture',
-    description: 'Italianate architecture of Saltaire: Lockwood & Mawson, the Mill, Congregational Church and workers\' cottages.',
+    description:
+      "Italianate architecture of Saltaire: Lockwood & Mawson, the Mill, Congregational Church and workers' cottages.",
     category: 'History',
     keywords: ['architecture', 'italianate', 'lockwood mawson', 'buildings', 'victorian', 'design'],
     image: '/images/salts-mill.png',
@@ -344,7 +357,7 @@ const CONTENT_PAGES: ContentPage[] = [
   {
     slug: '/history/church',
     title: 'Saltaire United Reformed Church',
-    description: 'The Congregational Church: Saltaire\'s landmark building with Italianate tower and community heritage.',
+    description: "The Congregational Church: Saltaire's landmark building with Italianate tower and community heritage.",
     category: 'History',
     keywords: ['church', 'congregational', 'reformed church', 'religious', 'architecture'],
     image: '/images/history-unesco.png',
@@ -362,7 +375,8 @@ const CONTENT_PAGES: ContentPage[] = [
   {
     slug: '/history/myths',
     title: 'Saltaire Myths & Facts',
-    description: 'Common myths about Saltaire debunked: the truth about pubs, street names and Titus Salt\'s motivations.',
+    description:
+      "Common myths about Saltaire debunked: the truth about pubs, street names and Titus Salt's motivations.",
     category: 'History',
     keywords: ['myths', 'facts', 'legends', 'misconceptions', 'truth'],
     image: '/images/history-unesco.png',
@@ -373,7 +387,8 @@ const CONTENT_PAGES: ContentPage[] = [
   {
     slug: '/salts-mill',
     title: 'Salts Mill',
-    description: 'The landmark mill building: David Hockney gallery, independent shops, bookshop and café in a Victorian industrial masterpiece.',
+    description:
+      'The landmark mill building: David Hockney gallery, independent shops, bookshop and café in a Victorian industrial masterpiece.',
     category: 'Attractions',
     keywords: ['salts mill', 'mill', 'hockney', 'gallery', 'shops', 'bookshop', 'art'],
     image: '/images/salts-mill.png',
@@ -382,7 +397,8 @@ const CONTENT_PAGES: ContentPage[] = [
   {
     slug: '/salts-mill/hockney',
     title: 'Hockney Gallery at Salts Mill',
-    description: 'The largest permanent collection of David Hockney\'s work: paintings, prints and drawings in the 1853 Gallery.',
+    description:
+      "The largest permanent collection of David Hockney's work: paintings, prints and drawings in the 1853 Gallery.",
     category: 'Attractions',
     keywords: ['hockney', 'david hockney', 'gallery', 'art', 'paintings', '1853 gallery'],
     image: '/images/salts-mill.png',
@@ -391,12 +407,14 @@ const CONTENT_PAGES: ContentPage[] = [
   {
     slug: '/roberts-park',
     title: 'Roberts Park',
-    description: 'Victorian park with bandstand, river walks, playground and events. Restored to its 1870s glory.',
+    description: "Victorian park with bandstand, river walks, playground and events. Restored to its 1870s glory.",
     category: 'Attractions',
     keywords: ['roberts park', 'park', 'bandstand', 'playground', 'river', 'picnic', 'gardens'],
     image: '/images/roberts-park.png',
     icon: '🌳',
   },
+
+  // === SHOPPING ===
   {
     slug: '/shops',
     title: 'Shops in Saltaire',
@@ -411,7 +429,7 @@ const CONTENT_PAGES: ContentPage[] = [
   {
     slug: '/events',
     title: 'Events in Saltaire',
-    description: 'What\'s on in Saltaire: festivals, markets, bandstand concerts, exhibitions and community events.',
+    description: "What's on in Saltaire: festivals, markets, bandstand concerts, exhibitions and community events.",
     category: 'Events',
     keywords: ['events', 'whats on', 'festivals', 'concerts', 'markets', 'exhibitions'],
     image: '/images/whats-on.png',
@@ -427,21 +445,12 @@ const CONTENT_PAGES: ContentPage[] = [
     icon: '🎪',
   },
 
-  // === PLANNING ===
-  {
-    slug: '/plan',
-    title: 'Plan Your Visit',
-    description: 'Everything you need to plan a trip to Saltaire: getting here, accessibility, family tips and suggested itineraries.',
-    category: 'Planning',
-    keywords: ['plan', 'visit', 'trip', 'itinerary', 'how to get here', 'travel', 'tips'],
-    image: '/images/plan-your-visit.png',
-    icon: '🗺️',
-  },
+  // === PLAN SUBPAGES (keep category consistent: Practical) ===
   {
     slug: '/plan/getting-here',
     title: 'Getting to Saltaire',
     description: 'How to reach Saltaire: by train, bus, car, bike and on foot with journey times from Leeds, Bradford and York.',
-    category: 'Planning',
+    category: 'Practical',
     keywords: ['getting here', 'transport', 'train', 'bus', 'car', 'travel', 'directions'],
     image: '/images/plan-your-visit.png',
     icon: '🚂',
@@ -449,8 +458,9 @@ const CONTENT_PAGES: ContentPage[] = [
   {
     slug: '/plan/accessibility',
     title: 'Accessibility in Saltaire',
-    description: 'Step-free routes, accessible parking, mobility scooter hire, accessible toilets and support for visitors with disabilities.',
-    category: 'Planning',
+    description:
+      'Step-free routes, accessible parking, mobility scooter hire, accessible toilets and support for visitors with disabilities.',
+    category: 'Practical',
     keywords: ['accessibility', 'disabled access', 'step-free', 'wheelchair', 'mobility', 'accessible'],
     image: '/images/plan-your-visit.png',
     icon: '♿',
@@ -459,7 +469,7 @@ const CONTENT_PAGES: ContentPage[] = [
     slug: '/plan/family',
     title: 'Saltaire with Kids',
     description: 'Family-friendly guide: playground, canal ducks, easy walks, child-friendly cafés and rainy-day options.',
-    category: 'Planning',
+    category: 'Practical',
     keywords: ['family', 'kids', 'children', 'playground', 'family-friendly'],
     image: '/images/roberts-park.png',
     icon: '👨‍👩‍👧‍👦',
@@ -467,8 +477,9 @@ const CONTENT_PAGES: ContentPage[] = [
   {
     slug: '/plan/schools',
     title: 'School Visits to Saltaire',
-    description: 'Educational visits: Victorian history, architecture, heritage walks and resources for teachers and groups.',
-    category: 'Planning',
+    description:
+      'Educational visits: Victorian history, architecture, heritage walks and resources for teachers and groups.',
+    category: 'Practical',
     keywords: ['schools', 'education', 'school trips', 'teachers', 'heritage', 'learning'],
     image: '/images/history-unesco.png',
     icon: '🎓',
@@ -498,7 +509,8 @@ const CONTENT_PAGES: ContentPage[] = [
   {
     slug: '/local-services',
     title: 'Local Services in Saltaire',
-    description: 'Directory of trusted local services: tradespeople, pet care, tutors, photographers and more for residents and visitors.',
+    description:
+      'Directory of trusted local services: tradespeople, pet care, tutors, photographers and more for residents and visitors.',
     category: 'Local Services',
     keywords: ['local services', 'tradespeople', 'directory', 'services', 'local'],
     image: '/images/salts-mill.png',
@@ -509,7 +521,7 @@ const CONTENT_PAGES: ContentPage[] = [
   {
     slug: '/housing',
     title: 'Housing in Saltaire',
-    description: 'Living in Saltaire: property guide, conservation area rules, what it\'s like to live in a UNESCO village.',
+    description: "Living in Saltaire: property guide, conservation area rules, what it's like to live in a UNESCO village.",
     category: 'Community',
     keywords: ['housing', 'property', 'living', 'moving', 'residents', 'houses'],
     image: '/images/history-unesco.png',
@@ -570,24 +582,22 @@ export default function BlogPage() {
   return (
     <>
       <JsonLd />
-      
+
       {/* Hero section */}
       <section className="bg-gradient-to-b from-amber-50 to-white py-16 md:py-24 border-b border-gray-200">
         <div className="container">
           <div className="max-w-3xl mx-auto text-center space-y-6">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-balance">
-              Your Complete Guide to Saltaire
-            </h1>
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-balance">Your Complete Guide to Saltaire</h1>
             <p className="text-xl md:text-2xl text-gray-600 text-balance">
-              Discover everything this UNESCO World Heritage village has to offer — from
-              canal walks to specialty coffee, Victorian history to practical parking advice.
+              Discover everything this UNESCO World Heritage village has to offer — from canal walks to specialty coffee,
+              Victorian history to practical parking advice.
             </p>
             <div className="flex flex-wrap gap-3 justify-center text-sm">
               <span className="badge">🏛️ UNESCO Site</span>
-              <span className="badge">☕ 15+ Cafés & Pubs</span>
-              <span className="badge">🥾 10+ Walks</span>
-              <span className="badge">🅿️ Parking Sorted</span>
-              <span className="badge">🎨 Hockney Gallery</span>
+              <span className="badge">☕ Food &amp; drink</span>
+              <span className="badge">🥾 Walks &amp; parks</span>
+              <span className="badge">🅿️ Parking</span>
+              <span className="badge">🎨 Salts Mill</span>
             </div>
           </div>
         </div>
@@ -600,10 +610,9 @@ export default function BlogPage() {
             {/* Intro */}
             <div className="prose mx-auto text-center">
               <p className="text-lg">
-                <strong>saltaireguide.uk</strong> is the independent local guide to Saltaire.
-                Search below to find exactly what you&apos;re looking for — or browse all{' '}
-                <strong>{CONTENT_PAGES.length} pages</strong> covering food, walks, history,
-                parking, attractions and practical tips.
+                <strong>saltaireguide.uk</strong> is the independent local guide to Saltaire. Search below to find exactly what you&apos;re
+                looking for — or browse all <strong>{CONTENT_PAGES.length} pages</strong> covering food, walks, history, parking, attractions
+                and practical tips.
               </p>
             </div>
 
@@ -614,25 +623,25 @@ export default function BlogPage() {
             <div className="border-t pt-12">
               <h2 className="text-2xl font-bold mb-6 text-center">Browse by Category</h2>
               <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-                <Link href="#" className="card card-hover card-body text-center no-underline group">
+                <Link href="/food-drink" className="card card-hover card-body text-center no-underline group">
                   <div className="text-4xl mb-2">☕</div>
-                  <h3 className="font-semibold group-hover:text-black transition-colors">Food & Drink</h3>
+                  <h3 className="font-semibold group-hover:text-black transition-colors">Food &amp; Drink</h3>
                   <p className="text-sm text-gray-600">Cafés, pubs, restaurants</p>
                 </Link>
-                <Link href="#" className="card card-hover card-body text-center no-underline group">
+                <Link href="/walks" className="card card-hover card-body text-center no-underline group">
                   <div className="text-4xl mb-2">🥾</div>
                   <h3 className="font-semibold group-hover:text-black transition-colors">Outdoors</h3>
                   <p className="text-sm text-gray-600">Walks, parks, nature</p>
                 </Link>
-                <Link href="#" className="card card-hover card-body text-center no-underline group">
+                <Link href="/history" className="card card-hover card-body text-center no-underline group">
                   <div className="text-4xl mb-2">🏛️</div>
                   <h3 className="font-semibold group-hover:text-black transition-colors">History</h3>
                   <p className="text-sm text-gray-600">UNESCO, Titus Salt, architecture</p>
                 </Link>
-                <Link href="#" className="card card-hover card-body text-center no-underline group">
+                <Link href="/visit-saltaire" className="card card-hover card-body text-center no-underline group">
                   <div className="text-4xl mb-2">🅿️</div>
                   <h3 className="font-semibold group-hover:text-black transition-colors">Practical</h3>
-                  <p className="text-sm text-gray-600">Parking, planning, accessibility</p>
+                  <p className="text-sm text-gray-600">Planning, parking, accessibility</p>
                 </Link>
               </div>
             </div>
@@ -643,30 +652,20 @@ export default function BlogPage() {
               <div className="grid gap-6 md:grid-cols-3">
                 <Link href="/things-to-do/ultimate-guide" className="card card-hover card-body no-underline group space-y-3">
                   <span className="badge badge-warn">⭐ Popular</span>
-                  <h3 className="text-xl font-semibold group-hover:text-black transition-colors">
-                    Ultimate Guide to Saltaire
-                  </h3>
+                  <h3 className="text-xl font-semibold group-hover:text-black transition-colors">Ultimate Guide to Saltaire</h3>
                   <p className="text-sm text-gray-600">
                     First visit? Start here for itineraries, top attractions and everything you need to know.
                   </p>
                 </Link>
                 <Link href="/parking" className="card card-hover card-body no-underline group space-y-3">
                   <span className="badge">🅿️ Essential</span>
-                  <h3 className="text-xl font-semibold group-hover:text-black transition-colors">
-                    Parking Guide
-                  </h3>
-                  <p className="text-sm text-gray-600">
-                    Where to park, how much it costs and step-free routes into the village.
-                  </p>
+                  <h3 className="text-xl font-semibold group-hover:text-black transition-colors">Parking Guide</h3>
+                  <p className="text-sm text-gray-600">Where to park, how much it costs and step-free routes into the village.</p>
                 </Link>
                 <Link href="/walks" className="card card-hover card-body no-underline group space-y-3">
                   <span className="badge badge-success">🥾 Outdoors</span>
-                  <h3 className="text-xl font-semibold group-hover:text-black transition-colors">
-                    Best Walks
-                  </h3>
-                  <p className="text-sm text-gray-600">
-                    Canal towpath to Five-Rise, Shipley Glen, woodland trails and family routes.
-                  </p>
+                  <h3 className="text-xl font-semibold group-hover:text-black transition-colors">Best Walks</h3>
+                  <p className="text-sm text-gray-600">Canal towpath to Five-Rise, Shipley Glen, woodland trails and family routes.</p>
                 </Link>
               </div>
             </div>
@@ -674,12 +673,14 @@ export default function BlogPage() {
             {/* CTA */}
             <div className="callout callout-success text-center">
               <h3 className="text-lg font-semibold mb-2">Can&apos;t find what you&apos;re looking for?</h3>
-              <p className="mb-4">
-                Get in touch or check our FAQ for common questions about visiting Saltaire.
-              </p>
+              <p className="mb-4">Get in touch or check our FAQ for common questions about visiting Saltaire.</p>
               <div className="flex flex-wrap gap-3 justify-center">
-                <Link href="/contact" className="btn btn-primary">Contact us</Link>
-                <Link href="/faq" className="btn btn-outline">Read FAQ</Link>
+                <Link href="/contact" className="btn btn-primary">
+                  Contact us
+                </Link>
+                <Link href="/faq" className="btn btn-outline">
+                  Read FAQ
+                </Link>
               </div>
             </div>
           </div>
@@ -734,18 +735,8 @@ function JsonLd() {
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
     itemListElement: [
-      {
-        '@type': 'ListItem',
-        position: 1,
-        name: 'Home',
-        item: baseUrl,
-      },
-      {
-        '@type': 'ListItem',
-        position: 2,
-        name: 'Complete Guide',
-        item: `${baseUrl}/blog`,
-      },
+      { '@type': 'ListItem', position: 1, name: 'Home', item: baseUrl },
+      { '@type': 'ListItem', position: 2, name: 'Complete Guide', item: `${baseUrl}/blog` },
     ],
   }
 
@@ -769,10 +760,5 @@ function JsonLd() {
     '@graph': [collectionPage, breadcrumb, itemList],
   }
 
-  return (
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(combined) }}
-    />
-  )
+  return <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(combined) }} />
 }

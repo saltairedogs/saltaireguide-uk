@@ -194,7 +194,7 @@ const CATS: Category[] = [
     intro: 'Local picks for coffee, brunch, pubs and desserts — plus dog-friendly spots.',
     faqs: [
       { q: 'Where’s the best coffee?', a: 'See our curated list in <a class="underline underline-offset-4" href="/food-drink/coffee">Coffee</a>.' },
-      { q: 'Where can I get brunch?', a: 'Options change — we track current favourites in <a class="underline underline-offset-4" href="/brunch">Brunch</a>.' },
+      { q: 'Where can I get brunch?', a: 'Options change — we track current favourites in <a class="underline underline-offset-4" href="/food-drink/brunch">Brunch</a>.' },
       { q: 'Which pubs have beer gardens?', a: 'See <a class="underline underline-offset-4" href="/food-drink/pubs">Pubs & beer gardens</a> for outdoor seats and family notes.' },
       { q: 'Any dessert or ice-cream spots?', a: 'Yes — check <a class="underline underline-offset-4" href="/food-drink/desserts">Desserts</a> and <a class="underline underline-offset-4" href="/food-drink/ice-cream">Ice cream</a>.' },
       { q: 'Dog-friendly cafés?', a: 'We list places that welcome dogs in <a class="underline underline-offset-4" href="/food-drink/dog-friendly">Dog-friendly cafés</a>.' },

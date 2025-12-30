@@ -41,7 +41,7 @@ export default function SaltaireWeekendPage() {
               time: '09:30',
               title: 'Arrive & Brunch',
               desc: 'Beat the crowds. Park at Caroline Street car park (£3-5) or find free street parking. Start with brunch at a local cafe.',
-              link: '/brunch',
+              link: '/food-drink/brunch',
             },
             {
               time: '11:00',
