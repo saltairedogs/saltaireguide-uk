@@ -33,7 +33,7 @@ export const metadata: Metadata = {
 
 /* --------------------------------- Data ----------------------------------- */
 
-const UPDATED = '2025-10-12'
+const UPDATED = '2026-01-05'
 
 type LinkRef = { label: string; href: string }
 type Mode = {
@@ -122,7 +122,7 @@ const CITY_ROUTES: CityRoute[] = [
     id: 'from-leeds',
     city: 'From Leeds',
     rail:
-      'Local trains toward Skipton/Ilkley typically call at Saltaire; journey times are short. Check live boards and step-free arrangements.',
+      'Local trains towards Skipton typically call at Saltaire. For Ilkley, you\'ll usually need to change at Shipley. Check live boards and step-free arrangements.',
     bus:
       'Buses via Kirkstall/Shipley corridors reach Saltaire; choose services that stop near Victoria Road.',
     car:
