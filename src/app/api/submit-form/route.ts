@@ -64,7 +64,7 @@ export async function POST(request: Request) {
     // Save to Supabase
     const supabase = await createSupabaseServerClient();
     const { error } = await supabase
-      .from("form_submissions")
+      .from("saltaireguide_form_submissions")
       .insert({
         form_name: formName,
         path,
