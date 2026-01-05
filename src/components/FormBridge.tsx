@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useId, useRef, useState } from "react";
-import { WEB_APP_URL, FORM_TOKEN, DEFAULT_REDIRECT } from "@/lib/forms";
+import { useRouter } from "next/navigation";
+import { FORM_TOKEN, DEFAULT_REDIRECT } from "@/lib/forms";
 
 type Props = {
   formName: string;
@@ -21,7 +22,7 @@ type Props = {
 export default function FormBridge({
   formName,
   redirect = DEFAULT_REDIRECT,
-  action = WEB_APP_URL,
+  action = "/api/submit-form",
   path,
   children,
   className,
@@ -32,6 +33,7 @@ export default function FormBridge({
   noRedirect = true,
   showStatus = true,
 }: Props) {
+  const router = useRouter();
   const startedAtRef = useRef<HTMLInputElement | null>(null);
   const pathRef = useRef<HTMLInputElement | null>(null);
   const id = useId(); // unique ids if needed
@@ -64,11 +66,22 @@ export default function FormBridge({
     fd.set("website", websiteRef.current?.value || "");
 
     try {
-      await fetch(action, { method: "POST", body: fd, mode: "no-cors" });
+      const res = await fetch(action, { method: "POST", body: fd });
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.error || "Submission failed");
+      }
+
       setStatus("done");
       formEl.reset();
       if (websiteRef.current) websiteRef.current.value = "";
       if (startedAtRef.current) startedAtRef.current.value = String(Date.now());
+
+      // Redirect after successful submission
+      if (data.redirect) {
+        setTimeout(() => router.push(data.redirect), 1500);
+      }
     } catch (err) {
       console.error("FormBridge submit failed", err);
       setStatus("error");

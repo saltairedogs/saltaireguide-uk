@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { WEB_APP_URL, FORM_TOKEN, DEFAULT_REDIRECT } from "@/lib/forms";
+import { FORM_TOKEN, DEFAULT_REDIRECT } from "@/lib/forms";
 
 export default function SignupFormClient({ category }: { category: string }) {
   const [status, setStatus] = useState<"idle" | "sending" | "ok" | "error">("idle");
@@ -31,7 +31,13 @@ export default function SignupFormClient({ category }: { category: string }) {
     formData.set("website", honeypotRef.current?.value || "");
 
     try {
-      await fetch(WEB_APP_URL, { method: "POST", body: formData, mode: "no-cors" });
+      const res = await fetch("/api/submit-form", { method: "POST", body: formData });
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.error || "Submission failed");
+      }
+
       setStatus("ok");
       formEl.reset();
       if (honeypotRef.current) honeypotRef.current.value = "";

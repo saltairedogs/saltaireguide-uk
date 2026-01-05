@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { WEB_APP_URL, FORM_TOKEN, DEFAULT_REDIRECT } from "@/lib/forms";
+import { FORM_TOKEN, DEFAULT_REDIRECT } from "@/lib/forms";
 
 type Props = {
   formName?: string;
@@ -44,8 +44,13 @@ export default function NewsletterFormClient({ formName = "Newsletter signup", c
     formData.set("website", honeypotRef.current?.value || ""); // honeypot field used by Apps Script
 
     try {
-      // no-cors so we don't block on opaque response; network error will still throw
-      await fetch(WEB_APP_URL, { method: "POST", body: formData, mode: "no-cors" });
+      const res = await fetch("/api/submit-form", { method: "POST", body: formData });
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.error || "Submission failed");
+      }
+
       setStatus("done");
       form.reset();
       if (honeypotRef.current) honeypotRef.current.value = "";
